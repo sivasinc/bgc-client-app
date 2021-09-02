@@ -1,39 +1,59 @@
-import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import MyButton from '../../util/MyButton';
-import CreateContainer from '../community/CreateContainer';
-import Notifications from './Notifications';
-import UserProfile from './UserProfile';
-import { withStyles } from '@material-ui/core/styles';
+import React, { Component, Fragment } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import MyButton from "../../util/MyButton";
+import CreateContainer from "../community/CreateContainer";
+import Notifications from "./Notifications";
+import UserProfile from "./UserProfile";
+import { withStyles } from "@material-ui/core/styles";
 // MUI stuff
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
 // Icons
-import HomeIcon from '@material-ui/icons/Home';
-import { logoutUser } from '../../redux/actions/userActions';
+import HomeIcon from "@material-ui/icons/Home";
+import { logoutUser } from "../../redux/actions/userActions";
+import "./Navbar.css";
 
 const StyledAppBar = withStyles({
   root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    borderRadius: 3,
+    background: "#292727",
     border: 0,
-    color: 'white',
-    padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: "white",
+    padding: "0 30px",
+    boxShadow: "0 3px 5px 2px rgb(35 27 28 / 30%)",
   },
   label: {
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
+  },
+  button: {
+    "&.active": {
+      background: "black",
+    },
   },
 })(AppBar);
 
+const hoverStyle = {
+  borderBottom: '5px solid white',
+  borderRadius: '0',
+  textTransform: 'inherit',
+  padding: '20px 0 10px 0',
+  fontSize: '1rem'
+}
 class Navbar extends Component {
   handleLogout = () => {
     this.props.logoutUser();
   };
 
+  state = {
+    hover : false,
+  }
+
+  setHover = (value) => {
+    this.setState({ hover : value});
+  }
+  preventDefault = (event) => event.preventDefault();
   render() {
     const { authenticated } = this.props;
     return (
@@ -41,12 +61,14 @@ class Navbar extends Component {
         <Toolbar className="nav-container">
           {authenticated ? (
             <Fragment>
-              <CreateContainer />
-              <Link to="/communityHome">
+             <Link to="/communityHome">
                 <MyButton tip="Home">
                   <HomeIcon />
                 </MyButton>
               </Link>
+              <Button color="inherit" component={NavLink} to="/communityHome">
+                Login
+              </Button>
               <Notifications />
               <UserProfile />
             </Fragment>
@@ -67,12 +89,12 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
-  authenticated: PropTypes.bool.isRequired
+  authenticated: PropTypes.bool.isRequired,
 };
 const mapActionsToProps = { logoutUser };
 
 const mapStateToProps = (state) => ({
-  authenticated: state.user.authenticated
+  authenticated: state.user.authenticated,
 });
 
 export default connect(mapStateToProps, mapActionsToProps)(Navbar);

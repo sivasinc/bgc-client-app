@@ -10,14 +10,15 @@ import store from './redux/store';
 import { SET_AUTHENTICATED } from './redux/types';
 import { logoutUser, getUserData } from './redux/actions/userActions';
 // Components
-import Navbar from './components/layout/Navbar';
+import Navbar from './components/layout/Navigation';
 import themeObject from './util/theme';
 import AuthRoute from './util/AuthRoute';
 // Pages
 import communityHome from './pages/communityHome';
+import BGCProfileHome from './components/UserProfile/BGCProfileHome';
 import postHome from './pages/postHome';
 import login from './pages/login';
-import signup from './pages/signup';
+import signup from './pages/Signup/signup';
 import user from './pages/user';
 import UserProfile from './pages/UserProfile';
 
@@ -51,9 +52,8 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/communityHome" component={communityHome} />
-
-                <Route exact path="/userprofile" component={UserProfile} />
-                <Route exact path="/" component={signup} />
+                <Route exact path="/userprofile" component={BGCProfileHome} />
+                <Route exact path="/" component={login} />
                 <AuthRoute exact path="/login" component={login} />
                 <AuthRoute exact path="/signup" component={signup} />
                 <Route exact path="/users/:handle" component={user} />

@@ -110,7 +110,6 @@ class Community extends Component {
                 Created {dayjs(createdAt).format("MMM YYYY")}
               </span>
               <hr />
-              <Typography variant="body">1.2K Members</Typography>
             {!members.includes(handle) && (<React.Fragment><span className={classes.heading}>
               Would you like to join this community?{" "}
             </span>

@@ -1,0 +1,23 @@
+.step4__section {
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+}
+.step4__section_element {
+    margin: 20px !important;
+}
+.step4__section_Selection {
+    width: 50% !important;
+    margin: 20px !important;
+    padding: 10px 10px 20px 20px;
+}
+.step4__section_element > h3{
+    font-weight: 300 !important;
+}
+.startDateSelection {
+    display: flex;
+}
+.endDateSelection {
+    display: flex;
+}

@@ -165,12 +165,21 @@ class CommentsItems extends Component {
 
               {/* Root Comment Form */}
               <form style={{ display: "flex" }} onSubmit={this.onSubmit}>
-                <TextField
+              <TextField
+            name="singleComment"
+            tpye="text"
+            placeholder="Leave your thoughts here ..."
+            className={classes.textField}
+            value={comment}
+            onChange={this.handleChange}
+            fullWidth
+          />
+                {/* <TextField
                   style={{ width: "100%", borderRadius: "5px" }}
                   onChange={this.handleChange}
                   value={comment}
                   placeholder="Leave your thoughts here ..."
-                />
+                /> */}
                 <br />
                 <Button color="primary" onClick={this.onSubmit}>
                   Submit

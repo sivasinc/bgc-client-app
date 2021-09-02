@@ -2,12 +2,14 @@ import {
   SET_ERRORS,
   CLEAR_ERRORS,
   LOADING_UI,
-  STOP_LOADING_UI
+  STOP_LOADING_UI,
+  UPDATE_UI
 } from '../types';
 
 const initialState = {
   loading: false,
-  errors: null
+  errors: null,
+  currentPage: null,
 };
 
 export default function(state = initialState, action) {
@@ -18,6 +20,11 @@ export default function(state = initialState, action) {
         loading: false,
         errors: action.payload
       };
+    case UPDATE_UI:
+      return {
+        ...state,
+        currentPage: action.payload
+      }  
     case CLEAR_ERRORS:
       return {
         ...state,

@@ -10,6 +10,11 @@ import {
 } from '../types';
 import axios from 'axios';
 
+
+export const updatePage = (pageName) => (dispatch) => {
+  dispatch({ type: LOADING_UI, payload: pageName });
+};
+
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
@@ -18,7 +23,7 @@ export const loginUser = (userData, history) => (dispatch) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
-      history.push('/communityHome');
+      history.push('/userprofile');
     })
     .catch((err) => {
       dispatch({
@@ -36,7 +41,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
-      history.push('/communityHome');
+      history.push('/userprofile');
     })
     .catch((err) => {
       dispatch({
