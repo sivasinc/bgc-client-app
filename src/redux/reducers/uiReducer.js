@@ -3,6 +3,7 @@ import {
   CLEAR_ERRORS,
   LOADING_UI,
   STOP_LOADING_UI,
+  SET_CURRENT_TAB_INDEX,
   UPDATE_UI
 } from '../types';
 
@@ -10,6 +11,7 @@ const initialState = {
   loading: false,
   errors: null,
   currentPage: null,
+  currentTabIndex: 0
 };
 
 export default function(state = initialState, action) {
@@ -20,6 +22,11 @@ export default function(state = initialState, action) {
         loading: false,
         errors: action.payload
       };
+    case SET_CURRENT_TAB_INDEX:
+        return {
+          ...state,
+          currentTabIndex: action.payload
+        };    
     case UPDATE_UI:
       return {
         ...state,

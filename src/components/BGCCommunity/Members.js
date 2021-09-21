@@ -8,10 +8,9 @@ import { Link } from "react-router-dom";
 
 
 import { editUserDetails } from '../../redux/actions/userActions';
-import ModelWindow from "./ModelWindow";
 
 
-const MyNetworks = ({ user: { credentials }, editUserDetails }) => {
+const Members = ({ user: { credentials }, editUserDetails }) => {
     const [profile, setProfile] = useState({});
   const [openModel, setOpenModel] = useState(false);
   const handleChange = (event) => {
@@ -37,10 +36,10 @@ const MyNetworks = ({ user: { credentials }, editUserDetails }) => {
         <div className="MyNetworks">
         <div className="MyNetworks__heading">
           <div className="MyNetworks__header">
-            <h3>My Networks</h3>
+            <h3>Members</h3>
           </div>
           <div className="MyNetworks__header__right">
-          <h4>23 Connections</h4>
+          <h4>23 Members</h4>
           </div>
         </div>
         <div className="MyNetworks__body">
@@ -88,12 +87,10 @@ const MyNetworks = ({ user: { credentials }, editUserDetails }) => {
          View All
         </Typography>
       </div>
-        <ModelWindow handleChange={handleChange} profile={profile} setOpenModel= {setOpenModel} openModel={openModel} 
-        handleSubmit={handleSubmit} type ="summary" />
       </div>);
 }
 
-MyNetworks.propTypes = {
+Members.propTypes = {
 
 }
 
@@ -102,4 +99,4 @@ const mapStateToProps = (state) => ({
    });
    const mapDispatchToProps = { editUserDetails };
    
-   export default connect(mapStateToProps, mapDispatchToProps) (MyNetworks);
+   export default connect(mapStateToProps, mapDispatchToProps) (Members);

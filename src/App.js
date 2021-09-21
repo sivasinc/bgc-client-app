@@ -14,9 +14,9 @@ import Navbar from './components/layout/Navigation';
 import themeObject from './util/theme';
 import AuthRoute from './util/AuthRoute';
 // Pages
-import communityHome from './pages/communityHome';
+import PortalHome from './components/BGCPortalHome/Home'; 
+import communityHome from './components/BGCCommunity/Home';
 import BGCProfileHome from './components/UserProfile/BGCProfileHome';
-import postHome from './pages/postHome';
 import login from './pages/login';
 import signup from './pages/Signup/signup';
 import user from './pages/user';
@@ -35,11 +35,12 @@ if (token) {
   if (decodedToken.exp * 1000 < Date.now()) {
     store.dispatch(logoutUser());
     window.location.href = '/login';
-  } else {
-    store.dispatch({ type: SET_AUTHENTICATED });
-    axios.defaults.headers.common['Authorization'] = token;
-    store.dispatch(getUserData());
   }
+  // } else {
+  //   store.dispatch({ type: SET_AUTHENTICATED });
+  //   axios.defaults.headers.common['Authorization'] = token;
+  //   store.dispatch(getUserData());
+  // }
 }
 
 class App extends Component {
@@ -51,13 +52,14 @@ class App extends Component {
             <Navbar />
             <div className="container">
               <Switch>
-                <Route exact path="/communityHome" component={communityHome} />
+                <Route exact path="/portalHome" component={PortalHome} />
                 <Route exact path="/userprofile" component={BGCProfileHome} />
+                <Route exact path="/communityHome" component={communityHome} />
                 <Route exact path="/" component={login} />
                 <AuthRoute exact path="/login" component={login} />
                 <AuthRoute exact path="/signup" component={signup} />
                 <Route exact path="/users/:handle" component={user} />
-                <Route exact path="/community/posts/:communityId" component={postHome} />
+                <Route exact path="/communityHome/:communityId" component={communityHome} />
                 <Route
                   exact
                   path="/users/:handle/scream/:screamId"

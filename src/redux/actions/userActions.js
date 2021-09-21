@@ -2,6 +2,8 @@ import {
   SET_USER,
   SET_ERRORS,
   CLEAR_ERRORS,
+  SET_AUTHENTICATED,
+  SET_CURRENT_TAB_INDEX,
   LOADING_UI,
   SET_UNAUTHENTICATED,
   LOADING_USER,
@@ -15,22 +17,32 @@ export const updatePage = (pageName) => (dispatch) => {
   dispatch({ type: LOADING_UI, payload: pageName });
 };
 
-export const loginUser = (userData, history) => (dispatch) => {
+export const updateTabIndex = (index) => (dispatch) => {
+  dispatch({ type: SET_CURRENT_TAB_INDEX, payload: index });
+};
+
+export const loginUser = (userData, history) => async (dispatch) => {
   dispatch({ type: LOADING_UI });
-  axios
-    .post('/login', userData)
-    .then((res) => {
-      setAuthorizationHeader(res.data.token);
-      dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
-      history.push('/userprofile');
-    })
-    .catch((err) => {
+  try {
+    const res = await axios
+    .post('/login', userData);
+    setAuthorizationHeader(res.data.token);
+    const user = await axios
+    .get('/user');
+    dispatch({ type: CLEAR_ERRORS });
+    dispatch({ type: SET_AUTHENTICATED });
+    dispatch({
+      type: SET_USER,
+      payload: user.data
+    });
+    dispatch({ type: SET_CURRENT_TAB_INDEX, payload: 1 });
+    history.push('/portalHome');
+  } catch(err) {
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data
       });
-    });
+    };
 };
 
 export const signupUser = (newUserData, history) => (dispatch) => {
@@ -57,8 +69,7 @@ export const logoutUser = () => (dispatch) => {
   dispatch({ type: SET_UNAUTHENTICATED });
 };
 
-export const getUserData = () => (dispatch) => {
-  dispatch({ type: LOADING_USER });
+export const getUserData = () => async (dispatch) => {
   axios
     .get('/user')
     .then((res) => {
@@ -115,5 +126,7 @@ export const markNotificationsRead = (notificationIds) => (dispatch) => {
 const setAuthorizationHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
   localStorage.setItem('FBIdToken', FBIdToken);
+  axios.defaults.headers["content-type"] = "application/json";
+  axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
   axios.defaults.headers.common['Authorization'] = FBIdToken;
 };

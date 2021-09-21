@@ -36,6 +36,7 @@ const BGCProfileHome = ({ history, UI, user }) => {
       <ProfileHeader credentials={credentials} />
       </div>
       <div className="bgc__profile_Container__body">
+     
       <div className="bgc__profile_Container__body__midPanel">
       <Summary />
       <Experience />

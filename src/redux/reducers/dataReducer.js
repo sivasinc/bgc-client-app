@@ -1,26 +1,44 @@
 import {
   SET_SCREAMS,
-  SET_COMMUNITY,
+  SET_POST,
+  SET_MY_COMMUNITY,
   SET_COMMUNITY_POSTS,
-  SET_COMMUNITY_MEMBERS,
+  LOADING_MY_COMMUNITY,
+  LOADING_USERS_POST,
+  SET_USERS_POSTS,
+  LOADING_RECOMMENDED_COMMUNITY,
+  SET_REFRESH_COMMUNITY,
+  LOADING_JOIN_COMMUNITY,
+  SET_RECOMMENDED_COMMUNITY,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
   LOADING_DATA,
   DELETE_SCREAM,
   POST_SCREAM,
   SET_SCREAM,
+  ADD_POST,
   SUBMIT_COMMENT,
-  SET_CURRENT_PAGE
-} from '../types';
+  SET_CURRENT_PAGE,
+  SET_CURRENT_COMMUNITY_ID
+} from '../types'
 
 const initialState = {
   screams: [],
-  communities: [],
+  myCommunities: [],
+  recommendedCommunities: [],
+  recommendedCommunityLoading: false,
+  joinCommunityLoading: false,
   communityPosts : [],
+  usersPosts:[],
+  loadingUsersPosts: false,
+  loadingMyCommunities : false,
   scream: {},
+  post: {},
   loading: true,
+  isRefreshCommunity: false,
   isRefreshPost: false,
   currentPage: 'COMMUNITY',
+  currentCommunityId: null
 };
 
 export default function(state = initialState, action) {
@@ -31,10 +49,41 @@ export default function(state = initialState, action) {
         loading: true,
         isRefreshPost: false
       };
-      case SET_COMMUNITY_MEMBERS:
+    case SET_CURRENT_COMMUNITY_ID:
+      return {
+        ...state,
+        currentCommunityId: action.payload
+      }  
+    case SET_REFRESH_COMMUNITY:
+      return {
+        ...state,
+        isRefreshCommunity: action.payload,
+      } 
+      case LOADING_RECOMMENDED_COMMUNITY:
         return {
           ...state,
-          isRefreshPost: true
+          recommendedCommunityLoading: true,
+        }
+        case LOADING_MY_COMMUNITY:
+          return {
+            ...state,
+            loadingMyCommunities: true,
+          }  
+      case LOADING_USERS_POST:
+        return {
+          ...state,
+          loadingUsersPosts: true
+        }
+        case LOADING_JOIN_COMMUNITY:
+          return {
+            ...state,
+            joinCommunityLoading: action.payload,
+          }      
+      case SET_RECOMMENDED_COMMUNITY:
+        return {
+          ...state,
+          recommendedCommunities: action.payload,
+          recommendedCommunityLoading: false
         };
     case SET_CURRENT_PAGE:
         return {
@@ -47,11 +96,11 @@ export default function(state = initialState, action) {
         screams: action.payload,
         loading: false
       };
-      case SET_COMMUNITY:
+      case SET_MY_COMMUNITY:
         return {
           ...state,
-          communities: action.payload,
-          loading: false
+          myCommunities: action.payload,
+          loadingMyCommunities: false
         };
       case SET_COMMUNITY_POSTS:
           return {
@@ -60,11 +109,27 @@ export default function(state = initialState, action) {
             isRefreshPost: false,
             loading: false
           };
+    case SET_USERS_POSTS:
+            return {
+              ...state,
+              usersPosts: action.payload,
+              loadingUsersPosts: false
+            };      
     case SET_SCREAM:
       return {
         ...state,
         scream: action.payload
       };
+    case SET_POST:
+        return {
+          ...state,
+          post: action.payload
+        };  
+    case ADD_POST:
+        return {
+          ...state,
+          post: action.payload
+        };  
     case LIKE_SCREAM:
     case UNLIKE_SCREAM:
       let index = state.screams.findIndex(
@@ -97,9 +162,9 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isRefreshPost: true,
-        scream: {
-          ...state.scream,
-          comments: [action.payload, ...state.scream.comments]
+        post: {
+          ...state.post,
+          comments: [...state.post.comments, action.payload]
         }
       };
     default:

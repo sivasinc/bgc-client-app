@@ -4,6 +4,14 @@ import {
   SET_USERS,
   SET_COMMUNITY_MEMBERS,
   SET_COMMUNITY_POSTS,
+  LOADING_MY_COMMUNITY,
+  SET_MY_COMMUNITY,
+  LOADING_JOIN_COMMUNITY,
+  LOADING_USERS_POST,
+  SET_RECOMMENDED_COMMUNITY,
+  LOADING_RECOMMENDED_COMMUNITY,
+  SET_REFRESH_COMMUNITY,
+  SET_USERS_POSTS,
   LOADING_DATA,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
@@ -16,9 +24,10 @@ import {
   STOP_LOADING_UI,
   SUBMIT_COMMENT,
   SET_CURRENT_PAGE,
+  SET_CURRENT_COMMUNITY_ID
 } from '../types';
 import axios from 'axios';
-
+import { getPostDetails } from './postActions';
 
 // Post a scream
 export const getPostCreateCommunity = (newMembers) => (dispatch) => {
@@ -36,21 +45,56 @@ export const getPostCreateCommunity = (newMembers) => (dispatch) => {
     });
 };
 
-// Post a scream
-export const getPostJoinCommunity = (newCommunity) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
-  axios
-    .post('/community/join', newCommunity)
-    .then((res) => {
-      dispatch({ type: SET_COMMUNITY_MEMBERS });
-    })
-    .catch((err) => {
-      dispatch({
+export const getRecommendedCommunity = () => async (dispatch) => {
+  dispatch({ type: LOADING_RECOMMENDED_COMMUNITY });
+  try {
+    const result = await axios
+    .get('/recommened/community');
+      return dispatch({ type: SET_RECOMMENDED_COMMUNITY,
+        payload: result.data });
+  } catch(error) {
+      return dispatch({
         type: SET_ERRORS,
-        payload: err.response.data
+        payload: error
       });
-    });
+    }
 };
+
+
+// export const joinCommunity = (newCommunity) => (dispatch) => {
+//   dispatch({ type: LOADING_JOIN_COMMUNITY, payload: true });
+//   axios
+//     .post('/community/join', newCommunity)
+//     .then((res) => {
+//       dispatch({ type: LOADING_JOIN_COMMUNITY,
+//       payload: false });
+//     })
+//     .catch((err) => {
+//       dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
+//       dispatch({
+//         type: SET_ERRORS,
+//         payload: err
+//       });
+//     });
+// };
+
+
+export const joinCommunity = (newCommunity) => async (dispatch) => {
+  dispatch({ type: LOADING_JOIN_COMMUNITY, payload: true });
+  try {
+    const result = await axios
+    .post('/community/join', newCommunity);
+    await Promise.all([dispatch(getRecommendedCommunity()), dispatch(getAllPostsOfUser()), dispatch(getAllCommunityOfUser())]);
+    return dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
+  } catch(error) {
+    dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
+    return dispatch({
+        type: SET_ERRORS,
+        payload: error
+      });
+  }
+};
+
 
 // Get all screams
 export const getScreams = () => (dispatch) => {
@@ -72,23 +116,38 @@ export const getScreams = () => (dispatch) => {
 };
 
 // Get all screams
-export const getPostsOfCommunity = (communityId) => (dispatch) => {
+export const getPostsOfCommunity = (communityId) => async (dispatch) => {
   dispatch({ type: LOADING_DATA });
-  console.log('getScreamsOfCommunity', communityId);
-  axios
-    .get(`/community/posts/${communityId}`)
-    .then((res) => {
-      dispatch({
+  try {
+    const result = await axios
+    .get(`/community/posts/${communityId}`);
+     return dispatch({
         type: SET_COMMUNITY_POSTS,
-        payload: res.data
+        payload: result.data
       });
-    })
-    .catch((err) => {
-      dispatch({
+  } catch (err) {
+      return dispatch({
         type: SET_COMMUNITY_POSTS,
         payload: []
       });
+    };
+};
+
+export const getAllPostsOfUser = () => async (dispatch) => {
+  dispatch({ type: LOADING_USERS_POST });
+  try {
+    const result = await axios
+    .get('community/user/posts');
+    return dispatch({
+      type: SET_USERS_POSTS,
+      payload: result.data
     });
+  } catch(err) {
+      return dispatch({
+        type: SET_USERS_POSTS,
+        payload: []
+      });
+    };
 };
 
 // Get all community
@@ -108,6 +167,23 @@ export const getAllCommunity = () => (dispatch) => {
         payload: []
       });
     });
+};
+
+export const getAllCommunityOfUser = () => async (dispatch) => {
+  dispatch({ type: LOADING_MY_COMMUNITY });
+  try {
+    const result = await axios
+    .get('/community/user');
+    return dispatch({
+      type: SET_MY_COMMUNITY,
+      payload: result.data
+    });
+  } catch (err) {
+      dispatch({
+        type: SET_MY_COMMUNITY,
+        payload: []
+      });
+    };
 };
 
 // Get all community
@@ -186,14 +262,15 @@ export const unlikeScream = (screamId) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 // Submit a comment
-export const submitComment = (screamId, commentData) => (dispatch) => {
+export const submitComment = (postId, commentData) => (dispatch) => {
   axios
-    .post(`/scream/${screamId}/comment`, commentData)
+    .post(`/posts/${postId}/comment`, commentData)
     .then((res) => {
-      dispatch({
-        type: SUBMIT_COMMENT,
-        payload: res.data
-      });
+      // dispatch({
+      //   type: SUBMIT_COMMENT,
+      //   payload: res.data
+      // });
+      dispatch(getPostDetails(postId));
       dispatch(clearErrors());
     })
     .catch((err) => {
@@ -234,6 +311,6 @@ export const clearErrors = () => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
 };
 
-export const setCurrentPage = (currentPage) => (dispatch) => {
-  dispatch({ type: SET_CURRENT_PAGE, payload: currentPage });
+export const setCurrentCommunityId = (communityId) => (dispatch) => {
+  dispatch({ type: SET_CURRENT_COMMUNITY_ID, payload: communityId });
 };

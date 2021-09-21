@@ -1,0 +1,15 @@
+.comment__closeIcon {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 20px 0 0;
+    cursor: pointer;
+}
+.form__text > div {
+ margin : 0 20px 20px 20px;
+}
+.form__text > button {
+    margin-right: 20px;
+   }
+.comment_section {
+    
+}   

@@ -215,8 +215,21 @@ margin: 5px;
 .MyNetworks__header{
     display: flex;
 }
+
+.MyNetworks__header h3 {
+    color: rgba(0,0,0,0.87);
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+}
 .MyNetworks__header__right > h4 {
     margin-top: 0;
+    color: rgba(0,0,0,0.74);
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    line-height: 24px;
 }
 .MyNetworks__subheader__p {
     padding: 0 0 0 20px;
@@ -230,6 +243,15 @@ margin: 5px;
     border-radius: 10px;
     flex-direction: column;
     background-color: white;
+}
+.MyCommunity {
+    display: flex;
+    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 10px;
+    flex-direction: column;
+    background-color: white; 
 }
 .MyNetworks > h3 {
     padding: 0 0 0 20px;
@@ -246,7 +268,6 @@ margin: 5px;
 .MyNetworks__body_item {
     display: flex;
     flex-direction: column;
-    margin: 0 0 10px 10px;
 }
 .MyNetworks__body_item > p {
     margin: 0 0 15px 10px;
@@ -276,4 +297,64 @@ margin: 5px;
     text-align: 'center';
     margin-top:50px;
     margin-bottom: 50;
+}
+
+.MyCommunity__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 0 20px;
+}
+.MyCommunity__header{
+    display: flex;
+}
+.MyCommunity__header h3 {
+    color: rgba(0,0,0,0.87);
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+}
+.MyCommunity__header__right > h4 {
+    margin-top: 0;
+}
+.MyCommunity__subheader__p {
+    padding: 0 0 0 20px;
+    margin: 3px 0 0 0;
+}
+.MyCommunity__body {
+    display: flex;
+    flex-direction: column;
+}
+.MyCommunity__progressBar {
+    display: flex;
+    justify-content: center;
+}
+.MyCommunity__body > p {
+    margin: 0 0 20px 20px;
+    color: rgba(0,0,0,0.74);
+    font-family: Roboto;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    line-height: 24px;
+}
+.MyCommunity__body_item {
+    display: flex;
+    margin: 0 0 0 20px;
+    align-items: center;
+}
+.MyCommunity__body__footer {
+    display: flex;
+    justify-content: end;
+}
+.progress {
+    margin: 0 0 20px 0 !important;
+}
+.MyCommunity__body_item_label {
+    color: #6200EE !important; 
+}
+.MyCommunity__body_item p {
+    color: #6200EE;
+    cursor: pointer;
 }

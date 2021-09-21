@@ -33,7 +33,7 @@ const styles = (theme) => ({
   },
 });
 
-function SingleComment({ comment, classes, submitComment, postId }) {
+function SingleComment({ comment, classes, submitComment, postId, user, refreshFunction }) {
   const [OpenReply, setOpenReply] = useState(false);
   const [CommentValue, setCommentValue] = useState("");
 
@@ -42,8 +42,11 @@ function SingleComment({ comment, classes, submitComment, postId }) {
   };
   const onSubmit = (e) => {
     const { commentId } = comment;
+    const { credentials : { firstName, lastName } } = user;
     e.preventDefault();
-    submitComment(postId, { body: CommentValue, commentId });
+    submitComment(postId, { body: CommentValue, commentId, userName: `${firstName} ${lastName}` });
+    openReply();
+    refreshFunction(true);
   };
   const handleChange = (e) => {
     setCommentValue(e.currentTarget.value);
@@ -56,20 +59,20 @@ function SingleComment({ comment, classes, submitComment, postId }) {
     </span>,
   ];
 
-  const { body, createdAt, userImage, userHandle } = comment;
+  const { body, createdAt, userImage, userHandle, userName } = comment;
   return (
-    <React.Fragment key={createdAt}>
+    <div key={createdAt} className="comment_section">
       <Grid item sm={12}>
         <Grid container>
           <Grid item sm={9}>
             <div className={classes.commentData}>
               <Typography
-                variant="h5"
+                variant="h6"
                 component={Link}
                 to={`/users/${userHandle}`}
                 color="primary"
               >
-                {userHandle}
+                {userName}
               </Typography>
               <Typography variant="body2" color="textSecondary">
                 {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
@@ -95,11 +98,11 @@ function SingleComment({ comment, classes, submitComment, postId }) {
         </Grid>
       </Grid>
       {OpenReply && (
-        <form style={{ display: "flex" }} onSubmit={onSubmit}>
+        <form style={{ display: "flex" }} onSubmit={onSubmit} className="form__text">
           <TextField
             name="singleComment"
             tpye="text"
-            placeholder="Leave your thoughts here ..."
+            placeholder="Add your reply to comment here ..."
             className={classes.textField}
             value={CommentValue}
             onChange={handleChange}
@@ -111,13 +114,14 @@ function SingleComment({ comment, classes, submitComment, postId }) {
           </Button>
         </form>
       )}
-    </React.Fragment>
+    </div>
   );
 }
 
 const mapStateToProps = (state) => ({
   UI: state.UI,
   authenticated: state.user.authenticated,
+  user : state.user
 });
 
 export default connect(mapStateToProps, { submitComment })(

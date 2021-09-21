@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import SingleComment from './SingleComment';
 
 function ReplyComment(props) {
-
+    console.log('updatedComment', props.updatedComment);
     const [ChildCommentNumber, setChildCommentNumber] = useState(0)
     const [OpenReplyComments, setOpenReplyComments] = useState(false)
+    useEffect(() => {
+       console.log('first call');
+    }, [])
     useEffect(() => {
 
         let commentNumber = 0;
@@ -17,21 +20,23 @@ function ReplyComment(props) {
         setChildCommentNumber(commentNumber)
     }, [props.CommentLists, props.parentCommentId])
 
-
+    console.log('OpenReplyComments', OpenReplyComments);
     let renderReplyComment = (parentCommentId) =>
         props.CommentLists.map((comment, index) => (
-            <React.Fragment>
+            <div className="comment_section">
                 {comment.responseTo === parentCommentId &&
                     <div style={{ width: '80%', marginLeft: '40px' }}>
-                        <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} />
-                        <ReplyComment CommentLists={props.CommentLists} parentCommentId={comment.commentId} postId={props.postId} refreshFunction={props.refreshFunction} />
+                        <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} updatedComment={props.updatedComment} />
+                        <ReplyComment CommentLists={props.CommentLists} parentCommentId={comment.commentId} postId={props.postId} refreshFunction={props.refreshFunction} 
+                        updatedComment={props.updatedComment} />
                     </div>
                 }
-            </React.Fragment>
+            </div>
         ))
 
     const handleChange = () => {
         setOpenReplyComments(!OpenReplyComments)
+        props.refreshFunction(false);
     }
 
 
@@ -39,13 +44,13 @@ function ReplyComment(props) {
         <div>
 
             {ChildCommentNumber > 0 &&
-                <p style={{ fontSize: '14px', margin: 0, color: 'gray' }}
+                <p style={{ fontSize: '14px', margin: '0 0 0 20px', color: 'gray' }}
                     onClick={handleChange} >
                     View {ChildCommentNumber} more comment(s)
              </p>
             }
 
-            {OpenReplyComments &&
+            {(OpenReplyComments || props.updatedComment) &&
                 renderReplyComment(props.parentCommentId)
             }
 

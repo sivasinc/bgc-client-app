@@ -1,8 +1,7 @@
-import React, { Component, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import MyButton from "../../util/MyButton";
-import Comments from "./Comments";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 // MUI Stuff
@@ -13,9 +12,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import CloseIcon from '@mui/icons-material/Close';
 
 // Icons
-import CloseIcon from "@material-ui/icons/Close";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
 import ChatIcon from "@material-ui/icons/Chat";
 // Redux stuff
@@ -27,6 +26,7 @@ import {
 } from "../../redux/actions/dataActions";
 import SingleComment from "./SingleComment";
 import ReplyComment from "./ReplyComment";
+import './Comments.css';
 
 const styles = (theme) => ({
   ...theme,
@@ -54,90 +54,47 @@ const styles = (theme) => ({
   },
 });
 
-class CommentsItems extends Component {
-  state = {
-    open: false,
-    oldPath: "",
-    newPath: "",
-    comment: "",
-  };
-  componentDidMount() {
-    if (this.props.openDialog) {
-      this.handleOpen();
-    }
-  }
-  handleOpen = () => {
-    let oldPath = window.location.pathname;
+const Comments = ({openDialog, commentLists, postId, refreshFunction, submitComment, post, setOpenDialog, user}) => {
 
-    const { userHandle, screamId } = this.props;
-    const newPath = `/users/${userHandle}/scream/${screamId}`;
-
-    if (oldPath === newPath) oldPath = `/users/${userHandle}`;
-
-    window.history.pushState(null, null, newPath);
-
-    this.setState({ open: true, oldPath, newPath });
-    this.props.getScream(this.props.postId);
+const [comment, setComment] = useState("");
+  const handleClose = () => {
+    setOpenDialog(false);
   };
-  handleClose = () => {
-    window.history.pushState(null, null, this.state.oldPath);
-    this.setState({ open: false });
-    this.props.clearErrors();
+  const handleChange = (event) => {
+    setComment(event.target.value);
+    // this.setState({ comment: event.target.value });
   };
-  handleChange = (event) => {
-    this.setState({ comment: event.target.value });
-  };
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
+    console.log('user', user);
+    const { credentials : { firstName, lastName } } = user;
     e.preventDefault();
-    this.props.submitComment(this.props.postId, {
-      body: this.state.comment,
+    submitComment(postId, {
+      body: comment,
       commentId: "",
+      userName: `${firstName} ${lastName}`
     });
+    setOpenDialog(false);
   };
-
-  render() {
-    const {
-      classes,
-      scream: {
-        screamId,
-        body,
-        createdAt,
-        likeCount,
-        commentCount,
-        userImage,
-        userHandle,
-        comments,
-      },
-      UI: { loading },
-      postId,
-      refreshFunction,
-    } = this.props;
-    const { commentLists } = this.props;
-    const { comment } = this.state;
+  console.log('postId', postId);
+  const { comments } = post;
     return (
       <Fragment>
-        <MyButton
-          onClick={this.handleOpen}
-          tip="Expand scream"
-          tipClassName={classes.expandButton}
-        >
-          <UnfoldMore color="primary" />
-        </MyButton>
         <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
+          open={openDialog}
+          onClose={handleClose}
           fullWidth
           maxWidth="sm"
         >
-          <MyButton
+          <div className="comment__closeIcon"> <CloseIcon onClick={handleClose} color="primary"/></div>
+         
+          {/* <MyButton
             tip="Close"
-            onClick={this.handleClose}
-            tipClassName={classes.closeButton}
+            onClick={handleClose}
+            // tipClassName={classes.closeButton}
           >
-            <CloseIcon />
-          </MyButton>
-          <br />
-          <DialogContent className={classes.dialogContent}>
+            <CloseIcon /> */}
+          {/* </MyButton> */}
+          <DialogContent>
             <div>
               <hr />
               {/* Comment Lists  */}
@@ -155,7 +112,7 @@ class CommentsItems extends Component {
                         />
                         <ReplyComment
                           CommentLists={comments}
-                          postId={screamId}
+                          postId={postId}
                           parentCommentId={comment.commentId}
                           refreshFunction={refreshFunction}
                         />
@@ -164,24 +121,18 @@ class CommentsItems extends Component {
                 )}
 
               {/* Root Comment Form */}
-              <form style={{ display: "flex" }} onSubmit={this.onSubmit}>
+              <form style={{ display: "flex" }} onSubmit={onSubmit}>
               <TextField
             name="singleComment"
             tpye="text"
             placeholder="Leave your thoughts here ..."
-            className={classes.textField}
+            // className={classes.textField}
             value={comment}
-            onChange={this.handleChange}
+            onChange={handleChange}
             fullWidth
           />
-                {/* <TextField
-                  style={{ width: "100%", borderRadius: "5px" }}
-                  onChange={this.handleChange}
-                  value={comment}
-                  placeholder="Leave your thoughts here ..."
-                /> */}
                 <br />
-                <Button color="primary" onClick={this.onSubmit}>
+                <Button color="primary" onClick={onSubmit}>
                   Submit
                 </Button>
               </form>
@@ -191,9 +142,8 @@ class CommentsItems extends Component {
       </Fragment>
     );
   }
-}
 
-CommentsItems.propTypes = {
+Comments.propTypes = {
   clearErrors: PropTypes.func.isRequired,
   getScream: PropTypes.func.isRequired,
   screamId: PropTypes.string.isRequired,
@@ -203,7 +153,8 @@ CommentsItems.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  scream: state.data.scream,
+  post: state.data.post,
+  user: state.user,
   UI: state.UI,
 });
 
@@ -216,4 +167,4 @@ const mapActionsToProps = {
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(withStyles(styles)(CommentsItems));
+)(withStyles(styles)(Comments));

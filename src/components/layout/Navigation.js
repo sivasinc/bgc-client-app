@@ -10,22 +10,22 @@ import Button from "@material-ui/core/Button";
 
 import Typography from "@material-ui/core/Typography";
 import BGCProfileHome from "../UserProfile/BGCProfileHome";
-import { logoutUser } from "../../redux/actions/userActions";
+import { logoutUser, updateTabIndex } from "../../redux/actions/userActions";
 import { getRoutes } from "../../util/constant";
 
 import "./Navigation.css";
 
-const Navigation = ({ UI, logoutUser, authenticated }) => {
+const Navigation = ({ logoutUser, authenticated, currentTabIndex, updateTabIndex }) => {
   const [value, setValue] = useState(3);
   const history = useHistory();
-
+  console.log('currentTabIndex', currentTabIndex);
   useEffect(() => {
     if (authenticated) {
-      switch (value) {
+      switch (currentTabIndex) {
         case 0:
         case 1:
           // Needs to change later
-          history.push("/userprofile");
+          history.push("/portalHome");
           break;
         case 2:
           history.push("/userprofile");
@@ -41,7 +41,7 @@ const Navigation = ({ UI, logoutUser, authenticated }) => {
       }
     }
     if (!authenticated) {
-      switch (value) {
+      switch (currentTabIndex) {
         case 0:
         case 1:
           history.push("/login");
@@ -53,10 +53,10 @@ const Navigation = ({ UI, logoutUser, authenticated }) => {
           history.push("/login");
       }
     }
-  }, [value]);
+  }, [currentTabIndex]);
 
   const handleMenuChange = (event, newValue) => {
-    setValue(newValue);
+    updateTabIndex(newValue);
   };
   const a11yProps = (index) => {
     return {
@@ -66,7 +66,7 @@ const Navigation = ({ UI, logoutUser, authenticated }) => {
   };
   console.log('value', value);
   const authenticatedMenuItems = (
-    <Tabs value={value} onChange={handleMenuChange} aria-label="menu bar">
+    <Tabs value={currentTabIndex} onChange={handleMenuChange} aria-label="menu bar">
       <img
         className="header__img"
         src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/BGC-Logo.png?alt=media&token=ba7c24c2-d25e-467f-91fa-d57c69fe5c0b"
@@ -132,9 +132,10 @@ const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
   authenticated: state.user.authenticated,
+  currentTabIndex: state.UI.currentTabIndex
 });
 
-const mapDispatchToProps = { logoutUser };
+const mapDispatchToProps = { logoutUser, updateTabIndex };
 Navigation.propTypes = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
