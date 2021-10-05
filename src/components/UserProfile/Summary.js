@@ -7,7 +7,7 @@ import { editUserDetails } from '../../redux/actions/userActions';
 import ModelWindow from "./ModelWindow";
 
 
-const Summary = ({ user: { credentials }, editUserDetails }) => {
+const Summary = ({ user: { userInfo }, editUserDetails }) => {
     const [profile, setProfile] = useState({});
   const [openModel, setOpenModel] = useState(false);
   const handleChange = (event) => {
@@ -18,11 +18,11 @@ const Summary = ({ user: { credentials }, editUserDetails }) => {
     const {
         updatedDescription
     } = profile;
-    const request = { ...credentials, summary: updatedDescription };
+    const request = { ...userInfo, summary: updatedDescription };
     editUserDetails(request);
     setOpenModel(false);
   };
-  const { summary } = credentials;
+  const { summary } = userInfo;
   let summaryInfo = (
     <div className="experience__item">
       <p className="summary__subheader__p">{ summary !== undefined ? summary : 'Add a summary'}</p>

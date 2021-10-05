@@ -17,16 +17,9 @@ const RecommenedCommunity = ({community, joinCommunityHandler, joinCommunityLoad
     return (
         <div className="recommended__communityBox_community">
             <div className="recommended__communityBox_community_header">
-                {/* <div className="recommended__communityBox_community_header_img">
-                <Avatar
-                alt="Remy Sharp"
-                className="MyNetworks__body_item__image"
-                src={community.image}
-              />
-                </div> */}
                 <div className="recommended__communityBox_community_header_text">
-                <h3>{community.name}</h3>
-                     <p>230 members</p>
+                <p className="recommended__communityBox_community_header_text__name">{community.name}</p>
+                     <p className="recommended__communityBox_community_header_text__member__count">{community.members && Array.isArray(community.members) ? community.members.length : 0 } members</p>
                 </div>
             </div>
              
@@ -50,7 +43,7 @@ const RecommenedCommunity = ({community, joinCommunityHandler, joinCommunityLoad
                 color="primary"
                 className="recommended__communityBox_community_join_button"
               >
-               Join Community
+               JOIN COMMUNITY
               </Typography>} 
                  </div>
     )

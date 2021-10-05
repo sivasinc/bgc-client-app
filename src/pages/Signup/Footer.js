@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
+import Button from '@mui/material/Button';
 import "./Footer.css";
 
 const Footer = ({ currentStep, formButtonHandler }) => {
@@ -9,7 +9,7 @@ const Footer = ({ currentStep, formButtonHandler }) => {
       <div className="signUp__footer__PrevBtn">
         {currentStep > 1 && (
           <Button
-            variant="contained"
+            variant="outlined"
             color="primary"
             onClick={() => formButtonHandler(currentStep - 1)}
           >
@@ -23,7 +23,7 @@ const Footer = ({ currentStep, formButtonHandler }) => {
           color="primary"
           onClick={() => formButtonHandler(currentStep + 1)}
         >
-          {currentStep === 4 ? "Continue To Portal" : "Continue"}
+          {currentStep === 5 ? "Submit" : "Continue"}
         </Button>
       </div>
     </div>

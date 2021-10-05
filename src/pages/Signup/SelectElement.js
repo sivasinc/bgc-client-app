@@ -19,11 +19,12 @@ const SelectElement = ({ label, id, selectedItem, handleSelectChange, selectItem
         <InputLabel htmlFor="age-native-simple">{label}</InputLabel>
         <Select
           native
+          variant="outlined"
           value={selectedItem}
           onChange={handleSelectChange}
           inputProps={{
             name: id,
-            id: 'age-native-simple',
+            id: 'id',
           }}
         >
              {selectItems.map((item) => <option value={item.value}>{item.name}</option>)}

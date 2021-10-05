@@ -1,0 +1,82 @@
+.forgotPassword__link {
+    margin: 20px 0 0 0;
+}
+.login_header {
+    text-align: center;
+    overflow: hidden;
+    margin-bottom: 8px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    transition: box-shadow 83ms;
+    display: flex;
+    justify-content: space-between;
+    border: none;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+    margin: 20px 0 5px 0;
+}
+.login_header__left {
+    width: 30%;
+    background-color: black;
+    padding: 20px 0 20px 0;
+}
+.login_header__logo {
+    object-fit: cover;
+    height: 100px;
+}
+.login_header__right {
+    width: 70%;
+    background-color:#0E00FF;
+    padding: 20px 0 20px 0;
+    text-align: left;
+}
+.login_header__right > p {
+    color: #FFFFFF;
+    font-family: Courier;
+    font-size: 34px;
+    letter-spacing: 0;
+    line-height: 36px;
+    margin: 10px 0 10px 30px;
+}
+.login_header__right > p ~ p {
+    color: #FFFFFF;
+    font-family: Courier;
+    font-size: 22px;
+    letter-spacing: 0;
+    line-height: 26px;
+}
+
+.login_block {
+    text-align: center;
+    overflow: hidden;
+    margin-bottom: 8px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    transition: box-shadow 83ms;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+    margin: 20px 0 20px 0;
+    padding: 20px;
+}
+.login_block > p {
+    font-family: Roboto;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    margin: 10px 0 10px 0;
+}
+.login_block div {
+    margin: 10px 0 10px 0;
+}
+.login_button {
+    background-color: #6200EE !important;
+}
+.signup_link {
+    margin: 0 0 20px 0;
+    font-family: Roboto;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    line-height: 24px;
+}

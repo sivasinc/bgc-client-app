@@ -19,7 +19,9 @@ import {
   ADD_POST,
   SUBMIT_COMMENT,
   SET_CURRENT_PAGE,
-  SET_CURRENT_COMMUNITY_ID
+  SET_CURRENT_COMMUNITY_ID,
+  SET_MEMBERS,
+  LOADING_MEMBERS
 } from '../types'
 
 const initialState = {
@@ -38,7 +40,9 @@ const initialState = {
   isRefreshCommunity: false,
   isRefreshPost: false,
   currentPage: 'COMMUNITY',
-  currentCommunityId: null
+  currentCommunityId: null,
+  members: [],
+  loadingMembers: false
 };
 
 export default function(state = initialState, action) {
@@ -49,11 +53,22 @@ export default function(state = initialState, action) {
         loading: true,
         isRefreshPost: false
       };
+      case LOADING_MEMBERS:
+        return {
+          ...state,
+          loadingMembers: true
+        };
     case SET_CURRENT_COMMUNITY_ID:
       return {
         ...state,
         currentCommunityId: action.payload
-      }  
+      } 
+      case SET_MEMBERS:
+        return {
+          ...state,
+          members: action.payload,
+          loadingMembers: false
+        }    
     case SET_REFRESH_COMMUNITY:
       return {
         ...state,

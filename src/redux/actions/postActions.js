@@ -5,6 +5,7 @@ import {
     ADD_POST,
     SET_COMMUNITY,
     SET_USERS,
+    SET_USER,
     SET_COMMUNITY_MEMBERS,
     SET_COMMUNITY_POSTS,
     LOADING_DATA,
@@ -22,49 +23,85 @@ import {
   } from '../types';
   import axios from 'axios';
   import { getPostsOfCommunity } from './dataActions';
+  import { addNewPost, getAPost, getUserProfileInfo } from '../../firebaseActions/dataServices';
+  import { editUserDetails } from '../actions/userActions';
+  import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+  import { storage } from "../../firebase";
+
   
-  export const getPostDetails = (postId) => (dispatch) => {
+  export const getPostDetails = (postId) => async (dispatch) => {
     // dispatch({ type: LOADING_UI });
-    axios
-      .get(`/posts/${postId}`)
-      .then((res) => {
-        dispatch({
-          type: SET_POST,
-          payload: res.data
-        });
-        // dispatch({ type: STOP_LOADING_UI });
-      })
-      .catch((err) => console.log(err));
+    try {
+      const result = await getAPost(postId);
+      dispatch({
+        type: SET_POST,
+        payload: result
+      });
+    } catch(err) {
+      console.log(err);
+    } 
   };
 
   export const addAPostwithImage = (newPost) => (dispatch) => {
     dispatch({ type: LOADING_UI });
-    axios
-    .post('/community/image', newPost.formData)
-    .then((res) => {
-        newPost.postPayload.sharedImg = res.data.imageUrl;
-        axios
-        .post('/posts', newPost.postPayload)
-        .then((res) => {
-          dispatch({
-            type: ADD_POST,
-            payload: res.data
-          });
-          dispatch(clearErrors());
-        })
-        .catch((err) => {
-          dispatch({
-            type: SET_ERRORS,
-            payload: err.response.data
-          });
-        });
-    })
-  };
+    if (newPost.sharedImage != "") {
+        const storageRef = ref(storage, `images/${newPost.sharedImage.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, newPost.sharedImage);
+        uploadTask.on('state_changed', 
+    (snapshot) => {
+      // Observe state change events such as progress, pause, and resume
+      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+        case 'paused':
+          console.log('Upload is paused');
+          break;
+        case 'running':
+          console.log('Upload is running');
+          break;
+      }}, error => console.log(error.code), 
+    async () => {
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+      newPost.postPayload.sharedImg = downloadURL;
+      const result = await addNewPost(newPost.postPayload);
+      dispatch(getPostsOfCommunity);
+      return dispatch(clearErrors());
+    });
+    }
+  }
+  export const uploadProfileImage = (image, userDetails) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    if (image != "") {
+        const storageRef = ref(storage, `images/${image.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+        uploadTask.on('state_changed', 
+    (snapshot) => {
+      // Observe state change events such as progress, pause, and resume
+      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+        case 'paused':
+          console.log('Upload is paused');
+          break;
+        case 'running':
+          console.log('Upload is running');
+          break;
+      }}, error => console.log(error.code), 
+    async () => {
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+      userDetails.imageUrl = downloadURL;
+      dispatch(editUserDetails(userDetails));
+      return dispatch(clearErrors());
+    });
+    }
+  }
+
   export const addAPost = (newPost) => async (dispatch) => {
     dispatch({ type: LOADING_UI });
     try {
-     const result = await axios
-      .post('/posts', newPost.postPayload);
+      const result = await addNewPost(newPost.postPayload);
         dispatch(getPostsOfCommunity);
         return dispatch(clearErrors());
     } catch(err)  {

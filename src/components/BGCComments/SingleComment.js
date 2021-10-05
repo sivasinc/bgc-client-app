@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import withStyles from "@material-ui/core/styles/withStyles";
-import TextField from "@material-ui/core/TextField";
+import Avatar from '@mui/material/Avatar';
+import TextField from '@mui/material/TextField';
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { submitComment } from "../../redux/actions/dataActions";
@@ -13,6 +14,7 @@ import ReplyIcon from "@material-ui/icons/Reply";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
 import dayjs from "dayjs";
+import { borderRadius } from "@mui/system";
 
 const styles = (theme) => ({
   ...theme,
@@ -31,9 +33,19 @@ const styles = (theme) => ({
   iconSpacing: {
     paddingRight: 10,
   },
+  commentBox: {
+    background: '#ffffff',
+    borderRadius: '5px',
+    transition: 'box-shadow 83ms',
+    display: 'flex',
+    flexDirection: 'column',
+    border: 'none',
+    boxShadow: '0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%)',
+    marginBottom: '20px'
+  }
 });
 
-function SingleComment({ comment, classes, submitComment, postId, user, refreshFunction }) {
+function SingleComment({ comment, classes, submitComment, postId, user: { userInfo }, refreshFunction }) {
   const [OpenReply, setOpenReply] = useState(false);
   const [CommentValue, setCommentValue] = useState("");
 
@@ -42,9 +54,17 @@ function SingleComment({ comment, classes, submitComment, postId, user, refreshF
   };
   const onSubmit = (e) => {
     const { commentId } = comment;
-    const { credentials : { firstName, lastName } } = user;
+    const {  firstName, lastName, email, imageUrl } = userInfo;
     e.preventDefault();
-    submitComment(postId, { body: CommentValue, commentId, userName: `${firstName} ${lastName}` });
+    submitComment(postId, { 
+      body: CommentValue, 
+      responseTo: commentId, 
+      userName: `${firstName} ${lastName}`,
+      createdAt: new Date().toISOString(),
+      postId,
+      userHandle: email,
+      userImage: imageUrl
+    });
     openReply();
     refreshFunction(true);
   };
@@ -62,46 +82,57 @@ function SingleComment({ comment, classes, submitComment, postId, user, refreshF
   const { body, createdAt, userImage, userHandle, userName } = comment;
   return (
     <div key={createdAt} className="comment_section">
-      <Grid item sm={12}>
-        <Grid container>
-          <Grid item sm={9}>
-            <div className={classes.commentData}>
-              <Typography
+       <div className="comment_section__box">
+         <div className="comment_section__left">
+         <Avatar alt="Remy Sharp" src={userImage} />
+         </div>
+         <div className="comment_section__right">
+         <div className="comment_section__right__header">
+              <p className="single_comment_userLabel">{userName}</p>
+              {/* <Typography
                 variant="h6"
                 component={Link}
                 to={`/users/${userHandle}`}
                 color="primary"
               >
-                {userName}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
-              </Typography>
-              <hr className={classes.invisibleSeparator} />
+                
+              </Typography> */}
+              <p className="single_comment_userLabel">{dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}</p>
+              </div>
+              <div className="comment_section__body">
               <Typography variabnt="body1" className={classes.bodyPadding}>
                 {body}
               </Typography>
-              <ThumbUpIcon color="primary" className={classes.iconSpacing} />
-              <ThumbDownAltIcon
+              </div>
+                <div className="comment_section__footer">
+                <Typography
+                variant="button"
                 color="primary"
-                className={classes.iconSpacing}
-              />
-              <ReplyIcon
+              >LIKE</Typography>
+                <Typography
+                variant="button"
+                onClick={openReply}
+                color="primary"
+              >REPLY</Typography>
+              {/* <ReplyIcon
                 onClick={openReply}
                 key="comment-basic-reply-to"
                 color="primary"
               >
                 Reply to{" "}
-              </ReplyIcon>
-            </div>
-          </Grid>
-        </Grid>
-      </Grid>
-      {OpenReply && (
+              </ReplyIcon> */}
+                </div>
+              
+         </div>
+         
+       </div>
+       <div className="comment_section__actions">
+         {OpenReply && (
         <form style={{ display: "flex" }} onSubmit={onSubmit} className="form__text">
           <TextField
             name="singleComment"
-            tpye="text"
+            type="text"
+            variant="outlined"
             placeholder="Add your reply to comment here ..."
             className={classes.textField}
             value={CommentValue}
@@ -109,11 +140,12 @@ function SingleComment({ comment, classes, submitComment, postId, user, refreshF
             fullWidth
           />
           <br />
-          <Button color="primary" onClick={onSubmit}>
+          <Button size="small" onClick={onSubmit}>
             Submit
           </Button>
         </form>
       )}
+         </div>
     </div>
   );
 }

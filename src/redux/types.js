@@ -35,8 +35,11 @@ export const SET_MY_COMMUNITY = 'SET_MY_COMMUNITY';
 export const LOADING_MY_COMMUNITY = 'LOADING_MY_COMMUNITY';
 export const SET_CURRENT_TAB_INDEX = 'SET_CURRENT_TAB_INDEX';
 export const SET_CURRENT_COMMUNITY_ID = 'SET_CURRENT_COMMUNITY_ID';
+export const LOADING_MEMBERS = 'LOADING_MEMBERS';
+
 
 export const SET_USERS = 'SET_USERS';
+export const SET_MEMBERS = 'SET_MEMBERS';
 
 //Post reducers types
 

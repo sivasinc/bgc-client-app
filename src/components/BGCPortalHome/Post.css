@@ -91,7 +91,7 @@ padding: 4px 8px;
     display: inline-flex;
     align-items: center;
     padding: 8px;
-    color: #0a66c2;
+    color: #6200EE;
     border: none;
     cursor: pointer;
     background-color: #fff;
@@ -104,7 +104,7 @@ padding: 4px 8px;
 }
 }
 .socialActions p {
-    color: #0a66c2;
+    color: #6200EE;
     margin: 0 10px 0 10px;
   }
 .sharedActor__userLabel {

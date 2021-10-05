@@ -8,7 +8,7 @@ import { editUserDetails } from '../../redux/actions/userActions';
 
 import ModelWindow from "./ModelWindow";
 
-const Experience = ({ user: { credentials }, editUserDetails }) => {
+const Experience = ({ user: { userInfo } , editUserDetails }) => {
   const [profile, setProfile] = useState({});
   const [openModel, setOpenModel] = useState(false);
   const [modeType, setModeType] = useState('add');
@@ -58,7 +58,7 @@ const Experience = ({ user: { credentials }, editUserDetails }) => {
       endMonth: updatedEndMonth !== undefined ? updatedEndMonth : '',
       endYear: updatedEndYear !== undefined ? updatedEndYear : ''
     };
-    const tempProfileInfo = [...credentials.profileInfo];
+    const tempProfileInfo = [...userInfo.profileInfo];
     const tempInfo = tempProfileInfo.filter(item => item.type === "workforce");
     if(tempInfo.length > 0) {
         tempProfileInfo.forEach(item => {
@@ -75,11 +75,11 @@ const Experience = ({ user: { credentials }, editUserDetails }) => {
         const details = [ { ...userDetails }];
         tempProfileInfo.push({ type : "workforce", details });
     }
-    const request = { ...credentials, profileInfo : [...tempProfileInfo] };
+    const request = { ...userInfo, profileInfo : [...tempProfileInfo] };
     editUserDetails(request);
     setOpenModel(false);
   };
-  const { profileInfo } = credentials;
+  const { profileInfo } = userInfo;
   const { updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear, updatedCompany, updatedDepartment, updatedJobTtile } = profile;
   let educationInfo = (
     <div className="experience__item">

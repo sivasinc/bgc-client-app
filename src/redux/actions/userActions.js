@@ -1,3 +1,7 @@
+import { signIn, signUpUserWithEmail } from '../../firebaseActions/service';
+import {getUserProfileInfo, updateUserDetails } from '../../firebaseActions/dataServices';
+
+
 import {
   SET_USER,
   SET_ERRORS,
@@ -21,47 +25,71 @@ export const updateTabIndex = (index) => (dispatch) => {
   dispatch({ type: SET_CURRENT_TAB_INDEX, payload: index });
 };
 
-export const loginUser = (userData, history) => async (dispatch) => {
+export const loginUser = (userData, history) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+    const user = {
+      email: userData.email,
+      password: userData.password,
+    };
+    signIn(user)
+      .then((result) => {
+        dispatch({ type: CLEAR_ERRORS });
+             dispatch({
+        type: SET_USER,
+        payload: result
+      });
+      dispatch({ type: SET_CURRENT_TAB_INDEX, payload: 1 });
+      history.push('/portalHome');
+      })
+      .catch((error) => {
+        dispatch({
+          type: SET_ERRORS,
+          payload: error.message
+        });
+      });
+};
+
+export const signupUser = (newUserData, history) => async (dispatch) => {
   dispatch({ type: LOADING_UI });
   try {
-    const res = await axios
-    .post('/login', userData);
-    setAuthorizationHeader(res.data.token);
-    const user = await axios
-    .get('/user');
+    const result = await signUpUserWithEmail(newUserData);
     dispatch({ type: CLEAR_ERRORS });
-    dispatch({ type: SET_AUTHENTICATED });
-    dispatch({
-      type: SET_USER,
-      payload: user.data
-    });
-    dispatch({ type: SET_CURRENT_TAB_INDEX, payload: 1 });
-    history.push('/portalHome');
   } catch(err) {
+    console.log('error1', err);
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data
+        payload: err
       });
     };
 };
 
-export const signupUser = (newUserData, history) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
-  axios
-    .post('/signup', newUserData)
-    .then((res) => {
-      setAuthorizationHeader(res.data.token);
-      dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
-      history.push('/userprofile');
-    })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.response.data
-      });
-    });
+export const getUserProfileData = () => async (dispatch, getState) => {
+  try {
+    const { user: { userInfo } } = getState();
+    const result = await getUserProfileInfo(userInfo.email);
+  }
+  catch(err) {
+    console.log(err);
+  } 
 };
+
+// export const signupUser = (newUserData, history) => (dispatch) => {
+//   dispatch({ type: LOADING_UI });
+//   axios
+//     .post('/signup', newUserData)
+//     .then((res) => {
+//       setAuthorizationHeader(res.data.token);
+//       dispatch(getUserData());
+//       dispatch({ type: CLEAR_ERRORS });
+//       history.push('/userprofile');
+//     })
+//     .catch((err) => {
+//       dispatch({
+//         type: SET_ERRORS,
+//         payload: err.response.data
+//       });
+//     });
+// };
 
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem('FBIdToken');
@@ -102,14 +130,20 @@ export const uploadCommunityImage = (formData) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const editUserDetails = (userDetails) => (dispatch) => {
+export const editUserDetails = (userDetails) => async (dispatch) => {
   dispatch({ type: LOADING_USER });
-  axios
-    .post('/user', userDetails)
-    .then(() => {
-      dispatch(getUserData());
-    })
-    .catch((err) => console.log(err));
+  try {
+    const result = await updateUserDetails(userDetails);
+    const { email } = userDetails;
+    const usersData = await getUserProfileInfo(email);
+    dispatch({
+      type: SET_USER,
+      payload: usersData
+    });
+  }
+  catch(error) {
+    console.log(error)
+  }
 };
 
 export const markNotificationsRead = (notificationIds) => (dispatch) => {
@@ -122,7 +156,6 @@ export const markNotificationsRead = (notificationIds) => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
-
 const setAuthorizationHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
   localStorage.setItem('FBIdToken', FBIdToken);

@@ -13,7 +13,7 @@ import { addAPost, addAPostwithImage, clearErrors } from '../../redux/actions/po
 // import firebase from 'firebase';
 // import { postArticleAPI } from '../actions';
 
-const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACommunityPostwithImage, handleClick }) => {
+const PostModal = ({ user: { userInfo }, showModal, addACommunityPost, addACommunityPostwithImage, handleClick }) => {
   const [editorText, setEditorText] = useState("");
   const [sharedImage, setSharedImage] = useState("");
   const [videoLink, setVideoLink] = useState("");
@@ -36,7 +36,7 @@ const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACo
   };
 
   const postArticle = (e) => {
-    const { firstName, lastName } = credentials;
+    const { firstName, lastName } = userInfo;
 
     e.preventDefault();
     // if(e.target !== e.currentTarget)
@@ -84,7 +84,7 @@ const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACo
     setAssetArea("");
     handleClick(e);
   };
-  const { imageUrl, firstName } = credentials;
+  const { imageUrl, firstName } = userInfo;
 
   return (
     <>
@@ -154,11 +154,13 @@ const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACo
               <AttachAssets>
                 <AssetButton onClick={() => switchAssetArea("image")}>
                   <ImageIcon color="primary" />
+                  <span>Add Image</span>
                 </AssetButton>
                 <AssetButton onClick={() => switchAssetArea("media")}>
                   <OndemandVideoIcon color="primary"/>
                   {/* <img src="/images/shared-vid.png" alt="" /> */}
                 </AssetButton>
+                <span>Add Video</span>
               </AttachAssets>
 
               <ShareComment>
@@ -337,6 +339,11 @@ const Editor = styled.div`
     padding: 0;
     cursor: pointer;
     outline: none;
+    color: rgba(0,0,0,0.87);
+    font-family: Roboto;
+    font-size: 16px;
+    letter-spacing: 0.15px;
+    line-height: 24px;
   }
 
   input {

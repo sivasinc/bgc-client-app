@@ -43,10 +43,9 @@ class Profile extends Component {
     const {
       classes,
       user: {
-        credentials: { handle, createdAt, imageUrl, bio, website, location },
+        handle, createdAt, imageUrl, bio, website, location },
         loading,
         authenticated
-      }
     } = this.props;
 
     let profileMarkup = !loading ? (

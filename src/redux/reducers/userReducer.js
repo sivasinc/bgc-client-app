@@ -14,7 +14,7 @@ import {
 const initialState = {
   authenticated: false,
   loading: false,
-  credentials: {},
+  userInfo: {},
   likes: [],
   notifications: [],
   users : [],
@@ -45,7 +45,7 @@ export default function(state = initialState, action) {
         ...state,
         authenticated: true,
         loading: false,
-        ...action.payload
+        userInfo: action.payload
       };
     case LOADING_USER:
       return {

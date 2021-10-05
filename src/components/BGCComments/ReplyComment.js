@@ -25,7 +25,8 @@ function ReplyComment(props) {
         props.CommentLists.map((comment, index) => (
             <div className="comment_section">
                 {comment.responseTo === parentCommentId &&
-                    <div style={{ width: '80%', marginLeft: '40px' }}>
+                    <div style={{ width: props.firstChildCommentId && props.firstChildCommentId === comment.responseTo ? '95%': '100%', 
+                    marginLeft: props.firstChildCommentId && props.firstChildCommentId === comment.responseTo ? '40px' : '0'}}>
                         <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} updatedComment={props.updatedComment} />
                         <ReplyComment CommentLists={props.CommentLists} parentCommentId={comment.commentId} postId={props.postId} refreshFunction={props.refreshFunction} 
                         updatedComment={props.updatedComment} />
@@ -44,9 +45,9 @@ function ReplyComment(props) {
         <div>
 
             {ChildCommentNumber > 0 &&
-                <p style={{ fontSize: '14px', margin: '0 0 0 20px', color: 'gray' }}
+                <p style={{ fontSize: '14px', margin: '0 0 0 20px', padding: '0 0 10px 0', color: 'gray' }}
                     onClick={handleChange} >
-                    View {ChildCommentNumber} more comment(s)
+                    View {ChildCommentNumber} more replies
              </p>
             }
 

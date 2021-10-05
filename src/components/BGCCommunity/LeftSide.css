@@ -13,10 +13,11 @@
     align-items: center;
     border: none;
     box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+    margin-bottom: 20px;
 }
 .portal__header__image {
-    height: 100px !important;
-    width: 100px !important;
+    height: 110px !important;
+    width: 110px !important;
     margin: 20px 0 0 0;
 }
 .ArtCard h4 {
@@ -43,5 +44,16 @@
     font-size: 16px;
     letter-spacing: 0.15px;
     line-height: 24px;
-    margin: 0 10px 10px 10px;
+    margin: 10px 10px 10px 10px;
+}
+.community_action_footer {
+    display: flex;
+    align-items: center;
+    margin: 0 0 20px 0;
+    color: #6200EE;
+    cursor: pointer;
+}
+.community_action_footer__label {
+     font-family: Roboto; font-size: 18px; font-weight: 500; letter-spacing: 1.25px; line-height: 16px;
+     margin-left: 5px;
 }

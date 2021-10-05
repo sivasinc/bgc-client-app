@@ -22,18 +22,16 @@ import Summary from "./Summary";
 import MyNetworks from "./MyNetworks";
 import MyCommunities from "./MyCommunities";
 
-const BGCProfileHome = ({ history, UI, user }) => {
-  const { credentials } = user;
-  console.log('UI-States', credentials);
+const BGCProfileHome = ({ history, UI, user: { userInfo } }) => {
 
   const progressSection = (<div className="spinnerDiv">
   <CircularProgress size={200} thickness={2} />
 </div>);
   return (
     <React.Fragment>
-      {!Object.keys(credentials) > 0 ? progressSection: (<div className="bgc__profile__Container">
+      {!Object.keys(userInfo) > 0 ? progressSection: (<div className="bgc__profile__Container">
       <div className="bgc__profile_Container__header">
-      <ProfileHeader credentials={credentials} />
+      <ProfileHeader credentials={userInfo} />
       </div>
       <div className="bgc__profile_Container__body">
      

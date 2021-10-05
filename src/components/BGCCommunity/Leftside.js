@@ -4,17 +4,29 @@ import { connect } from 'react-redux';
 import './LeftSide.css';
 import Avatar from "@material-ui/core/Avatar";
 import Members from './Members';
-import MyCommunities from '../UserProfile/MyCommunities';
+import AddIcon from '@mui/icons-material/Add';
+import CheckIcon from '@mui/icons-material/Check';
 
 
-const Leftside = ({ user, communityPosts }) => {
-    console.log('communityPost', communityPosts);
-    const { credentials } = user;
-    const { firstName, lastName } = credentials;
+const Leftside = ({ user: { userInfo },communityPosts : { community} = {},communityPosts: { community: { members } = [] } = {} }) => {
+    const communityActionHandler = () => {
+
+    }
+   const {email} = userInfo;
+    const generateActionLink = () => {
+        if(members && Array.isArray(members) && members.filter((item) => item.email === userInfo.email).length > 0) {
+            return (<React.Fragment>
+<CheckIcon onClick={() => communityActionHandler(email)} /> <span onClick={() => communityActionHandler(email)} className="community_action_footer__label">Joined</span>
+            </React.Fragment>);
+        } else {
+            return (<React.Fragment>
+                <AddIcon onClick={() => communityActionHandler(email)} /> <span onClick={() => communityActionHandler(email)} className="community_action_footer__label">ADD TO MY NETWORK</span>
+                            </React.Fragment>);
+        }
+    }
     const communityTile = () => {
         let section = null;
-        if(communityPosts && communityPosts.community) {
-            const { community } = communityPosts;
+        if(community) {
             section = (<div className="ArtCard">
             <Avatar
                 alt="Remy Sharp"
@@ -23,6 +35,10 @@ const Leftside = ({ user, communityPosts }) => {
               />
               <h4>{community.name} </h4>
               <p>{community.description}</p>
+              <div className="community_action_footer">
+              {generateActionLink()}
+              </div>
+              
             </div>);
         }
         return section;
