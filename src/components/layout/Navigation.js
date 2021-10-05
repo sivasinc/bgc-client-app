@@ -33,6 +33,9 @@ const Navigation = ({ logoutUser, authenticated, currentTabIndex, updateTabIndex
         case 3:
           history.push("/communityHome");
           break;
+        case 4:
+            history.push("/directory");
+            break;
         default:
           history.push("/login");
           setValue(2);

@@ -46,3 +46,134 @@ padding: 0 0 0 20px;
     display: flex;
     justify-content: space-around;
 }
+.step6_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.step6_section h4 {
+    color: rgba(0,0,0,0.87);
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    margin: 10px 10px 10px 10px;
+}
+.step6_section p {
+    color: rgba(0,0,0,0.87);
+    font-family: Roboto;
+    font-size: 16px;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    margin: 0 10px 20px 10px;
+}
+.step6_section__checkBar {
+    color: #6200EE;
+}
+.step6_section_email__label {
+    color: rgba(0,0,0,0.87);
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 800;
+}
+.step5 {
+    padding: 10px 10px 20px 20px
+}
+.step5 > h4 {
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    color: rgba(0,0,0,0.87);
+    padding: 0 0 10px 10px;
+    margin:5px;
+
+} 
+.step5 > h5 {
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    color: rgba(0,0,0,0.87);
+    padding: 0 0 10px 10px;
+    margin:5px
+} 
+
+.step5_section_element {
+    display:flex;
+    flex-direction: column;
+    width: 100% !important;
+
+
+}
+.step5__section_element   {
+    margin:5px !important;
+
+}
+.paper_element {
+
+    display:flex !important;
+    /* justify-content: center !important; */
+    flex-wrap:wrap;
+    list-style:none;
+    padding:0.5;
+    margin:0;
+
+}
+
+.step5_interest_div > h4{
+
+    padding: 0 0 5px 10px;
+
+}
+/* trpl */
+.step5_interest_div >h5{
+    padding: 0 0 5px 10px;
+
+
+}
+.step_interest{
+    margin-top: 10px !important;
+    width:50% !important;
+}
+
+.step5__interest_field{
+ width:100% !important;
+ margin-top: 10px !important;
+ display:flex;
+ flex-direction: column;
+
+
+}
+.step5_connect_div {
+    padding: 0 0 5px 10px;
+    margin-top: 20px !important;
+
+
+}
+.logo_div{
+    height:160px;
+    width:160px;
+   
+    background-color: black;
+   }
+   .img{
+       height: 100px;
+       width: 100px;
+       margin: 30px;}
+   
+       .heading_div{
+           display: flex;
+           flex-direction: column;
+       }
+   .heading_div > h1 {
+       font-weight: 400 !important;
+       font-family: courier !important;
+       color: #e2e2e2;
+       font-size: 34px !important;
+       margin-left: 30px;
+       margin-top: 20px;
+   }

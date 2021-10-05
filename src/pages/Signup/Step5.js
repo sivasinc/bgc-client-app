@@ -1,29 +1,145 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import "./signup.css";
+import { TextField } from "@material-ui/core";
+import React from "react";
+import "./step5.css";
+import MenuItem from "@mui/material/MenuItem";
+import { styled } from "@mui/material/styles";
+import Chip from "@mui/material/Chip";
+import DoneIcon from "@mui/icons-material/Done";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 
-const Step5 = ({handleRadioChange, value}) => {
-    return (
-        <div className="step5__section">
-          <h3>One last thing ?</h3>
-            <h4>Would you like your profile to be searchable and visible by other community members ?</h4>
-            <FormControl component="fieldset">
-      <RadioGroup aria-label="linkedInOption" name="linkedInOption" value={value} onChange={handleRadioChange}>
-        <FormControlLabel value="yes" control={<Radio color="default"/>} label="Yes" />
-        <FormControlLabel value="no" control={<Radio color="default"/>} label="No" />
-      </RadioGroup>
-    </FormControl>
+const ListItem = styled("li")(({ theme }) => ({
+  margin: theme.spacing(0.5),
+}));
+
+const Step5 = ({
+  chipData,
+  userProfile,
+  handleInputChange,
+  selectChip,
+  addNewData,
+}) => {
+  const {
+    eventsAttended,
+    participatedChapter,
+    interestField,
+    connections,
+    likeToLearn,
+  } = userProfile;
+  return (
+    <div className="step5">
+      <h4>Almost done.Just a few more questions ?</h4>
+      <h5>Black Girls Code</h5>
+      <div className="step5_section_element">
+        <TextField
+          className="step5__section_element"
+          select
+          value={participatedChapter}
+          onChange={handleInputChange}
+          helperText="Please select your currency"
+          variant="outlined"
+          label="Which Black Girls Code chapter have you participated in?"
+          name="participatedChapter"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>{" "}
+        </TextField>
+
+        <TextField
+          className="step5__section_element"
+          select
+          name="eventsAttended"
+          id="outlined-required"
+          variant="outlined"
+          label="Which events have you attended ?"
+          helperText="Must have attended at least 3 events to join the Alumnae Portal"
+          SelectProps={{
+            multiple: true,
+            value: eventsAttended,
+            onChange: handleInputChange,
+          }}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>{" "}
+        </TextField>
+      </div>
+
+      <div className="step5_interest_div">
+        <h4>Your interests</h4>
+        <h5>
+          Select all that apply.We will use these to recommend you relevent
+          content
+        </h5>
+        <div className="paper_element">
+          {chipData.map((item, index) => (
+            <ListItem key={index}>
+              <Chip
+                clickable={true}
+                icon={item.itemSelected ? <DoneIcon /> : ""}
+                label={item.label}
+                variant={item.itemSelected ? "" : "outlined"}
+                onClick={() => selectChip(item.key)}
+              />
+            </ListItem>
+          ))}
         </div>
-    )
-}
+      </div>
+      <TextField
+        id="step_interest"
+        className="step_interest"
+        label="Add Something else"
+        name="interestField"
+        type="text"
+        variant="outlined"
+        value={interestField}
+        onChange={handleInputChange}
+        InputProps={{
+          // <-- This is where the toggle button is added.
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                disabled={!interestField}
+                onClick={addNewData}
+              >
+                {<ControlPointIcon />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+      <div className="step5__interest_field">
+        <TextField
+          name="likeToLearn"
+          label="I'd like to learn more about..."
+          value={likeToLearn}
+          onChange={handleInputChange}
+          variant="outlined"
+          helperText="Skills,Industries,Technologies,etc"
+        />
+        <TextField
+          className="step5_connect_div"
+          name="connections"
+          id="outlined-required"
+          label="I'd like to connect with..."
+          value={connections}
+          onChange={handleInputChange}
+          variant="outlined"
+          helperText="Leaders, Entrepreneurs,upperclass man , etc"
+        />
+      </div>
+    </div>
+  );
+};
 
-Step5.propTypes = {
-
-}
-
-export default Step5
+Step5.propTypes = {};
+export default Step5;

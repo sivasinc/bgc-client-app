@@ -24,6 +24,11 @@ const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunit
         <div className="MyCommunity__header">
           <h3>My Communities</h3>
         </div>
+        { myCommunities && Array.isArray(myCommunities) && myCommunities.length > 0 && (
+            <div className="MyNetworks__header__right">
+            <span>{myCommunities.length } Communities</span>
+          </div>
+         ) }
       </div>
       <div className="MyCommunity__body">
         {loadingMyCommunities && (
@@ -63,7 +68,7 @@ const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunit
           color="primary"
           className="recommended__communityBox_community_join_button"
         >
-          {myCommunities.length === 0 ? 'Explore Alumnae Communities' : 'View All' }
+          {myCommunities.length === 0 ? 'Explore Alumnae Communities' : 'VIEW ALL' }
         </Typography>
       </div>
     </div>

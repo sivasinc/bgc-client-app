@@ -54,8 +54,11 @@
 }
 .recommended__communityBox_community_header {
     display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin-left: 20px;
 }
-.recommended__communityBox_community_header_text > h3 {
+.recommended__communityBox_community_header_text__name{
     margin-bottom: 0;
     color: rgba(0,0,0,0.87);
     font-family: Roboto;
@@ -64,24 +67,24 @@
     letter-spacing: 0.15px;
     line-height: 24px;
 }
-.recommended__communityBox_community_header_text > p {
+.recommended__communityBox_community_header_text__member__count {
     margin: 0 10px 10px 0;
     margin-bottom: 0;
     color: rgba(0,0,0,0.87);
     font-family: Roboto;
     font-size: 14px;
-    font-weight: 500;
     letter-spacing: 0.15px;
     line-height: 24px;
 }
 .recommended__communityBox_community_join_button {
     color: #6200EE !important; 
     font-family: Roboto !important; 
-    font-size: 18px !important; 
+    font-size: 16px !important; 
     font-weight: 500 !important; 
     letter-spacing: 1.25px !important; 
     line-height: 16px !important;
     margin: 0 20px 20px 0 !important;
+    cursor:pointer;
 }
 .portalHome__comments {
     text-align: left;
@@ -97,6 +100,14 @@
     align-items: center;
     background-color: white;
     margin: 10px;
+}
+.portalHome__no_postMessage p {
+    color: rgba(0,0,0,0.74);
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    line-height: 24px;
 }
 .portalHome__no_postMessage > svg {
     margin-top: 10px;

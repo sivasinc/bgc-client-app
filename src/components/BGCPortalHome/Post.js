@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
@@ -9,44 +9,51 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
 import CommentsSection from '../BGCComments/CommentsSection';
 import {getPostDetails} from '../../redux/actions/postActions';
+import {likePost, dislikePost, getAllPostsOfUser, getPostsOfCommunity } from '../../redux/actions/dataActions';
 
 
-const Post =({ key, article, getCommentOfAPost}) => {
+
+const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user, getAllPostOfUserMemberCommunity, getAllPostOfACommunity, source, currentCommunityId }) => {
     const [updatedComment, setUpdatedComment] = useState(false);
-    const [likeActionState, setLikeActionState] = useState("action")
+    const [likeActionState, setLikeActionState] = useState("action");
+    const [selectedPostId, setSelectedPostId] = useState("");
     const [openDialog, setOpenDialog] = useState(false);
     const [currentSelectedPost, setCurrentSelectedPost] = useState("");
-
-    const likeHandler = () => {
-        switch(likeActionState) {
-            case "action":
-                setLikeActionState("primary");
-                break;
-            case "primary":
-                setLikeActionState("action");
-                break;
-            default:
-                setLikeActionState("action");
-                break;
+    const likeHandler = (postId) => {
+        const { email } = user;
+        if(article && article.usersLiked && Array.isArray(article.usersLiked) && article.usersLiked.includes(email)) {
+            disLikeAPost(postId, source);
+        } else {
+            likeAPost(postId, source);
         }
-    }  
+    }
     const handleCommentDialoge = (postId) => {
+        
         setOpenDialog(!openDialog);
         getCommentOfAPost(postId);
         setCurrentSelectedPost(postId);
+        if(source === "home") {
+            getAllPostOfUserMemberCommunity()
+        } else {
+            getAllPostOfACommunity(currentCommunityId);
+        }
+        
     } 
     const updateComment = (value) => {
         setUpdatedComment(value);
       };
-
+      const { email } = user;
+      console.log('article', article);
     return (
         <Article key = {key}>
             <SharedActor>
                                     <a>
                                         <img src={article.userImage} alt="" />
                                         <div>
-                                            <span className="sharedActor__userLabel">{article.userName} <span className="sharedActor__userLabel_sub">posted on </span> {article.communityName}</span>
-                                            <span>{dayjs(article.createdAt).format("h:mm a, MMMM DD YYYY")}</span>
+                                            { source === "home" ? <span className="sharedActor__userLabel">{article.userName} <span className="sharedActor__userLabel_sub">posted on </span> {article.communityName}</span> : (
+                                                <span className="sharedActor__userLabel">{article.userName} <span className="sharedActor__userLabel_sub">posted</span></span>
+                                            ) } 
+                                            <span>{dayjs(article.createdAt).format("MMMM DD YYYY, h:mm a")}</span>
                                         </div>
                                     </a>
 
@@ -68,7 +75,7 @@ const Post =({ key, article, getCommentOfAPost}) => {
 }
                                 <SocialActions>
                                     <button>
-                                    <ThumbUpIcon color={likeActionState} onClick={likeHandler}/>
+                                    <ThumbUpIcon color={article.usersLiked.includes(email) ? 'primary' : 'action' } onClick={() => likeHandler(article.postId)} />
                                         <span>Like</span>
                                     </button>
                                     <button onClick={() =>handleCommentDialoge(article.postId)}>
@@ -77,7 +84,7 @@ const Post =({ key, article, getCommentOfAPost}) => {
                                     </button>
                                    
                                         <p>{article.commentCount} comments</p>
-                                        <p>{article.commentCount} Likes</p>
+                                        <p>{article.likeCount} Likes</p>
                                 </SocialActions>
                                 {console.log('state', openDialog && currentSelectedPost=== article.postId)}
                                 {openDialog && currentSelectedPost=== article.postId && <div className="portalHome__comments">
@@ -102,6 +109,7 @@ const CommonCard = styled.div`
     position: relative;
     border: none;
     border-radius: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
 `;
 
 const ShareBox = styled(CommonCard)`
@@ -183,7 +191,7 @@ const ShareBox = styled(CommonCard)`
 
 const Article = styled(CommonCard)`
     padding: 0;
-    margin: 0 0 8px;
+    margin: 0 0 20px;
     overflow: visible;
 `;
 
@@ -218,11 +226,15 @@ const SharedActor = styled.div`
 
             span {
                 text-align: left;
+                color: rgba(0,0,0,0.87);
+                font-family: Roboto;
+                font-size: 14px;
+                letter-spacing: 0.15px;
+                line-height: 24px;
 
                 &:first-child {
-                    font-weight: 700;
                     color: rgba(0, 0, 0, 1);
-                    color: rgba(0,0,0,0.87); font-family: Roboto; font-size: 20px; font-weight: 500; letter-spacing: 0.15px; line-height: 24px;
+                    color: rgba(0,0,0,0.87); font-family: Roboto; font-size: 16px; letter-spacing: 0.15px; line-height: 24px;
                 }
 
                 &:nth-child(n+1) {
@@ -306,7 +318,7 @@ const SocialActions = styled.div`
         display: inline-flex;
         align-items: center;
         padding: 8px;
-        color: #0a66c2;
+        color: #6200EE;
         border: none;
         cursor: pointer;
         background-color: #fff;
@@ -318,8 +330,12 @@ const SocialActions = styled.div`
         }
     }
     p {
-        color: #0a66c2;
+        color: #6200EE;
         margin: 0 10px 0 10px;
+        color: rgba(18,18,18,0.87);
+    font-family: Roboto;
+    font-size: 12px;
+    letter-spacing: 0.4px;
     }
 `;
 Post.propTypes = {
@@ -331,12 +347,18 @@ const mapStateToProps = (state) => {
         loading: state.UI.loading,
         user: state.user,
         usersPosts: state.data.usersPosts,
-        communities : state.data.communities
+        communities : state.data.communities,
+        currentCommunityId: state.data.currentCommunityId
     }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    getCommentOfAPost: (postId) => dispatch(getPostDetails(postId))
+    getCommentOfAPost: (postId) => dispatch(getPostDetails(postId)),
+    likeAPost : (postId, source) => dispatch(likePost(postId, source)),
+    disLikeAPost: (postId, source) => dispatch(dislikePost(postId, source)),
+    getAllPostOfUserMemberCommunity: (userId) =>
+    dispatch(getAllPostsOfUser(userId)),
+    getAllPostOfACommunity: (communityId) => dispatch(getPostsOfCommunity(communityId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) (Post);

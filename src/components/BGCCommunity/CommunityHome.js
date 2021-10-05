@@ -111,12 +111,12 @@ const CommunityHome = ({user: { credentials }, loading, communityPosts, getAllPo
                 <Content>
                 <FlipMove>
                     {
-                        loading && <CircularProgress size={200} thickness={2} />
+                        loading && <CircularProgress size={30} thickness={2} />
                     }
                     {
                         communityPosts && Array.isArray(communityPosts.posts) && communityPosts.posts.length != 0 &&
                         communityPosts.posts.map((article, key) => (
-                            <Post key = {key} article={article} />
+                            <Post key = {key} article={article} source="community" />
                         ))        
             }
              </FlipMove>
@@ -129,7 +129,6 @@ const CommunityHome = ({user: { credentials }, loading, communityPosts, getAllPo
 
 const Container = styled.div`
     grid-area: main;
-    margin-top: 20px;
 `;
 
 const CommonCard = styled.div`
@@ -141,13 +140,14 @@ const CommonCard = styled.div`
     position: relative;
     border: none;
     border-radius: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
 `;
 
 const ShareBox = styled(CommonCard)`
     display: flex;
     flex-direction: column;
     color: #958b7b;
-    margin: 0 0 8px 0;
+    margin: 0 0 20px 0;
     background: #fff;
 
     div {
@@ -342,7 +342,7 @@ const SocialActions = styled.div`
         display: inline-flex;
         align-items: center;
         padding: 8px;
-        color: #0a66c2;
+        color: #6200EE;
         border: none;
         cursor: pointer;
         background-color: #fff;
@@ -354,7 +354,7 @@ const SocialActions = styled.div`
         }
     }
     p {
-        color: #0a66c2;
+        color: #6200EE;
         margin: 0 10px 0 10px;
     }
 `;

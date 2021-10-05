@@ -11,7 +11,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 
 // Icons
@@ -69,12 +69,16 @@ const [comment, setComment] = useState("");
     // this.setState({ comment: event.target.value });
   };
   const onSubmit = (e) => {
-    const { credentials : { firstName, lastName } } = user;
+    const { firstName, lastName, email, imageUrl } = user;
     e.preventDefault();
     submitComment(postId, {
       body: comment,
-      commentId: "",
-      userName: `${firstName} ${lastName}`
+      userName: `${firstName} ${lastName}`,
+      responseTo: "",
+      createdAt: new Date().toISOString(),
+      postId: postId,
+      userHandle: email,
+      userImage: imageUrl
     });
     // setOpenDialog(false);
     setComment("");
@@ -112,7 +116,8 @@ const [comment, setComment] = useState("");
               <form style={{ display: "flex" }} onSubmit={onSubmit} className="form__text">
               <TextField
             name="singleComment"
-            tpye="text"
+            type="text"
+            variant="outlined"
             placeholder="Add your comments here ..."
             // className={classes.textField}
             value={comment}
@@ -120,7 +125,7 @@ const [comment, setComment] = useState("");
             fullWidth
           />
                 <br />
-                <Button color="primary" onClick={onSubmit}>
+                <Button  size="small" onClick={onSubmit}>
                   Submit
                 </Button>
               </form>

@@ -13,7 +13,7 @@ import { addAPost, addAPostwithImage, clearErrors } from '../../redux/actions/po
 // import firebase from 'firebase';
 // import { postArticleAPI } from '../actions';
 
-const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACommunityPostwithImage, handleClick, communityId }) => {
+const PostModal = ({ user , showModal, addACommunityPost, addACommunityPostwithImage, handleClick, communityId }) => {
   const [editorText, setEditorText] = useState("");
   const [sharedImage, setSharedImage] = useState("");
   const [videoLink, setVideoLink] = useState("");
@@ -36,7 +36,7 @@ const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACo
   };
 
   const postArticle = (e) => {
-    const { firstName, lastName } = credentials;
+    const { firstName, lastName, imageUrl, email } = user;
 
     e.preventDefault();
     // if(e.target !== e.currentTarget)
@@ -44,18 +44,21 @@ const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACo
     //     return;
     // }
     if(sharedImage !== "") {
-        const formData = new FormData();
-        formData.append('image', sharedImage, sharedImage.name);
         const payload = {
             postPayload: {
-            sharedImg: '',
-            sharedVideo: videoLink,
-            body: editorText,
-            // Hard Coded for now, need to populate from selected community
-            communityId: communityId,
-            userName: `${firstName} ${lastName}`
+                sharedImg: '',
+                sharedVideo: videoLink,
+                body: editorText,
+                communityId: communityId,
+                userName: `${firstName} ${lastName}`,
+                userHandle: email,
+                userImage: imageUrl,
+                createdAt: new Date().toISOString(), 
+                likeCount: 0,
+                commentCount: 0,
+                usersLiked:[]
             },
-            formData
+            sharedImage
         };
         addACommunityPostwithImage(payload);
             reset(e);
@@ -65,9 +68,14 @@ const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACo
             sharedImg: '',
             sharedVideo: videoLink,
             body: editorText,
-            // Hard Coded for now, need to populate from selected community
             communityId: communityId,
-            userName: `${firstName} ${lastName}`
+            userName: `${firstName} ${lastName}`,
+            userHandle: email,
+            userImage: imageUrl,
+            createdAt: new Date().toISOString(), 
+            likeCount: 0,
+            commentCount: 0,
+            usersLiked:[]
             }
         };
         addACommunityPost(payload);
@@ -84,7 +92,7 @@ const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACo
     setAssetArea("");
     handleClick(e);
   };
-  const { imageUrl, firstName } = credentials;
+  const { imageUrl, firstName } = user;
 
   return (
     <>

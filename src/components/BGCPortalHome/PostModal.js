@@ -154,11 +154,13 @@ const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACo
               <AttachAssets>
                 <AssetButton onClick={() => switchAssetArea("image")}>
                   <ImageIcon color="primary" />
+                  <span>Add Image</span>
                 </AssetButton>
                 <AssetButton onClick={() => switchAssetArea("media")}>
                   <OndemandVideoIcon color="primary"/>
                   {/* <img src="/images/shared-vid.png" alt="" /> */}
                 </AssetButton>
+                <span>Add Video</span>
               </AttachAssets>
 
               <ShareComment>
@@ -337,6 +339,11 @@ const Editor = styled.div`
     padding: 0;
     cursor: pointer;
     outline: none;
+    color: rgba(0,0,0,0.87);
+    font-family: Roboto;
+    font-size: 16px;
+    letter-spacing: 0.15px;
+    line-height: 24px;
   }
 
   input {

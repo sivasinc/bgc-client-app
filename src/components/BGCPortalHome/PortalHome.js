@@ -34,7 +34,7 @@ import dayjs from "dayjs";
 // import { getArticlesAPI } from '../actions';
 
 const CommunityHome = ({
-  user: { credentials },
+  user,
   loading,
   usersPosts,
   getAllPostOfUserMemberCommunity,
@@ -53,14 +53,19 @@ const CommunityHome = ({
   const [openDialog, setOpenDialog] = useState(false);
   const [currentSelectedPost, setCurrentSelectedPost] = useState("");
   useEffect(() => {
-    const { email } = credentials;
+    const { email } = user;
     if (email !== undefined) {
       getAllRecommendedCommunities();
       getAllPostOfUserMemberCommunity();
       getAllUserCommunities();
     }
   }, []);
-
+  useEffect(() => {
+    const { email } = user;
+    if (email !== undefined) {
+      getAllPostOfUserMemberCommunity();
+    }
+  }, []);
   // useEffect(() => {
   //     const { email } = credentials;
   //     if(email !== undefined) {
@@ -71,7 +76,7 @@ const CommunityHome = ({
   // }, [joinCommunityLoading]);
 
   const handleClick = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     // if(e.target !== e.currentTarget) {
     //     return;
     // }
@@ -90,14 +95,14 @@ const CommunityHome = ({
   };
   const joinCommunityHandler = (communityId) => {
     console.log("communityId", communityId);
-    joinACommunity({ communityId });
+    joinACommunity(communityId);
   };
   let postSectionMessage = "There are no posts in the community";
   if (myCommunities.length === 0) {
     postSectionMessage =
       "Go Ahead and join a community to begin seeing some post here.";
   }
-  const { imageUrl } = credentials;
+  const { imageUrl } = user;
   return (
     <Container>
       {Array.isArray(recommendedCommunities) &&
@@ -129,12 +134,14 @@ const CommunityHome = ({
         {!loadingUsersPosts && usersPosts.length === 0 && (
           <div className="portalHome__no_postMessage">
             <InfoIcon />
-            <h3>{postSectionMessage}</h3>
+            <p>{postSectionMessage}</p>
           </div>
         )}
+        <FlipMove>
         {usersPosts.map((article, key) => (
-          <Post key={key} article={article} />
+          <Post key={key} article={article} source="home" />
         ))}
+        </FlipMove>
       </Content>
       <PostModal showModal={showModal} handleClick={handleClick} />
     </Container>
@@ -143,7 +150,6 @@ const CommunityHome = ({
 
 const Container = styled.div`
   grid-area: main;
-  margin-top: 20px;
 `;
 
 const CommonCard = styled.div`
@@ -179,11 +185,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllPostOfUserMemberCommunity: (userId) =>
-    dispatch(getAllPostsOfUser(userId)),
+  getAllPostOfUserMemberCommunity: () =>
+    dispatch(getAllPostsOfUser()),
   getAllUserCommunities: () => dispatch(getAllCommunityOfUser()),
   getAllRecommendedCommunities: () => dispatch(getRecommendedCommunity()),
-  joinACommunity: (community) => dispatch(joinCommunity(community)),
+  joinACommunity: (communityId) => dispatch(joinCommunity(communityId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommunityHome);

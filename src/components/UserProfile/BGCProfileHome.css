@@ -216,7 +216,7 @@ margin: 5px;
     display: flex;
 }
 
-.MyNetworks__header h3 {
+.MyNetworks__header p {
     color: rgba(0,0,0,0.87);
     font-family: Roboto;
     font-size: 20px;
@@ -224,7 +224,7 @@ margin: 5px;
     letter-spacing: 0.15px;
     line-height: 24px;
 }
-.MyNetworks__header__right > h4 {
+.MyNetworks__header__right > span {
     margin-top: 0;
     color: rgba(0,0,0,0.74);
     font-size: 16px;
@@ -236,20 +236,32 @@ margin: 5px;
     margin: 3px 0 0 0;
 }
 .MyNetworks {
-    display: flex;
+    /* display: flex;
     box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
     margin-top: 10px;
     width: 100%;
     border-radius: 10px;
     flex-direction: column;
-    background-color: white;
+    background-color: white; */
+
+    text-align: center;
+    overflow: hidden;
+    margin-bottom: 8px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    transition: box-shadow 83ms;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+    margin-bottom: 20px;
 }
 .MyCommunity {
     display: flex;
-    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
     margin-top: 10px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
     flex-direction: column;
     background-color: white; 
 }
@@ -261,8 +273,8 @@ margin: 5px;
     padding: 0 0 0 20px;
 }
 .MyNetworks__body_item__image {
-    height: 50px !important;
-    width: 50px !important;
+    height: 70px !important;
+    width: 70px !important;
     margin: 0 0 10px 10px;
 }
 .MyNetworks__body_item {
@@ -271,6 +283,12 @@ margin: 5px;
 }
 .MyNetworks__body_item > p {
     margin: 0 0 15px 10px;
+    color: rgba(18,18,18,0.74);
+    font-family: Roboto;
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    line-height: 16px;
+    margin: 0 0 20px 0;
 }
 .MyNetworks__body {
     display: flex;
@@ -278,10 +296,19 @@ margin: 5px;
 }
 .MyNetworks__body__footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    margin-left: 20px;
 }
 .MyNetworks__body__footer > button {
     margin: 0 20px 20px 0;
+}
+.MyNetworks__body > p {
+    color: rgba(0,0,0,0.74);
+    font-family: Roboto;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    line-height: 24px;
+    margin: 0 0 20px 0;
 }
 .bgc__profile_Container__body{
     display: flex;
@@ -346,7 +373,8 @@ margin: 5px;
 }
 .MyCommunity__body__footer {
     display: flex;
-    justify-content: end;
+    justify-content: flex-start;
+    margin: 10px 0 0 20px;
 }
 .progress {
     margin: 0 0 20px 0 !important;

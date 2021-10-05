@@ -8,8 +8,14 @@
  margin : 0 20px 20px 20px;
 }
 .form__text > button {
-    margin-right: 20px;
+    margin: 0 20px 20px 0;
    }
-.comment_section {
-    
-}   
+.single_comment_userLabel {
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    color: #6200EE;
+    margin: 0;
+}

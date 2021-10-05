@@ -1,61 +1,132 @@
 export const generateRequest = (
   userProfile,
-  selectedProfile,
-  securityQuestions
+  selectedProfile
 ) => {
-  const { firstName, lastName, email, password, confirmPassword, startMonth , startYear ,endMonth , endYear } = userProfile;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    startMonth,
+    startYear,
+    endMonth,
+    endYear,
+  } = userProfile;
   let profileInfo;
   let securityInfo = [];
   switch (selectedProfile) {
     case "college":
-      profileInfo = [{
-          type: 'education', details: [{
-        education: "College",
-        university: userProfile["college-0"],
-        fieldOfStudy: userProfile["college-1"],
-        startMonth , startYear ,endMonth , endYear
-      }
-      ]}];
+      profileInfo = [
+        {
+          type: "education",
+          details: [
+            {
+              education: "College",
+              university: userProfile["college-0"],
+              fieldOfStudy: userProfile["college-1"],
+              startMonth,
+              startYear,
+              endMonth,
+              endYear,
+            },
+          ],
+        },
+        {
+          type: "interests",
+          details: [
+            {
+              interestFields: userProfile["interestField"],
+              eventsAttended: userProfile["eventsAttended"],
+              chapter: userProfile["participatedChapter"],
+              likeToLearn: userProfile["likeToLearn"],
+              connection: userProfile["connections"],
+            },
+          ],
+        },
+      ];
       break;
     case "workforce":
       profileInfo = [
-          {
-            type: 'workforce', details: [{
-            company: userProfile["workforce-0"],
-            department: userProfile["workforce-1"],
-            jobTtile: userProfile["workforce-2"],
-            startMonth , startYear ,endMonth , endYear
-          }
-       
-      ]}];
-      break;
-      case "timeoff":
-        profileInfo = [
+        {
+          type: "workforce",
+          details: [
             {
-              type: 'timeoff', details: [{
-              reason:userProfile["timeoff-0"]
-            }
-         
-        ]}];
-      break;
-      case "figureout":
-        profileInfo = [
+              company: userProfile["workforce-0"],
+              department: userProfile["workforce-1"],
+              jobTtile: userProfile["workforce-2"],
+              startMonth,
+              startYear,
+              endMonth,
+              endYear,
+            },
+          ],
+        },
+        {
+          type: "interests",
+          details: [
             {
-              type: 'figureout', details: [{
-              reason:userProfile["timeoff-0"]
-            }
-         
-        ]}];
+              interestFields: userProfile["interestField"],
+              eventsAttended: userProfile["eventsAttended"],
+              chapter: userProfile["participatedChapter"],
+              likeToLearn: userProfile["likeToLearn"],
+              connection: userProfile["connections"],
+            },
+          ],
+        },
+      ];
+      break;
+    case "timeoff":
+      profileInfo = [
+        {
+          type: "timeoff",
+          details: [
+            {
+              reason: userProfile["timeoff-0"],
+            },
+          ],
+        },
+        {
+          type: "interests",
+          details: [
+            {
+              interestFields: userProfile["interestField"],
+              eventsAttended: userProfile["eventsAttended"],
+              chapter: userProfile["participatedChapter"],
+              likeToLearn: userProfile["likeToLearn"],
+              connection: userProfile["connections"],
+            },
+          ],
+        },
+      ];
+      break;
+    case "figureout":
+      profileInfo = [
+        {
+          type: "figureout",
+          details: [
+            {
+              reason: userProfile["timeoff-0"],
+            },
+          ],
+        },
+        {
+          type: "interests",
+          details: [
+            {
+              interestFields: userProfile["interestField"],
+              eventsAttended: userProfile["eventsAttended"],
+              chapter: userProfile["participatedChapter"],
+              likeToLearn: userProfile["likeToLearn"],
+              connection: userProfile["connections"],
+            },
+          ],
+        },
+      ];
       break;
     default:
       break;
   }
-  securityInfo = securityQuestions.map(item => {
-      return {
-        securityI: item.id,
-          securityAnswer: item.selectedItemValue
-      }
-  })
   return {
     firstName,
     lastName,
@@ -63,6 +134,5 @@ export const generateRequest = (
     password,
     confirmPassword,
     profileInfo,
-    securityInfo
   };
 };

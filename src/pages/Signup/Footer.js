@@ -23,7 +23,7 @@ const Footer = ({ currentStep, formButtonHandler }) => {
           color="primary"
           onClick={() => formButtonHandler(currentStep + 1)}
         >
-          {currentStep === 4 ? "Continue To Portal" : "Continue"}
+          {currentStep === 5 ? "Submit" : "Continue"}
         </Button>
       </div>
     </div>

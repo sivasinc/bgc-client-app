@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import withStyles from "@material-ui/core/styles/withStyles";
-import TextField from "@material-ui/core/TextField";
+import TextField from '@mui/material/TextField';
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { submitComment } from "../../redux/actions/dataActions";
@@ -42,9 +42,17 @@ function SingleComment({ comment, classes, submitComment, postId, user, refreshF
   };
   const onSubmit = (e) => {
     const { commentId } = comment;
-    const { credentials : { firstName, lastName } } = user;
+    const {  firstName, lastName, email, imageUrl } = user;
     e.preventDefault();
-    submitComment(postId, { body: CommentValue, commentId, userName: `${firstName} ${lastName}` });
+    submitComment(postId, { 
+      body: CommentValue, 
+      responseTo: commentId, 
+      userName: `${firstName} ${lastName}`,
+      createdAt: new Date().toISOString(),
+      postId,
+      userHandle: email,
+      userImage: imageUrl
+    });
     openReply();
     refreshFunction(true);
   };
@@ -66,14 +74,15 @@ function SingleComment({ comment, classes, submitComment, postId, user, refreshF
         <Grid container>
           <Grid item sm={9}>
             <div className={classes.commentData}>
-              <Typography
+              <p className="single_comment_userLabel">{userName}</p>
+              {/* <Typography
                 variant="h6"
                 component={Link}
                 to={`/users/${userHandle}`}
                 color="primary"
               >
-                {userName}
-              </Typography>
+                
+              </Typography> */}
               <Typography variant="body2" color="textSecondary">
                 {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
               </Typography>
@@ -101,7 +110,8 @@ function SingleComment({ comment, classes, submitComment, postId, user, refreshF
         <form style={{ display: "flex" }} onSubmit={onSubmit} className="form__text">
           <TextField
             name="singleComment"
-            tpye="text"
+            type="text"
+            variant="outlined"
             placeholder="Add your reply to comment here ..."
             className={classes.textField}
             value={CommentValue}
@@ -109,7 +119,7 @@ function SingleComment({ comment, classes, submitComment, postId, user, refreshF
             fullWidth
           />
           <br />
-          <Button color="primary" onClick={onSubmit}>
+          <Button size="small" onClick={onSubmit}>
             Submit
           </Button>
         </form>

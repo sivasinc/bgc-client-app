@@ -37,7 +37,7 @@ const Section = styled.section`
     justify-content: center;
 
     h5 {
-        color: #0a66c2;
+        color: #6200EE;
         font-size: 14px;
 
         a {

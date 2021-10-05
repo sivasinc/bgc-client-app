@@ -2,6 +2,7 @@ import {
   SET_SCREAMS,
   SET_COMMUNITY,
   SET_USERS,
+  SET_USER,
   SET_COMMUNITY_MEMBERS,
   SET_COMMUNITY_POSTS,
   LOADING_MY_COMMUNITY,
@@ -24,10 +25,15 @@ import {
   STOP_LOADING_UI,
   SUBMIT_COMMENT,
   SET_CURRENT_PAGE,
-  SET_CURRENT_COMMUNITY_ID
+  SET_CURRENT_COMMUNITY_ID,
+  SET_MEMBERS,
+  LOADING_MEMBERS
 } from '../types';
 import axios from 'axios';
 import { getPostDetails } from './postActions';
+import { getAllRecommenededCommunities, getAllUserMemberCommunityPost, 
+  myCommunity, joinACommunity, getAllCommunityPosts, commentOnAPost,
+getAPost, likeAPost, disLikeAPost, getAllMembers, addMemberToMyNetwork, getUserProfileInfo } from '../../firebaseActions/dataServices';
 
 // Post a scream
 export const getPostCreateCommunity = (newMembers) => (dispatch) => {
@@ -45,46 +51,30 @@ export const getPostCreateCommunity = (newMembers) => (dispatch) => {
     });
 };
 
-export const getRecommendedCommunity = () => async (dispatch) => {
+export const getRecommendedCommunity = () => async (dispatch, getState) => {
   dispatch({ type: LOADING_RECOMMENDED_COMMUNITY });
   try {
-    const result = await axios
-    .get('/recommened/community');
+    const { user } = getState();
+    console.log(user);
+    const result = await getAllRecommenededCommunities(user);
       return dispatch({ type: SET_RECOMMENDED_COMMUNITY,
-        payload: result.data });
-  } catch(error) {
+        payload: result });
+    }
+    catch(error) {
       return dispatch({
         type: SET_ERRORS,
         payload: error
       });
     }
-};
+  };
 
 
-// export const joinCommunity = (newCommunity) => (dispatch) => {
-//   dispatch({ type: LOADING_JOIN_COMMUNITY, payload: true });
-//   axios
-//     .post('/community/join', newCommunity)
-//     .then((res) => {
-//       dispatch({ type: LOADING_JOIN_COMMUNITY,
-//       payload: false });
-//     })
-//     .catch((err) => {
-//       dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
-//       dispatch({
-//         type: SET_ERRORS,
-//         payload: err
-//       });
-//     });
-// };
-
-
-export const joinCommunity = (newCommunity) => async (dispatch) => {
+export const joinCommunity = (newCommunity) => async (dispatch, getState) => {
   dispatch({ type: LOADING_JOIN_COMMUNITY, payload: true });
   try {
-    const result = await axios
-    .post('/community/join', newCommunity);
-    await Promise.all([dispatch(getRecommendedCommunity()), dispatch(getAllPostsOfUser()), dispatch(getAllCommunityOfUser())]);
+    const { user } = getState();
+    const result = await joinACommunity(user, newCommunity);
+    await Promise.all([dispatch(getRecommendedCommunity(user)), dispatch(getAllCommunityOfUser(user)), dispatch(getAllPostsOfUser(user))]);
     return dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
   } catch(error) {
     dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
@@ -96,34 +86,15 @@ export const joinCommunity = (newCommunity) => async (dispatch) => {
 };
 
 
-// Get all screams
-export const getScreams = () => (dispatch) => {
-  dispatch({ type: LOADING_DATA });
-  axios
-    .get('/screams')
-    .then((res) => {
-      dispatch({
-        type: SET_SCREAMS,
-        payload: res.data
-      });
-    })
-    .catch((err) => {
-      dispatch({
-        type: SET_SCREAMS,
-        payload: []
-      });
-    });
-};
 
 // Get all screams
 export const getPostsOfCommunity = (communityId) => async (dispatch) => {
   dispatch({ type: LOADING_DATA });
   try {
-    const result = await axios
-    .get(`/community/posts/${communityId}`);
+    const result = await getAllCommunityPosts(communityId)
      return dispatch({
         type: SET_COMMUNITY_POSTS,
-        payload: result.data
+        payload: result
       });
   } catch (err) {
       return dispatch({
@@ -133,14 +104,14 @@ export const getPostsOfCommunity = (communityId) => async (dispatch) => {
     };
 };
 
-export const getAllPostsOfUser = () => async (dispatch) => {
+export const getAllPostsOfUser = () => async (dispatch, getState) => {
   dispatch({ type: LOADING_USERS_POST });
   try {
-    const result = await axios
-    .get('community/user/posts');
+    const { user } = getState();
+    const result = await getAllUserMemberCommunityPost(user)
     return dispatch({
       type: SET_USERS_POSTS,
-      payload: result.data
+      payload: result
     });
   } catch(err) {
       return dispatch({
@@ -149,6 +120,23 @@ export const getAllPostsOfUser = () => async (dispatch) => {
       });
     };
 };
+
+// export const getAllPostsOfUser = () => async (dispatch) => {
+//   dispatch({ type: LOADING_USERS_POST });
+//   try {
+//     const result = await axios
+//     .get('community/user/posts');
+//     return dispatch({
+//       type: SET_USERS_POSTS,
+//       payload: result.data
+//     });
+//   } catch(err) {
+//       return dispatch({
+//         type: SET_USERS_POSTS,
+//         payload: []
+//       });
+//     };
+// };
 
 // Get all community
 export const getAllCommunity = () => (dispatch) => {
@@ -169,14 +157,14 @@ export const getAllCommunity = () => (dispatch) => {
     });
 };
 
-export const getAllCommunityOfUser = () => async (dispatch) => {
+export const getAllCommunityOfUser = () => async (dispatch, getState) => {
   dispatch({ type: LOADING_MY_COMMUNITY });
   try {
-    const result = await axios
-    .get('/community/user');
+    const { user } = getState();
+    const result = await myCommunity(user)
     return dispatch({
       type: SET_MY_COMMUNITY,
-      payload: result.data
+      payload: result
     });
   } catch (err) {
       dispatch({
@@ -185,6 +173,9 @@ export const getAllCommunityOfUser = () => async (dispatch) => {
       });
     };
 };
+
+
+
 
 // Get all community
 export const getAllUsers = () => (dispatch) => {
@@ -237,48 +228,66 @@ export const postScream = (newScream) => (dispatch) => {
       });
     });
 };
-// Like a scream
-export const likeScream = (screamId) => (dispatch) => {
-  axios
-    .get(`/scream/${screamId}/like`)
-    .then((res) => {
-      dispatch({
-        type: LIKE_SCREAM,
-        payload: res.data
-      });
-    })
-    .catch((err) => console.log(err));
+
+export const likePost = (postId, source) => async (dispatch, getState) => {
+  const { user, data } = getState();
+  try {
+    const { email } = user;
+    const result = await likeAPost({
+      postId,
+      email
+    });
+    if(source === 'home') {
+      dispatch(getAllPostsOfUser());
+    } else {
+      const { currentCommunityId } = data;
+      dispatch(getPostsOfCommunity(currentCommunityId));
+    }
+    dispatch(clearErrors());
+  } catch(error) {
+    dispatch({
+      type: SET_ERRORS,
+      payload: error
+    });
+  }
 };
-// Unlike a scream
-export const unlikeScream = (screamId) => (dispatch) => {
-  axios
-    .get(`/scream/${screamId}/unlike`)
-    .then((res) => {
-      dispatch({
-        type: UNLIKE_SCREAM,
-        payload: res.data
-      });
-    })
-    .catch((err) => console.log(err));
+
+export const dislikePost = (postId, source) => async (dispatch, getState) => {
+  const { user, data } = getState();
+  try {
+    const { email } = user;
+    const result = await disLikeAPost({
+      postId,
+      email
+    });
+    if(source === 'home') {
+      dispatch(getAllPostsOfUser());
+    } else {
+      const { currentCommunityId } = data;
+      dispatch(getPostsOfCommunity(currentCommunityId));
+    }
+   
+    dispatch(clearErrors());
+  } catch(error) {
+    dispatch({
+      type: SET_ERRORS,
+      payload: error
+    });
+  }
 };
+
 // Submit a comment
-export const submitComment = (postId, commentData) => (dispatch) => {
-  axios
-    .post(`/posts/${postId}/comment`, commentData)
-    .then((res) => {
-      // dispatch({
-      //   type: SUBMIT_COMMENT,
-      //   payload: res.data
-      // });
-      dispatch(getPostDetails(postId));
-      dispatch(clearErrors());
-    })
-    .catch((err) => {
+export const submitComment = (postId, commentData) => async (dispatch) => {
+  try {
+    const result = await commentOnAPost(commentData);
+    dispatch(getPostDetails(postId));
+    dispatch(clearErrors());
+  } catch(err) {
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data
+        payload: err
       });
-    });
+    };
 };
 export const deleteScream = (screamId) => (dispatch) => {
   axios
@@ -305,6 +314,47 @@ export const getUserData = (userHandle) => (dispatch) => {
         payload: null
       });
     });
+};
+
+export const getAllMemberData = () => async (dispatch, getState) => {
+  dispatch({ type: LOADING_MEMBERS });
+   try {
+    const { user } = getState();
+     const result = await getAllMembers(user);
+     dispatch({
+      type: SET_MEMBERS,
+      payload: result
+     })
+   }
+    catch(error) {
+      dispatch({
+        type: SET_MEMBERS,
+        payload: null
+      });
+    }
+};
+
+export const addMemberToNetwork = (email) => async (dispatch, getState) => {
+  dispatch({ type: LOADING_DATA });
+   try {
+    const { user, data: { members } } = getState();
+    const newMember = members.filter(item => item.email === email);
+    if(newMember.length > 0) {
+      const result = await addMemberToMyNetwork(user, newMember[0]);
+      const userProfile = await getUserProfileInfo(user.email);
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({
+ type: SET_USER,
+ payload: userProfile
+ });
+    }
+   }
+    catch(error) {
+      dispatch({
+        type: SET_MEMBERS,
+        payload: null
+      });
+    }
 };
 
 export const clearErrors = () => (dispatch) => {

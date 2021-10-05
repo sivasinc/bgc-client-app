@@ -1,0 +1,87 @@
+.step5 {
+    padding: 10px 10px 20px 20px
+}
+
+
+/* .step5 {
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;;
+    margin:20px;
+  
+} */
+ .step5 > h4 {
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    color: rgba(0,0,0,0.87);
+    padding: 0 0 10px 10px;
+    margin:5px;
+    
+} 
+.step5 > h5 {
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    color: rgba(0,0,0,0.87);
+    padding: 0 0 10px 10px;
+    margin:5px
+} 
+
+.step5_section_element {
+    display:flex;
+    flex-direction: column;
+    width: 100% !important;
+  
+
+}
+.step5__section_element   {
+    margin:5px !important;
+   
+}
+.paper_element {
+    
+    display:flex !important;
+    /* justify-content: center !important; */
+    flex-wrap:wrap;
+    list-style:none;
+    padding:0.5;
+    margin:0;
+  
+}
+
+.step5_interest_div > h4{
+    
+    padding: 0 0 5px 10px;
+
+}
+/* trpl */
+.step5_interest_div >h5{
+    padding: 0 0 5px 10px;
+
+
+}
+.step_interest{
+    margin-top: 10px !important;
+    width:50% !important;
+}
+
+.step5__interest_field{
+ width:100% !important;
+ margin-top: 10px !important;
+ display:flex;
+ flex-direction: column;
+
+
+}
+.step5_connect_div {
+    padding: 0 0 5px 10px;
+    margin-top: 20px !important;
+
+
+}

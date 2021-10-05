@@ -8,18 +8,17 @@ import MyCommunities from '../UserProfile/MyCommunities';
 
 
 const Leftside = ({ user }) => {
-    const { credentials } = user;
-    const { firstName, lastName } = credentials;
+    const { firstName, lastName, imageUrl } = user;
     return (
         <div className="Container">
-            <div className="ArtCard">
+            <div className="userCardArt">
             <Avatar
                 alt="Remy Sharp"
                 className="portal__header__image"
-                src={ credentials.imageUrl }
+                src={ imageUrl }
               />
-              <h4>{firstName} {lastName} </h4>
-              <h5>Front End Developer</h5>
+              <label className="user__label">{firstName} {lastName} </label>
+              <p className="user__role">Front End Developer</p>
             </div>
             <MyNetworks />
            <MyCommunities />
