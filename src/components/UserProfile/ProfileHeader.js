@@ -18,8 +18,9 @@ import { uploadProfileImage } from '../../redux/actions/postActions';
 
 import "./BGCProfileHome.css";
 
-const ProfileHeader = ({user: { userInfo }, editUserDetails, uploadProfileImage }) => {
-    const {firstName, lastName, email, profileInfo, headLine, location } = userInfo;
+const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUserDetails, uploadProfileImage }) => {
+   
+
   const [openModel, setOpenModel] = useState(false);
   const [profile, setProfile] = useState({
   });
@@ -28,12 +29,14 @@ const ProfileHeader = ({user: { userInfo }, editUserDetails, uploadProfileImage 
     setProfile({ ...profile, [event.target.name] : event.target.value });
   }
   const handleModelChange = (value) => {
+    const {firstName, lastName, email, profileInfo, headLine, location } = userInfo;
     setProfile({
       updatedFirstName: firstName, updatedLastName: lastName, updatedHeadLine: headLine, updatedLocation, location
     })
     setOpenModel(value);
   }
   const handleSubmit = () => {
+    const {firstName, lastName, email, profileInfo, headLine, location } = userInfo;
     const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine } = profile;
     const userDetails = {
       firstName: updatedFirstName !== undefined ? updatedFirstName : firstName,
@@ -56,7 +59,33 @@ const ProfileHeader = ({user: { userInfo }, editUserDetails, uploadProfileImage 
   uploadProfileImage(image, userInfo);
  }
   const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine } = profile;
-  const { imageUrl } = userInfo;
+  
+   let info = {
+   }
+if(readOnlyFlow) {
+  const { firstName, lastName, email, headLine, location, imageUrl } = selectedMember;
+   info = {
+    firstName,
+    lastName,
+    email,
+    headLine,
+    location,
+    imageUrl
+   }
+} else {
+  const {firstName, lastName, email, headLine, location, imageUrl } = userInfo;
+  info = {
+    firstName,
+    lastName,
+    email,
+    headLine,
+    location,
+    imageUrl
+   }
+}
+  
+
+
     return (
         <div>
              <div className="profile__header">
@@ -74,29 +103,29 @@ const ProfileHeader = ({user: { userInfo }, editUserDetails, uploadProfileImage 
             <Avatar
                 alt="Remy Sharp"
                 className="profile__header__image"
-                src={imageUrl}
+                src={info.imageUrl}
               />
-              <AddAPhotoIcon className="profileAdd"/>    
+              <AddAPhotoIcon style= {{ marginLeft: '80px' }}/>    
             </label>  
                         
               <div className="profile__user">
-                <h2>{`${firstName}  ${lastName}`}</h2>
-                {headLine === undefined ? <p>No Headline added</p>: <p>{headLine}</p>}
-                {location === undefined ? <p>No Location added</p>: <p>{`${location} , United States`}</p>}
+                <h2>{`${info.firstName}  ${info.lastName}`}</h2>
+                {info.headLine === undefined ? <p>No Headline added</p>: <p>{info.headLine}</p>}
+                {info.location === undefined ? <p>No Location added</p>: <p>{`${info.location} , United States`}</p>}
               </div>
             </div>
-            <div className="profile__header__main__container">
+            { !readOnlyFlow && <div className="profile__header__main__container">
               <div className="profile__user__edit" onClick={() => handleModelChange(true)}>
                 {" "}
                 <EditIcon color="primary"/>
                 <p>EDIT PROFILE</p>
               </div>
-            </div>
+            </div> }
           </div>
           <div className="profile__user_bar">
             <div className="profile__user_bar_left">
               <p>Email : </p>{" "}
-              <p className="profile__user_bar_left__value">{email}</p>
+              <p className="profile__user_bar_left__value">{info.email}</p>
             </div>
             <div className="profile__user_bar_right">
               <p>Social :</p>{" "}

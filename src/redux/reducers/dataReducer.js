@@ -7,6 +7,8 @@ import {
   LOADING_USERS_POST,
   SET_USERS_POSTS,
   LOADING_RECOMMENDED_COMMUNITY,
+  SET_ALL_USERS_COMMUNITY,
+  LOADING_USERS_COMMUNITY,
   SET_REFRESH_COMMUNITY,
   LOADING_JOIN_COMMUNITY,
   SET_RECOMMENDED_COMMUNITY,
@@ -42,7 +44,9 @@ const initialState = {
   currentPage: 'COMMUNITY',
   currentCommunityId: null,
   members: [],
-  loadingMembers: false
+  loadingMembers: false,
+  allUsersCommunities: [],
+  allUsersCommunitiesLoading: false,
 };
 
 export default function(state = initialState, action) {
@@ -58,6 +62,17 @@ export default function(state = initialState, action) {
           ...state,
           loadingMembers: true
         };
+        case LOADING_USERS_COMMUNITY:
+          return {
+            ...state,
+            allUsersCommunitiesLoading: true,
+          } 
+          case SET_ALL_USERS_COMMUNITY:
+            return {
+              ...state,
+              allUsersCommunities: action.payload,
+              allUsersCommunitiesLoading: false
+            };        
     case SET_CURRENT_COMMUNITY_ID:
       return {
         ...state,

@@ -45,7 +45,7 @@ const signUpUserWithEmail = async (newUser) => {
   }
     const userCred = await createUserWithEmailAndPassword(auth, newUser.email, newUser.password);
     const result = await sendEmailVerification(auth.currentUser, {
-      url: "http://localhost:3000/login",
+      url: "https://bgc-functions.web.app/login",
     });
     console.log("email", result);
     const { email, uid } = userCred.user;

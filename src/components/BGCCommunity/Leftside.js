@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import './LeftSide.css';
 import Avatar from "@material-ui/core/Avatar";
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import Members from './Members';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
+import { uploadCommunityProfileImage } from '../../redux/actions/postActions';
 
 
-const Leftside = ({ user: { userInfo },communityPosts : { community} = {},communityPosts: { community: { members } = [] } = {} }) => {
+const Leftside = ({ user: { userInfo },communityPosts : { community } = {},communityPosts: { community: { members } = [] } = {},
+    currentCommunityId, uploadCommunityProfileImage }) => {
     const communityActionHandler = () => {
 
     }
@@ -20,19 +23,42 @@ const Leftside = ({ user: { userInfo },communityPosts : { community} = {},commun
             </React.Fragment>);
         } else {
             return (<React.Fragment>
-                <AddIcon onClick={() => communityActionHandler(email)} /> <span onClick={() => communityActionHandler(email)} className="community_action_footer__label">ADD TO MY NETWORK</span>
+                <AddIcon onClick={() => communityActionHandler(email)} /> <span onClick={() => communityActionHandler(email)} className="community_action_footer__label">JOIN COMMUNITY</span>
                             </React.Fragment>);
         }
     }
+
+    const handleImageUploadClick = (e) => {
+        const image = e.target.files[0];
+      
+        if (image === "" || image === undefined) {
+          alert(`not an image, the file is a ${typeof image}`);
+          return;
+        }
+        uploadCommunityProfileImage(image, currentCommunityId);
+       }
+
+
     const communityTile = () => {
         let section = null;
         if(community) {
             section = (<div className="ArtCard">
+                 <input
+              accept="image/gif, image/jgp, image/png, image/jpeg"
+              id="contained-button-file"
+              style={{ display: "none" }}
+              multiple
+              type="file"
+              onChange={handleImageUploadClick}
+            />
+            <label htmlFor="contained-button-file">
             <Avatar
                 alt="Remy Sharp"
                 className="portal__header__image"
                 src={ community.imageUrl }
               />
+              <AddAPhotoIcon style= {{ marginLeft: '60px' }}/>
+              </label>
               <h4>{community.name} </h4>
               <p>{community.description}</p>
               <div className="community_action_footer">
@@ -198,8 +224,11 @@ const Item = styled.a`
 const mapStateToProps = (state) => {
     return {
         user: state.user,
-        communityPosts: state.data.communityPosts
+        communityPosts: state.data.communityPosts,
+        currentCommunityId: state.data.currentCommunityId
     };
 };
 
-export default connect(mapStateToProps)(Leftside);
+const mapDispatchToProps = { uploadCommunityProfileImage };
+
+export default connect(mapStateToProps, mapDispatchToProps )(Leftside);

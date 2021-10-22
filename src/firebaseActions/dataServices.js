@@ -8,6 +8,7 @@ import {
   orderBy,
   updateDoc,
   setDoc,
+  addDoc,
   deleteDoc
 } from "firebase/firestore";
 import Fuse from 'fuse.js';
@@ -343,7 +344,7 @@ const getAllMembers = async (user) => {
     usersSnapshot.forEach((doc) => {
       if(doc.data().email !== email) {
         users.push({
-          commentId: doc.id,
+          memberId: doc.data().userId,
           firstName: doc.data().firstName,
           lastName: doc.data().lastName,
           email: doc.data().email,
@@ -399,6 +400,63 @@ const updateUserDetails = async (userDetails) => {
    console.log('error', error);
  }
 }
+const getAllCommunities = async (user) => {
+  let communties = [];
+  const { email } = user;
+  const communityRef = collection(db, "community");
+  const q = query(
+    communityRef,
+    orderBy("createdAt", "desc")
+  );
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => { 
+      communties.push({
+        communityId: doc.id,
+        name: doc.data().name,
+        description: doc.data().description,
+        members: doc.data().members,
+        image: doc.data().imageUrl,
+      }); 
+  });
+  return communties;
+};
+
+const addNewCommunity = async (newCommunity) => {
+  try {
+    const results = await addDoc(collection(db, "community"), {
+      ...newCommunity
+    });
+    console.log(results.id);
+    return results.id;
+  }
+  catch(error) {
+    console.log('error', error);
+  }
+};
+
+const updateCommunityImage = async (currentCommunityId, imageUrl) => {
+  try {
+    const docRef = doc(db, "community", currentCommunityId);
+    const result = await updateDoc(docRef, { imageUrl });
+    return result;
+  }
+ catch(error) {
+   console.log('error', error);
+ }
+}
+
+const getMemberDetails = async (email) => {
+  const docRef = doc(db, "users", email);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
+};
+
+
 
 export {
   getAllRecommenededCommunities,
@@ -415,5 +473,9 @@ export {
   getAllMembers,
   addMemberToMyNetwork,
   getUserProfileInfo,
-  updateUserDetails
+  updateUserDetails,
+  getAllCommunities,
+  addNewCommunity,
+  updateCommunityImage,
+  getMemberDetails
 };

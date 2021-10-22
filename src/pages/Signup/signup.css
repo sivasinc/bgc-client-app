@@ -99,9 +99,24 @@
     justify-content: space-around;
   }
   .step2 h3 {
+    font-family: Roboto;
+    color: rgba(0, 0, 0, 0.87);
     font-size: 20px;
-    line-height: 24px;
+    font-weight: 500;
+    padding: 0 0 0px 0px;
     letter-spacing: 0.15px;
+    line-height: 24px;
+    margin: 10px 0 0 0;
+  }
+  .step3 h3 {
+    font-family: Roboto;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 20px;
+    font-weight: 500;
+    padding: 0 0 0px 0px;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    margin: 10px 0 0 0;
   }
   .step7_section {
     display: flex;

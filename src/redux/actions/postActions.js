@@ -23,7 +23,7 @@ import {
   } from '../types';
   import axios from 'axios';
   import { getPostsOfCommunity } from './dataActions';
-  import { addNewPost, getAPost, getUserProfileInfo } from '../../firebaseActions/dataServices';
+  import { addNewPost, getAPost, getUserProfileInfo , updateCommunityImage} from '../../firebaseActions/dataServices';
   import { editUserDetails } from '../actions/userActions';
   import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
   import { storage } from "../../firebase";
@@ -93,6 +93,34 @@ import {
       const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
       userDetails.imageUrl = downloadURL;
       dispatch(editUserDetails(userDetails));
+      return dispatch(clearErrors());
+    });
+    }
+  }
+
+  export const uploadCommunityProfileImage = (image, currentCommunityId) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    if (image != "") {
+        const storageRef = ref(storage, `images/${image.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+        uploadTask.on('state_changed', 
+    (snapshot) => {
+      // Observe state change events such as progress, pause, and resume
+      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+        case 'paused':
+          console.log('Upload is paused');
+          break;
+        case 'running':
+          console.log('Upload is running');
+          break;
+      }}, error => console.log(error.code), 
+    async () => {
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+      const result = await updateCommunityImage(currentCommunityId, downloadURL);
+      dispatch({ type: CLEAR_ERRORS });
       return dispatch(clearErrors());
     });
     }

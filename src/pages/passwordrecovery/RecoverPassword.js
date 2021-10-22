@@ -35,7 +35,7 @@ const RecoverPassword = (props) => {
       if (docSnap.exists()) {
         try {
           const result = await sendPasswordResetEmail(auth, email, {
-            url: "http://localhost:3000/login",
+            url: "https://bgc-functions.web.app/login",
           });
           console.log('result', result);
           setCurrentStep(newCount);

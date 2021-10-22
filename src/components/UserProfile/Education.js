@@ -7,7 +7,7 @@ import { editUserDetails } from '../../redux/actions/userActions';
 import ModelWindow from "./ModelWindow";
 
 
-const Education = ({ user: { userInfo } , editUserDetails}) => {
+const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUserDetails}) => {
     const [profile, setProfile] = useState({});
   const [openModel, setOpenModel] = useState(false);
   const handleChange = (event) => {
@@ -53,14 +53,25 @@ const Education = ({ user: { userInfo } , editUserDetails}) => {
     editUserDetails(request);
     setOpenModel(false);
   };
-    const { profileInfo } = userInfo;
-    console.log('education-profileInfo', profileInfo);
+    let profileDetails = [];
+    if(readOnlyFlow && selectedMember && Array.isArray(selectedMember.profileInfo)) {
+      const { profileInfo } = selectedMember;
+      profileDetails = [
+        ...profileInfo
+      ]
+    } else if( userInfo && userInfo.profileInfo && Array.isArray(userInfo.profileInfo)){
+      
+      const { profileInfo } = userInfo;
+      profileDetails = [
+        ...profileInfo
+      ]
+    }
     let info = [];
-    if(profileInfo) {
-        info = profileInfo.filter(item => item.type === 'education');
+    if(profileDetails) {
+        info = profileDetails.filter(item => item.type === 'education');
     }
     let educationInfo = null;
-    if(profileInfo && info.length > 0) {
+    if(profileDetails && info.length > 0) {
         educationInfo =  info[0].details.map((item) => {
             return (
                 <div className="experience__item">

@@ -8,7 +8,7 @@ import { editUserDetails } from '../../redux/actions/userActions';
 
 import ModelWindow from "./ModelWindow";
 
-const Experience = ({ user: { userInfo } , editUserDetails }) => {
+const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUserDetails }) => {
   const [profile, setProfile] = useState({});
   const [openModel, setOpenModel] = useState(false);
   const [modeType, setModeType] = useState('add');
@@ -79,7 +79,21 @@ const Experience = ({ user: { userInfo } , editUserDetails }) => {
     editUserDetails(request);
     setOpenModel(false);
   };
-  const { profileInfo } = userInfo;
+
+  let profileDetails = [];
+  if(readOnlyFlow && selectedMember && Array.isArray(selectedMember.profileInfo)) {
+    const { profileInfo } = selectedMember;
+    profileDetails = [
+      ...profileInfo
+    ]
+  } else if( userInfo && userInfo.profileInfo && Array.isArray(userInfo.profileInfo)){
+    
+    const { profileInfo } = userInfo;
+    profileDetails = [
+      ...profileInfo
+    ]
+  }
+
   const { updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear, updatedCompany, updatedDepartment, updatedJobTtile } = profile;
   let educationInfo = (
     <div className="experience__item">
@@ -87,11 +101,11 @@ const Experience = ({ user: { userInfo } , editUserDetails }) => {
     </div>
   );
   let info = [];
-  if(profileInfo) {
-      info = profileInfo.filter(item => item.type === 'workforce');
+  if(profileDetails) {
+      info = profileDetails.filter(item => item.type === 'workforce');
   }
 
-  if (profileInfo && info.length > 0) {
+  if (profileDetails && info.length > 0) {
     educationInfo = info[0].details.map((item, index) => {
 
       return (
@@ -100,7 +114,7 @@ const Experience = ({ user: { userInfo } , editUserDetails }) => {
             <h4 className="experience__subheader">{item.jobTtile}</h4>
             <p className="experience__subheader__p">{item.company}</p>
             <p className="experience__subheader__p">{item.department}</p>
-            <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth ? item.endMonth + '' +  item.endYear : 'Present' }`}</p>
+            <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth !== '' || item.endMonth !== 'month' ? item.endMonth + '' +  item.endYear : 'Present' }`}</p>
             {item.description && <p className="experience__description__p">
               {item.description}
             </p>}

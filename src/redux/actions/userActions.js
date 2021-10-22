@@ -1,12 +1,12 @@
 import { signIn, signUpUserWithEmail } from '../../firebaseActions/service';
-import {getUserProfileInfo, updateUserDetails } from '../../firebaseActions/dataServices';
+import {getUserProfileInfo, updateUserDetails, getMemberDetails } from '../../firebaseActions/dataServices';
 
 
 import {
   SET_USER,
   SET_ERRORS,
   CLEAR_ERRORS,
-  SET_AUTHENTICATED,
+  SET_SELECTED_MEMBER,
   SET_CURRENT_TAB_INDEX,
   LOADING_UI,
   SET_UNAUTHENTICATED,
@@ -73,23 +73,19 @@ export const getUserProfileData = () => async (dispatch, getState) => {
   } 
 };
 
-// export const signupUser = (newUserData, history) => (dispatch) => {
-//   dispatch({ type: LOADING_UI });
-//   axios
-//     .post('/signup', newUserData)
-//     .then((res) => {
-//       setAuthorizationHeader(res.data.token);
-//       dispatch(getUserData());
-//       dispatch({ type: CLEAR_ERRORS });
-//       history.push('/userprofile');
-//     })
-//     .catch((err) => {
-//       dispatch({
-//         type: SET_ERRORS,
-//         payload: err.response.data
-//       });
-//     });
-// };
+export const getMemberData = (email) => async (dispatch) => {
+  try {
+    const result = await getMemberDetails(email);
+    dispatch({
+      type : SET_SELECTED_MEMBER,
+      payload: result
+    })
+  }
+  catch(err) {
+    console.log(err);
+  } 
+};
+
 
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem('FBIdToken');

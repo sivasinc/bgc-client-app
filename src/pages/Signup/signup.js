@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 // MUI Stuff
-import LinearProgress from "@material-ui/core/LinearProgress";
+import LinearProgress from '@mui/material/LinearProgress';
 import Typography from "@material-ui/core/Typography";
 // Redux stuff
 import { connect } from "react-redux";

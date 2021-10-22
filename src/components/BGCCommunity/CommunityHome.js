@@ -71,10 +71,12 @@ const CommunityHome = ({user: { userInfo }, loading, communityPosts, getAllPostO
     const updateComment = (newComment) => {
         setCommentsList([...commentLists.concat(newComment)]);
       };
-    const { imageUrl } = userInfo;
+    const { imageUrl, email } = userInfo;
+    let enablePost = communityPosts && communityPosts.community && Array.isArray(communityPosts.community.members) 
+    && communityPosts.community.members.filter((item) => item.email === email).length > 0 ? true : false;
     return (
             <Container>
-                <ShareBox>
+                {enablePost && <ShareBox>
                     <div>
                         {/* { imageUrl ?
                             (<img src={ imageUrl} />)
@@ -106,7 +108,7 @@ const CommunityHome = ({user: { userInfo }, loading, communityPosts, getAllPostO
                             <span>Add File</span>
                         </button>
                     </div>
-                </ShareBox>
+                </ShareBox> }
 
                 <Content>
                 <FlipMove>

@@ -11,6 +11,8 @@ import {
   LOADING_USERS_POST,
   SET_RECOMMENDED_COMMUNITY,
   LOADING_RECOMMENDED_COMMUNITY,
+  LOADING_USERS_COMMUNITY,
+  SET_ALL_USERS_COMMUNITY,
   SET_REFRESH_COMMUNITY,
   SET_USERS_POSTS,
   LOADING_DATA,
@@ -33,23 +35,42 @@ import axios from 'axios';
 import { getPostDetails } from './postActions';
 import { getAllRecommenededCommunities, getAllUserMemberCommunityPost, 
   myCommunity, joinACommunity, getAllCommunityPosts, commentOnAPost,
-getAPost, likeAPost, disLikeAPost, getAllMembers, addMemberToMyNetwork, getUserProfileInfo } from '../../firebaseActions/dataServices';
+getAPost, likeAPost, disLikeAPost, getAllMembers, addMemberToMyNetwork, getUserProfileInfo, 
+getAllCommunities, addNewCommunity } from '../../firebaseActions/dataServices';
 
-// Post a scream
-export const getPostCreateCommunity = (newMembers) => (dispatch) => {
+export const createCommunity = (newCommunity, history) => async (dispatch) => {
   dispatch({ type: LOADING_UI });
-  axios
-    .post('/community', newMembers)
-    .then((res) => {
-      dispatch({ type: SET_COMMUNITY_MEMBERS });
-    })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.response.data
-      });
+  try {
+    const result = await addNewCommunity(newCommunity);
+    dispatch(setCurrentCommunityId(result));
+    history.push(`/communityHome/${result}`);
+    dispatch({ type: CLEAR_ERRORS });
+  }
+  catch(error) {
+    console.log('error');
+    dispatch({
+      type: SET_ERRORS,
+      payload: error
     });
+  }
 };
+
+export const getAllUsersCommunity = () => async (dispatch, getState) => {
+  dispatch({ type: LOADING_USERS_COMMUNITY });
+  try {
+    const { user } = getState();
+    console.log(user);
+    const result = await getAllCommunities(user);
+      return dispatch({ type: SET_ALL_USERS_COMMUNITY,
+        payload: result });
+    }
+    catch(error) {
+      return dispatch({
+        type: SET_ERRORS,
+        payload: error
+      });
+    }
+  };
 
 export const getRecommendedCommunity = () => async (dispatch, getState) => {
   dispatch({ type: LOADING_RECOMMENDED_COMMUNITY });

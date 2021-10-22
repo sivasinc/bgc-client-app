@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import Avatar from "@material-ui/core/Avatar";
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
+import { Link } from "react-router-dom";
 
 
-const Member = ({member : { imageUrl, firstName, lastName, headLine, email }, myNetworks , addMemberHandler }) => {
+const Member = ({member : { imageUrl, firstName, lastName, headLine, email, memberId }, myNetworks , addMemberHandler, updateTabIndex }) => {
     const generateActionLink = () => {
         if(myNetworks && Array.isArray(myNetworks) && myNetworks.filter((item) => item.email === email).length > 0) {
             return (<React.Fragment>
@@ -17,6 +18,10 @@ const Member = ({member : { imageUrl, firstName, lastName, headLine, email }, my
                             </React.Fragment>);
         }
     }
+
+    // const userClickHandler = (userId) => {
+    //     history.push("/userProfile");
+    //   };
    
     return (
         <div className="member_block">
@@ -25,7 +30,10 @@ const Member = ({member : { imageUrl, firstName, lastName, headLine, email }, my
                 className="member__image"
                 src={imageUrl}
               />
-              <span className="member_block_name">{firstName} {lastName}</span>
+              <span className="member_block_name"><Link
+                      to={`/userProfile/${memberId}`}
+                    //   onClick={() => userClickHandler(userId)}
+                    > {firstName} {lastName}</Link></span>
               <span className="member_block_role">{headLine}</span>
               <div className="member_add_action">
               {generateActionLink()}
