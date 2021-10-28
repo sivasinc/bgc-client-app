@@ -16,15 +16,26 @@ const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunit
     console.log('communityClickHandler');
     history.push("/communityHome");
     setCurrentCommunityId(communityId);
-    updateTabIndex(3);
   }
+ 
+
+
+  let filteredList = [];
+  if(myCommunities && Array.isArray(myCommunities) && myCommunities.length > 0) {
+    filteredList = myCommunities.slice(0,3);
+  }
+
   return (
     <div className="MyCommunity">
       <div className="MyCommunity__heading">
         <div className="MyCommunity__header">
           <h3>My Communities</h3>
         </div>
+<<<<<<< HEAD
         { myCommunities && Array.isArray(myCommunities) && myCommunities.length > 0 && (
+=======
+        { filteredList && Array.isArray(filteredList) && filteredList.length > 0 && (
+>>>>>>> upstream/main
             <div className="MyNetworks__header__right">
             <span>{myCommunities.length } Communities</span>
           </div>
@@ -40,7 +51,7 @@ const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunit
           <p>You have not joined any communities.</p>
         )}
         <FlipMove>
-          {myCommunities.map((item) => (
+          {filteredList.map((item) => (
             <div className="MyCommunity__body_item">
               <Avatar
                 alt="Remy Sharp"
@@ -56,7 +67,14 @@ const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunit
         >
          {item.name}
         </Typography> */}
-              <p><span onClick={() => communityClickHandler(item.communityId)} >{item.name}</span></p>
+              <p>
+                <Link
+                  to={`/communityHome/${item.communityId}`}
+                  onClick={() => communityClickHandler(item.communityId)}
+                >
+                  {item.name}
+                </Link>
+              </p>
             </div>
           ))}
         </FlipMove>

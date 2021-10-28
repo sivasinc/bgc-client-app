@@ -1,21 +1,30 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import SelectElement from "./SelectElement";
+=======
+import TextField from "@material-ui/core/TextField";
+>>>>>>> upstream/main
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
+<<<<<<< HEAD
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
+=======
+
+>>>>>>> upstream/main
 import "./step1.css";
 
 const Step1 = ({
-  handleSelectChange,
-  securityQuestions,
   handleInputChange,
   userProfile,
+<<<<<<< HEAD
   handleSecurityInputChange,
+=======
+>>>>>>> upstream/main
   
 }) => {
   const [showElement, sethowElement] = useState({
@@ -30,7 +39,10 @@ const Step1 = ({
     confirmPassword,
     errorMessage,
   } = userProfile;
+<<<<<<< HEAD
   console.log(securityQuestions);
+=======
+>>>>>>> upstream/main
   
   const handleClickShowPassword = (pass) => {
     pass === "Password"
@@ -102,7 +114,10 @@ const Step1 = ({
             onChange={handleInputChange}
             helperText={errorMessage.password}
             InputProps={{
+<<<<<<< HEAD
               // <-- This is where the toggle button is added.
+=======
+>>>>>>> upstream/main
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
@@ -137,13 +152,21 @@ const Step1 = ({
             onChange={handleInputChange}
             helperText={errorMessage.confirmPassword}
             InputProps={{
+<<<<<<< HEAD
               // <-- This is where the toggle button is added.
+=======
+          
+>>>>>>> upstream/main
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={() => handleClickShowPassword("cnfPassword")}
+<<<<<<< HEAD
                     // onMouseDown={handleMouseDownPassword}
+=======
+                  
+>>>>>>> upstream/main
                   >
                     {showElement.showCnfPassword ? (
                       <VisibilityOff />

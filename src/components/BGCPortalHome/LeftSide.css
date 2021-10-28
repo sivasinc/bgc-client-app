@@ -14,10 +14,14 @@
     border: none;
     box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
     margin-bottom: 20px;
+<<<<<<< HEAD
+=======
+    padding-bottom: 20px;
+>>>>>>> upstream/main
 }
 .portal__header__image {
-    height: 100px !important;
-    width: 100px !important;
+    height: 110px !important;
+    width: 110px !important;
     margin: 20px 0 0 0;
 }
 .user__label {
@@ -36,5 +40,5 @@
     letter-spacing: 0.15px;
     line-height: 24px;
     text-align: center;
-    margin: 10px 0 20px 0;
+    margin: 10px 0 0 0;
 }

@@ -1,6 +1,6 @@
 .profile__header__image {
-    height: 80px !important;
-    width: 80px !important;
+    height: 110px !important;
+    width: 110px !important;
 }
 .profile__header {
     display: flex;
@@ -21,8 +21,7 @@
     padding-left: 10px;
 }
 .profile__user > h2 {
-    margin-bottom: 0;
-    margin-top: 0;
+    margin: 0 0 0 5px;
 }
 .profile__user > p {
 margin: 5px;
@@ -254,7 +253,11 @@ margin: 5px;
     flex-direction: column;
     border: none;
     box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+<<<<<<< HEAD
     margin-bottom: 20px;
+=======
+    margin: 10px 0 20px 0;
+>>>>>>> upstream/main
 }
 .MyCommunity {
     display: flex;
@@ -305,7 +308,11 @@ margin: 5px;
 .MyNetworks__body > p {
     color: rgba(0,0,0,0.74);
     font-family: Roboto;
+<<<<<<< HEAD
     font-size: 18px;
+=======
+    font-size: 16px;
+>>>>>>> upstream/main
     letter-spacing: 0.5px;
     line-height: 24px;
     margin: 0 0 20px 0;
@@ -385,4 +392,10 @@ margin: 5px;
 .MyCommunity__body_item p {
     color: #6200EE;
     cursor: pointer;
+}
+.contained__input_button {
+    display: none;
+}
+.profileImage__addIcon {
+    margin-left: 80px;
 }

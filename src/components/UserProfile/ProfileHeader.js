@@ -9,69 +9,123 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import IconButton from "@material-ui/core/IconButton";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { editUserDetails } from '../../redux/actions/userActions';
+import { uploadProfileImage } from '../../redux/actions/postActions';
 
 import "./BGCProfileHome.css";
 
-const ProfileHeader = ({user, editUserDetails}) => {
-    const {credentials } = user;
-    const {firstName, lastName, email, profileInfo, headLine, location } = credentials;
+const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUserDetails, uploadProfileImage }) => {
+   
+
   const [openModel, setOpenModel] = useState(false);
   const [profile, setProfile] = useState({
   });
+
   const handleChange = (event) => {
-    setProfile({ [event.target.name] : event.target.value });
+    setProfile({ ...profile, [event.target.name] : event.target.value });
   }
   const handleModelChange = (value) => {
+    const {firstName, lastName, email, profileInfo, headLine, location } = userInfo;
     setProfile({
       updatedFirstName: firstName, updatedLastName: lastName, updatedHeadLine: headLine, updatedLocation, location
     })
     setOpenModel(value);
   }
   const handleSubmit = () => {
+    const {firstName, lastName, email, profileInfo, headLine, location } = userInfo;
     const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine } = profile;
     const userDetails = {
       firstName: updatedFirstName !== undefined ? updatedFirstName : firstName,
       lastName: updatedLastName !== undefined ? updatedLastName : lastName,
       location: updatedLocation !== undefined ? updatedLocation : location,
-      headLine: updatedHeadLine !== undefined ? updatedHeadLine : headLine
+      headLine: updatedHeadLine !== undefined ? updatedHeadLine : headLine 
     };
-    const request = { ...credentials, ...userDetails}
+    const request = { ...userInfo, ...userDetails}
     editUserDetails(request);
     setOpenModel(false);
   }
+
+ const handleImageUploadClick = (e) => {
+  const image = e.target.files[0];
+
+  if (image === "" || image === undefined) {
+    alert(`not an image, the file is a ${typeof image}`);
+    return;
+  }
+  uploadProfileImage(image, userInfo);
+ }
   const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine } = profile;
+  
+   let info = {
+   }
+if(readOnlyFlow) {
+  const { firstName, lastName, email, headLine, location, imageUrl } = selectedMember;
+   info = {
+    firstName,
+    lastName,
+    email,
+    headLine,
+    location,
+    imageUrl
+   }
+} else {
+  const {firstName, lastName, email, headLine, location, imageUrl } = userInfo;
+  info = {
+    firstName,
+    lastName,
+    email,
+    headLine,
+    location,
+    imageUrl
+   }
+}
+  
+
+
     return (
         <div>
              <div className="profile__header">
           <div className="profile__header__main__container">
             <div className="profile__header__main">
-              <Avatar
+            <input
+              accept="image/gif, image/jgp, image/png, image/jpeg"
+              id="contained-button-file"
+              style={{ display: "none" }}
+              multiple
+              type="file"
+              onChange={handleImageUploadClick}
+            />
+            <label htmlFor="contained-button-file">
+            <Avatar
                 alt="Remy Sharp"
                 className="profile__header__image"
-                src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/women.jpeg?alt=media&token=4c9e11b1-3c88-4546-8be7-04a77244f9dc"
+                src={info.imageUrl}
               />
+              <AddAPhotoIcon style= {{ marginLeft: '80px' }}/>    
+            </label>  
+                        
               <div className="profile__user">
-                <h2>{`${firstName}  ${lastName}`}</h2>
-                {headLine === undefined ? <p>No Headline added</p>: <p>{headLine}</p>}
-                {location === undefined ? <p>No Location added</p>: <p>{`${location} , United States`}</p>}
+                <h2>{`${info.firstName}  ${info.lastName}`}</h2>
+                {info.headLine === undefined ? <p>No Headline added</p>: <p>{info.headLine}</p>}
+                {info.location === undefined ? <p>No Location added</p>: <p>{`${info.location} , United States`}</p>}
               </div>
             </div>
-            <div className="profile__header__main__container">
+            { !readOnlyFlow && <div className="profile__header__main__container">
               <div className="profile__user__edit" onClick={() => handleModelChange(true)}>
                 {" "}
                 <EditIcon color="primary"/>
                 <p>EDIT PROFILE</p>
               </div>
-            </div>
+            </div> }
           </div>
           <div className="profile__user_bar">
             <div className="profile__user_bar_left">
               <p>Email : </p>{" "}
-              <p className="profile__user_bar_left__value">{email}</p>
+              <p className="profile__user_bar_left__value">{info.email}</p>
             </div>
             <div className="profile__user_bar_right">
               <p>Social :</p>{" "}
@@ -146,6 +200,6 @@ ProfileHeader.propTypes = {
 const mapStateToProps = (state) => ({
   user: state.user
 });
-const mapDispatchToProps = { editUserDetails };
+const mapDispatchToProps = { editUserDetails, uploadProfileImage };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileHeader);

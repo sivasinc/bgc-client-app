@@ -118,8 +118,7 @@ const Navigation = ({ logoutUser, authenticated, currentTabIndex, updateTabIndex
         src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/Screen%20Shot%202021-09-06%20at%207.17.04%20PM.png?alt=media&token=089a0496-afdc-4654-b96a-cb440c316758"
         alt=""
       />
-      <Tab label="Log in" name="login" className="header__bar_item" {...a11yProps(0)} />
-      <Tab label="Sign up" name="logout" className="header__bar_item" {...a11yProps(1)}/>
+      <Tab label="BlackGirlsCode.com" name="bgc" className="header__bar_item" {...a11yProps(0)} />
     </Tabs>
   );
   return (

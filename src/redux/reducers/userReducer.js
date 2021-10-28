@@ -8,15 +8,17 @@ import {
   UNLIKE_SCREAM,
   MARK_NOTIFICATIONS_READ,
   SET_CURRENT_COMMUNITY_IMAGE,
-  SET_USERS
+  SET_USERS,
+  SET_SELECTED_MEMBER
 } from '../types';
 
 const initialState = {
   authenticated: false,
   loading: false,
-  credentials: {},
+  userInfo: {},
   likes: [],
   notifications: [],
+  selectedMember: {},
   users : [],
   currentCommunityImageUrl: 'https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/no-img.png?alt=media&token=34f75be3-dd43-485f-830c-f6f6cfafb8db'
 };
@@ -45,8 +47,14 @@ export default function(state = initialState, action) {
         ...state,
         authenticated: true,
         loading: false,
-        ...action.payload
+        userInfo: action.payload
       };
+    case SET_SELECTED_MEMBER: 
+    return {
+      ...state,
+      selectedMember: action.payload
+
+    }  
     case LOADING_USER:
       return {
         ...state,

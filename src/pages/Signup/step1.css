@@ -31,6 +31,7 @@
     line-height: 24px;
     color: rgba(0,0,0,0.87);
     padding: 0 0 10px 0px;
+<<<<<<< HEAD
 }
 .step1 > h2 {
     font-family:Roboto ;
@@ -40,13 +41,27 @@
     line-height: 24px;
     color: rgba(0,0,0,0.87);
     padding: 0 0 10px 10px;
+=======
+>>>>>>> upstream/main
 }
+/* .step1 > h2 {
+    font-family:Roboto ;
+    font-size: 16px;
+    font-weight: 100;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    color: rgba(0,0,0,0.87);
+    padding: 0 0 10px 10px;
+} */
 .signup__loginInfo > h4{
-margin-bottom: 5px;
-padding: 0 0 10px 10px;
+    font-family: Roboto;
+    margin-bottom: 5px;
+    font-size: 16px;
+    padding: 0 0 0px 0px;
+    letter-spacing: 0.15px;
+    color: rgba(0,0,0,0.87);
 }
 .signup__password_recovery > h4 {
     margin-bottom: 5px;
-    padding: 0 0 10px 10px;
-
+    padding: 0 0 0px 0px;
 }

@@ -5,22 +5,30 @@ import PropTypes from 'prop-types'
 import './Post.css';
 import dayjs from "dayjs";
 import ReactPlayer from 'react-player';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import CommentIcon from '@mui/icons-material/Comment';
+import Typography from '@mui/material/Typography';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentsSection from '../BGCComments/CommentsSection';
 import {getPostDetails} from '../../redux/actions/postActions';
 import {likePost, dislikePost, getAllPostsOfUser, getPostsOfCommunity } from '../../redux/actions/dataActions';
 
 
 
+<<<<<<< HEAD
 const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user, getAllPostOfUserMemberCommunity, getAllPostOfACommunity, source, currentCommunityId }) => {
+=======
+const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user: { userInfo }, getAllPostOfUserMemberCommunity, getAllPostOfACommunity, source, currentCommunityId }) => {
+>>>>>>> upstream/main
     const [updatedComment, setUpdatedComment] = useState(false);
     const [likeActionState, setLikeActionState] = useState("action");
     const [selectedPostId, setSelectedPostId] = useState("");
     const [openDialog, setOpenDialog] = useState(false);
     const [currentSelectedPost, setCurrentSelectedPost] = useState("");
     const likeHandler = (postId) => {
+<<<<<<< HEAD
         const { email } = user;
+=======
+        const { email } = userInfo;
+>>>>>>> upstream/main
         if(article && article.usersLiked && Array.isArray(article.usersLiked) && article.usersLiked.includes(email)) {
             disLikeAPost(postId, source);
         } else {
@@ -42,7 +50,11 @@ const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user, g
     const updateComment = (value) => {
         setUpdatedComment(value);
       };
+<<<<<<< HEAD
       const { email } = user;
+=======
+      const { email } = userInfo;
+>>>>>>> upstream/main
       console.log('article', article);
     return (
         <Article key = {key}>
@@ -74,6 +86,7 @@ const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user, g
                                 </SharedImage>
 }
                                 <SocialActions>
+<<<<<<< HEAD
                                     <button>
                                     <ThumbUpIcon color={article.usersLiked.includes(email) ? 'primary' : 'action' } onClick={() => likeHandler(article.postId)} />
                                         <span>Like</span>
@@ -83,6 +96,19 @@ const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user, g
                                         <span>Post a comment</span>
                                     </button>
                                    
+=======
+                                    {article.usersLiked.includes(email) && <FavoriteIcon color="primary" /> }
+                                <Typography
+                variant="button"
+                color="primary"
+                onClick={() => likeHandler(article.postId)}
+              >{article.usersLiked.includes(email) ? 'LIKED' : 'LIKE'}</Typography>
+              <Typography
+                variant="button"
+                color="primary"
+                onClick={() =>handleCommentDialoge(article.postId)}
+              >POST A COMMENT</Typography>
+>>>>>>> upstream/main
                                         <p>{article.commentCount} comments</p>
                                         <p>{article.likeCount} Likes</p>
                                 </SocialActions>
@@ -314,7 +340,7 @@ const SocialActions = styled.div`
     min-height: 40px;
     padding: 4px 8px;
 
-    button {
+    span {
         display: inline-flex;
         align-items: center;
         padding: 8px;

@@ -8,7 +8,7 @@ import { editUserDetails } from '../../redux/actions/userActions';
 
 import ModelWindow from "./ModelWindow";
 
-const Experience = ({ user: { credentials }, editUserDetails }) => {
+const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUserDetails }) => {
   const [profile, setProfile] = useState({});
   const [openModel, setOpenModel] = useState(false);
   const [modeType, setModeType] = useState('add');
@@ -58,7 +58,7 @@ const Experience = ({ user: { credentials }, editUserDetails }) => {
       endMonth: updatedEndMonth !== undefined ? updatedEndMonth : '',
       endYear: updatedEndYear !== undefined ? updatedEndYear : ''
     };
-    const tempProfileInfo = [...credentials.profileInfo];
+    const tempProfileInfo = [...userInfo.profileInfo];
     const tempInfo = tempProfileInfo.filter(item => item.type === "workforce");
     if(tempInfo.length > 0) {
         tempProfileInfo.forEach(item => {
@@ -75,11 +75,25 @@ const Experience = ({ user: { credentials }, editUserDetails }) => {
         const details = [ { ...userDetails }];
         tempProfileInfo.push({ type : "workforce", details });
     }
-    const request = { ...credentials, profileInfo : [...tempProfileInfo] };
+    const request = { ...userInfo, profileInfo : [...tempProfileInfo] };
     editUserDetails(request);
     setOpenModel(false);
   };
-  const { profileInfo } = credentials;
+
+  let profileDetails = [];
+  if(readOnlyFlow && selectedMember && Array.isArray(selectedMember.profileInfo)) {
+    const { profileInfo } = selectedMember;
+    profileDetails = [
+      ...profileInfo
+    ]
+  } else if( userInfo && userInfo.profileInfo && Array.isArray(userInfo.profileInfo)){
+    
+    const { profileInfo } = userInfo;
+    profileDetails = [
+      ...profileInfo
+    ]
+  }
+
   const { updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear, updatedCompany, updatedDepartment, updatedJobTtile } = profile;
   let educationInfo = (
     <div className="experience__item">
@@ -87,11 +101,11 @@ const Experience = ({ user: { credentials }, editUserDetails }) => {
     </div>
   );
   let info = [];
-  if(profileInfo) {
-      info = profileInfo.filter(item => item.type === 'workforce');
+  if(profileDetails) {
+      info = profileDetails.filter(item => item.type === 'workforce');
   }
 
-  if (profileInfo && info.length > 0) {
+  if (profileDetails && info.length > 0) {
     educationInfo = info[0].details.map((item, index) => {
 
       return (
@@ -100,7 +114,7 @@ const Experience = ({ user: { credentials }, editUserDetails }) => {
             <h4 className="experience__subheader">{item.jobTtile}</h4>
             <p className="experience__subheader__p">{item.company}</p>
             <p className="experience__subheader__p">{item.department}</p>
-            <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth ? item.endMonth + '' +  item.endYear : 'Present' }`}</p>
+            <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth !== '' || item.endMonth !== 'month' ? item.endMonth + '' +  item.endYear : 'Present' }`}</p>
             {item.description && <p className="experience__description__p">
               {item.description}
             </p>}

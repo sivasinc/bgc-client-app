@@ -1,12 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import Main from './CommunityHome';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import Leftside from './Leftside';
-
+import React from "react"; 
+import { connect } from "react-redux"; 
+import CommunityLayout from "./CommunityLayout";
 
 const Home = (props) => {
+<<<<<<< HEAD
     return (
         <Container>
             <Layout>
@@ -72,11 +69,16 @@ const Layout = styled.div`
         padding: 0 5px;
     }
 `;
+=======
+  return <CommunityLayout />;
+};
+ 
+>>>>>>> upstream/main
 
 const mapStateToProps = (state) => {
-    return {
-        user: state.user,
-    };
+  return {
+    user: state.user,
+  };
 };
 
 export default connect(mapStateToProps)(Home);

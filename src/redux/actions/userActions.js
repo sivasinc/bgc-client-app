@@ -1,12 +1,16 @@
 import { signIn, signUpUserWithEmail } from '../../firebaseActions/service';
+<<<<<<< HEAD
 import {getUserProfileInfo} from '../../firebaseActions/dataServices';
+=======
+import {getUserProfileInfo, updateUserDetails, getMemberDetails } from '../../firebaseActions/dataServices';
+>>>>>>> upstream/main
 
 
 import {
   SET_USER,
   SET_ERRORS,
   CLEAR_ERRORS,
-  SET_AUTHENTICATED,
+  SET_SELECTED_MEMBER,
   SET_CURRENT_TAB_INDEX,
   LOADING_UI,
   SET_UNAUTHENTICATED,
@@ -65,14 +69,33 @@ export const signupUser = (newUserData, history) => async (dispatch) => {
 
 export const getUserProfileData = () => async (dispatch, getState) => {
   try {
+<<<<<<< HEAD
     const { user } = getState();
     const result = await getUserProfileInfo(user.email);
+=======
+    const { user: { userInfo } } = getState();
+    const result = await getUserProfileInfo(userInfo.email);
   }
   catch(err) {
     console.log(err);
   } 
 };
 
+export const getMemberData = (email) => async (dispatch) => {
+  try {
+    const result = await getMemberDetails(email);
+    dispatch({
+      type : SET_SELECTED_MEMBER,
+      payload: result
+    })
+>>>>>>> upstream/main
+  }
+  catch(err) {
+    console.log(err);
+  } 
+};
+
+<<<<<<< HEAD
 // export const signupUser = (newUserData, history) => (dispatch) => {
 //   dispatch({ type: LOADING_UI });
 //   axios
@@ -90,6 +113,8 @@ export const getUserProfileData = () => async (dispatch, getState) => {
 //       });
 //     });
 // };
+=======
+>>>>>>> upstream/main
 
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem('FBIdToken');
@@ -130,14 +155,20 @@ export const uploadCommunityImage = (formData) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const editUserDetails = (userDetails) => (dispatch) => {
+export const editUserDetails = (userDetails) => async (dispatch) => {
   dispatch({ type: LOADING_USER });
-  axios
-    .post('/user', userDetails)
-    .then(() => {
-      dispatch(getUserData());
-    })
-    .catch((err) => console.log(err));
+  try {
+    const result = await updateUserDetails(userDetails);
+    const { email } = userDetails;
+    const usersData = await getUserProfileInfo(email);
+    dispatch({
+      type: SET_USER,
+      payload: usersData
+    });
+  }
+  catch(error) {
+    console.log(error)
+  }
 };
 
 export const markNotificationsRead = (notificationIds) => (dispatch) => {

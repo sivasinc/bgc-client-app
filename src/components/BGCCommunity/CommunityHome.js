@@ -24,7 +24,7 @@ import dayjs from "dayjs";
 
 // import { getArticlesAPI } from '../actions';
 
-const CommunityHome = ({user: { credentials }, loading, communityPosts, getAllPostOfACommunity, getCommentOfAPost,
+const CommunityHome = ({user: { userInfo }, loading, communityPosts, getAllPostOfACommunity, getCommentOfAPost,
     currentCommunityId }) => {
     const [showModal, setShowModal] = useState("close");
     const [commentLists, setCommentsList] = useState([]);
@@ -71,10 +71,12 @@ const CommunityHome = ({user: { credentials }, loading, communityPosts, getAllPo
     const updateComment = (newComment) => {
         setCommentsList([...commentLists.concat(newComment)]);
       };
-    const { imageUrl } = credentials;
+    const { imageUrl, email } = userInfo;
+    let enablePost = communityPosts && communityPosts.community && Array.isArray(communityPosts.community.members) 
+    && communityPosts.community.members.filter((item) => item.email === email).length > 0 ? true : false;
     return (
             <Container>
-                <ShareBox>
+                {enablePost && <ShareBox>
                     <div>
                         {/* { imageUrl ?
                             (<img src={ imageUrl} />)
@@ -106,7 +108,7 @@ const CommunityHome = ({user: { credentials }, loading, communityPosts, getAllPo
                             <span>Add File</span>
                         </button>
                     </div>
-                </ShareBox>
+                </ShareBox> }
 
                 <Content>
                 <FlipMove>

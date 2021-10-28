@@ -7,8 +7,13 @@ import MyNetworks from '../UserProfile/MyNetworks';
 import MyCommunities from '../UserProfile/MyCommunities';
 
 
+<<<<<<< HEAD
 const Leftside = ({ user }) => {
     const { firstName, lastName, imageUrl } = user;
+=======
+const Leftside = ({ user: {userInfo} }) => {
+    const { firstName, lastName, imageUrl, headLine } = userInfo;
+>>>>>>> upstream/main
     return (
         <div className="Container">
             <div className="userCardArt">
@@ -18,7 +23,11 @@ const Leftside = ({ user }) => {
                 src={ imageUrl }
               />
               <label className="user__label">{firstName} {lastName} </label>
+<<<<<<< HEAD
               <p className="user__role">Front End Developer</p>
+=======
+              { headLine && <p className="user__role">{headLine}</p> }
+>>>>>>> upstream/main
             </div>
             <MyNetworks />
            <MyCommunities />

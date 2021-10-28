@@ -34,7 +34,11 @@ import dayjs from "dayjs";
 // import { getArticlesAPI } from '../actions';
 
 const CommunityHome = ({
+<<<<<<< HEAD
   user,
+=======
+  user: {userInfo},
+>>>>>>> upstream/main
   loading,
   usersPosts,
   getAllPostOfUserMemberCommunity,
@@ -53,7 +57,11 @@ const CommunityHome = ({
   const [openDialog, setOpenDialog] = useState(false);
   const [currentSelectedPost, setCurrentSelectedPost] = useState("");
   useEffect(() => {
+<<<<<<< HEAD
     const { email } = user;
+=======
+    const { email } = userInfo;
+>>>>>>> upstream/main
     if (email !== undefined) {
       getAllRecommendedCommunities();
       getAllPostOfUserMemberCommunity();
@@ -61,7 +69,11 @@ const CommunityHome = ({
     }
   }, []);
   useEffect(() => {
+<<<<<<< HEAD
     const { email } = user;
+=======
+    const { email } = userInfo;
+>>>>>>> upstream/main
     if (email !== undefined) {
       getAllPostOfUserMemberCommunity();
     }
@@ -102,7 +114,11 @@ const CommunityHome = ({
     postSectionMessage =
       "Go Ahead and join a community to begin seeing some post here.";
   }
+<<<<<<< HEAD
   const { imageUrl } = user;
+=======
+  const { imageUrl } = userInfo;
+>>>>>>> upstream/main
   return (
     <Container>
       {Array.isArray(recommendedCommunities) &&

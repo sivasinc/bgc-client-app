@@ -45,7 +45,11 @@ const signUpUserWithEmail = async (newUser) => {
   }
     const userCred = await createUserWithEmailAndPassword(auth, newUser.email, newUser.password);
     const result = await sendEmailVerification(auth.currentUser, {
+<<<<<<< HEAD
       url: "http://localhost:3000/login",
+=======
+      url: "https://bgc-functions.web.app/login",
+>>>>>>> upstream/main
     });
     console.log("email", result);
     const { email, uid } = userCred.user;
@@ -57,11 +61,18 @@ const signUpUserWithEmail = async (newUser) => {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         profileInfo: newUser.profileInfo,
+<<<<<<< HEAD
         securityInfo: newUser.securityInfo,
+=======
+>>>>>>> upstream/main
         createdAt: new Date().toISOString(),
         //TODO Append token to imageUrl. Work around just add token from image in storage.
         imageUrl: `https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/${noImg}?alt=media`,
         userId: uid,
+<<<<<<< HEAD
+=======
+        myNetworks: []
+>>>>>>> upstream/main
       };
   const results = await setDoc(doc(db, "users", email), userCredentials);
   return results;

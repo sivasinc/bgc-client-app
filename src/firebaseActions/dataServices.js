@@ -8,6 +8,10 @@ import {
   orderBy,
   updateDoc,
   setDoc,
+<<<<<<< HEAD
+=======
+  addDoc,
+>>>>>>> upstream/main
   deleteDoc
 } from "firebase/firestore";
 import Fuse from 'fuse.js';
@@ -18,9 +22,19 @@ import { db, storage } from "../firebase";
 import { checkInterestMatch } from "../util/validators";
 
 const getAllRecommenededCommunities = async (user) => {
+<<<<<<< HEAD
   let communityData = [];
   const { interests, email } = user;
   const communityCollection = [];
+=======
+  try {
+  let communityData = [];
+  const { profileInfo, email } = user;
+  const communityCollection = [];
+  const usersInterests = profileInfo.filter((item) => item.type === "interests");
+  const interests = [...usersInterests[0].details[0].interestFields];
+  const chapter = usersInterests[0].details[0].chapter;
+>>>>>>> upstream/main
   const querySnapshot = await getDocs(collection(db, "community"));
   querySnapshot.forEach((item) => {
     if (
@@ -38,12 +52,27 @@ const getAllRecommenededCommunities = async (user) => {
   });
   interests.forEach((interest) => {
     const community = filterRecommendedCommunity(interest, communityCollection);
+<<<<<<< HEAD
     console.log('test', communityData.filter((item => item.communityId === community.communityId)));
+=======
+>>>>>>> upstream/main
       if (community && communityData.length < 3 && (communityData.filter((item => item.communityId === community.communityId)).length === 0)) {
         communityData.push(community);
       }
   });
+<<<<<<< HEAD
   return communityData;
+=======
+    const community = filterRecommendedCommunity(chapter, communityCollection);
+      if (community && communityData.length < 3 && (communityData.filter((item => item.communityId === community.communityId)).length === 0)) {
+        communityData.push(community);
+      }
+  return communityData;
+    }
+    catch(error) {
+      console.log('error', error);
+    }
+>>>>>>> upstream/main
 };
 
 const filterRecommendedCommunity = (interest, communityCollection) => {
@@ -228,6 +257,10 @@ const getAPost = async (postId) => {
         userHandle: doc.data().userHandle,
         userName: doc.data().userName,
         responseTo: doc.data().responseTo,
+<<<<<<< HEAD
+=======
+        userImage: doc.data().userImage
+>>>>>>> upstream/main
       });
     });
     return postData;
@@ -331,7 +364,11 @@ const getAllMembers = async (user) => {
     usersSnapshot.forEach((doc) => {
       if(doc.data().email !== email) {
         users.push({
+<<<<<<< HEAD
           commentId: doc.id,
+=======
+          memberId: doc.data().userId,
+>>>>>>> upstream/main
           firstName: doc.data().firstName,
           lastName: doc.data().lastName,
           email: doc.data().email,
@@ -376,6 +413,78 @@ const getUserProfileInfo = async (email) => {
  }
 }
 
+<<<<<<< HEAD
+=======
+const updateUserDetails = async (userDetails) => {
+  try {
+    const { email } = userDetails;
+    const docRef = doc(db, "users", email);
+    const result = await updateDoc(docRef, { ...userDetails });
+    return result;
+  }
+ catch(error) {
+   console.log('error', error);
+ }
+}
+const getAllCommunities = async (user) => {
+  let communties = [];
+  const { email } = user;
+  const communityRef = collection(db, "community");
+  const q = query(
+    communityRef,
+    orderBy("createdAt", "desc")
+  );
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => { 
+      communties.push({
+        communityId: doc.id,
+        name: doc.data().name,
+        description: doc.data().description,
+        members: doc.data().members,
+        image: doc.data().imageUrl,
+      }); 
+  });
+  return communties;
+};
+
+const addNewCommunity = async (newCommunity) => {
+  try {
+    const results = await addDoc(collection(db, "community"), {
+      ...newCommunity
+    });
+    console.log(results.id);
+    return results.id;
+  }
+  catch(error) {
+    console.log('error', error);
+  }
+};
+
+const updateCommunityImage = async (currentCommunityId, imageUrl) => {
+  try {
+    const docRef = doc(db, "community", currentCommunityId);
+    const result = await updateDoc(docRef, { imageUrl });
+    return result;
+  }
+ catch(error) {
+   console.log('error', error);
+ }
+}
+
+const getMemberDetails = async (email) => {
+  const docRef = doc(db, "users", email);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
+};
+
+
+
+>>>>>>> upstream/main
 export {
   getAllRecommenededCommunities,
   getAllUserMemberCommunityPost,
@@ -390,5 +499,14 @@ export {
   disLikeAPost,
   getAllMembers,
   addMemberToMyNetwork,
+<<<<<<< HEAD
   getUserProfileInfo
+=======
+  getUserProfileInfo,
+  updateUserDetails,
+  getAllCommunities,
+  addNewCommunity,
+  updateCommunityImage,
+  getMemberDetails
+>>>>>>> upstream/main
 };

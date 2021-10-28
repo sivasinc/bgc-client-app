@@ -41,7 +41,7 @@ const Members = ({ communityPosts: { community: { members } = [] } = {} }) => {
           color="primary"
           className="recommended__communityBox_community_join_button"
         >
-         View All
+         VIEW ALL
         </Typography>
       </div>
       </div>);

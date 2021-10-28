@@ -7,7 +7,7 @@ import { editUserDetails } from '../../redux/actions/userActions';
 import ModelWindow from "./ModelWindow";
 
 
-const Education = ({ user: { credentials }, editUserDetails}) => {
+const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUserDetails}) => {
     const [profile, setProfile] = useState({});
   const [openModel, setOpenModel] = useState(false);
   const handleChange = (event) => {
@@ -37,30 +37,41 @@ const Education = ({ user: { credentials }, editUserDetails}) => {
       endMonth: updatedEndMonth !== undefined ? updatedEndMonth : '',
       endYear: updatedEndYear !== undefined ? updatedEndYear : ''
     };
-    const tempProfileInfo = [...credentials.profileInfo];
-    const tempInfo = tempProfileInfo.filter(item => item.type === "college");
+    const tempProfileInfo = [...userInfo.profileInfo];
+    const tempInfo = tempProfileInfo.filter(item => item.type === "education");
     if(tempInfo.length > 0) {
         tempProfileInfo.forEach(item => {
-            if(item.type === "college") {
+            if(item.type === "education") {
                 item.details.push(userDetails)
             }
         });
     } else {
         const details = [ { ...userDetails }];
-        tempProfileInfo.push({ type : "college", details });
+        tempProfileInfo.push({ type : "education", details });
     }
-    const request = { ...credentials, profileInfo : [...tempProfileInfo] };
+    const request = { ...userInfo, profileInfo : [...tempProfileInfo] };
     editUserDetails(request);
     setOpenModel(false);
   };
-    const { profileInfo } = credentials;
-    console.log('education-profileInfo', profileInfo);
+    let profileDetails = [];
+    if(readOnlyFlow && selectedMember && Array.isArray(selectedMember.profileInfo)) {
+      const { profileInfo } = selectedMember;
+      profileDetails = [
+        ...profileInfo
+      ]
+    } else if( userInfo && userInfo.profileInfo && Array.isArray(userInfo.profileInfo)){
+      
+      const { profileInfo } = userInfo;
+      profileDetails = [
+        ...profileInfo
+      ]
+    }
     let info = [];
-    if(profileInfo) {
-        info = profileInfo.filter(item => item.type === 'college');
+    if(profileDetails) {
+        info = profileDetails.filter(item => item.type === 'education');
     }
     let educationInfo = null;
-    if(profileInfo && info.length > 0) {
+    if(profileDetails && info.length > 0) {
         educationInfo =  info[0].details.map((item) => {
             return (
                 <div className="experience__item">

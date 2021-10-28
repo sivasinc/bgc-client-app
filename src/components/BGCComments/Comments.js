@@ -54,7 +54,7 @@ const styles = (theme) => ({
   },
 });
 
-const Comments = ({openDialog, commentLists, postId, refreshFunction, submitComment, post, setOpenDialog, user}) => {
+const Comments = ({openDialog, commentLists, postId, refreshFunction, submitComment, post, setOpenDialog, user: { userInfo }}) => {
 
 const [comment, setComment] = useState("");
   const handleClose = () => {
@@ -65,8 +65,8 @@ const [comment, setComment] = useState("");
     // this.setState({ comment: event.target.value });
   };
   const onSubmit = (e) => {
-    console.log('user', user);
-    const { credentials : { firstName, lastName } } = user;
+    console.log('user', userInfo);
+    const { credentials : { firstName, lastName } } = userInfo;
     e.preventDefault();
     submitComment(postId, {
       body: comment,

@@ -13,7 +13,7 @@ import { addAPost, addAPostwithImage, clearErrors } from '../../redux/actions/po
 // import firebase from 'firebase';
 // import { postArticleAPI } from '../actions';
 
-const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACommunityPostwithImage, handleClick }) => {
+const PostModal = ({ user: { userInfo }, showModal, addACommunityPost, addACommunityPostwithImage, handleClick }) => {
   const [editorText, setEditorText] = useState("");
   const [sharedImage, setSharedImage] = useState("");
   const [videoLink, setVideoLink] = useState("");
@@ -36,7 +36,7 @@ const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACo
   };
 
   const postArticle = (e) => {
-    const { firstName, lastName } = credentials;
+    const { firstName, lastName } = userInfo;
 
     e.preventDefault();
     // if(e.target !== e.currentTarget)
@@ -84,7 +84,7 @@ const PostModal = ({ user: { credentials }, showModal, addACommunityPost, addACo
     setAssetArea("");
     handleClick(e);
   };
-  const { imageUrl, firstName } = credentials;
+  const { imageUrl, firstName } = userInfo;
 
   return (
     <>

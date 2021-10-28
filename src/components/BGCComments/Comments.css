@@ -5,17 +5,65 @@
     cursor: pointer;
 }
 .form__text > div {
- margin : 0 20px 20px 20px;
+ margin : 10px 20px 20px 20px;
 }
 .form__text > button {
     margin: 0 20px 20px 0;
    }
 .single_comment_userLabel {
     font-family: Roboto;
+<<<<<<< HEAD
     font-size: 20px;
     font-weight: 500;
+=======
+    font-size: 16px;
+>>>>>>> upstream/main
     letter-spacing: 0.15px;
     line-height: 24px;
     color: #6200EE;
     margin: 0;
+<<<<<<< HEAD
+=======
+}
+.comment_section__box {
+    display: flex;
+    margin: 10px 20px 0 20px;
+}
+.comment_section__left {
+    margin: 0 10px 0 0;
+}
+.comment_section__right {
+    margin-bottom: 8px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    transition: box-shadow 83ms;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+    padding: 10px;
+    width: 100%;
+    background-color: #ECECEC;
+}
+.comment_section__right__header {
+    display: flex;
+}
+.comment_section__right__header p {
+    margin-right: 20px;
+}
+.comment_section__right__header p:nth-of-type(2) {
+    font-family: Roboto;
+    color: rgba(18,18,18,0.87);
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    line-height: 16px;
+    margin-top: 5px;
+}
+.comment_section__footer span {
+    margin-right: 20px;
+    cursor: pointer;
+}
+.comment_section__actions {
+    margin: 10px 20px 0 50px;
+>>>>>>> upstream/main
 }

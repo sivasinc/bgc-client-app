@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+<<<<<<< HEAD
+=======
+import { useHistory } from "react-router-dom";
+>>>>>>> upstream/main
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import LinearProgress from '@mui/material/LinearProgress';
@@ -25,6 +29,10 @@ const RecoverPassword = (props) => {
   const [securityAnswers, setSecurityAnswers] = useState({});
   const [disableProceed, setDisableProceed] = useState(false);
   const [emailValidationMessage, setEmailValidationMessage] = useState("");
+<<<<<<< HEAD
+=======
+  const history = useHistory();
+>>>>>>> upstream/main
 
   const recoveryHandler = async (newCount) => {
     if (newCount === 1) {
@@ -33,7 +41,11 @@ const RecoverPassword = (props) => {
       if (docSnap.exists()) {
         try {
           const result = await sendPasswordResetEmail(auth, email, {
+<<<<<<< HEAD
             url: "http://localhost:3000/login",
+=======
+            url: "https://bgc-functions.web.app/login",
+>>>>>>> upstream/main
           });
           console.log('result', result);
           setCurrentStep(newCount);
@@ -67,6 +79,12 @@ const RecoverPassword = (props) => {
         return <Step1 setEmail={setEmail} />;
     }
   };
+<<<<<<< HEAD
+=======
+  if(currentStep < 0) {
+    history.push('/login');
+  }
+>>>>>>> upstream/main
   return (
     <Grid container>
       <Grid item md={2}/>

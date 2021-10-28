@@ -83,11 +83,16 @@
     font-weight: 500 !important; 
     letter-spacing: 1.25px !important; 
     line-height: 16px !important;
+<<<<<<< HEAD
     margin: 0 20px 20px 0 !important;
+=======
+    margin: 0 20px 20px 20px !important;
+>>>>>>> upstream/main
     cursor:pointer;
 }
 .portalHome__comments {
     text-align: left;
+    padding-bottom: 20px;
 }
 
 .portalHome__no_postMessage {
@@ -99,7 +104,14 @@
     flex-direction: column;
     align-items: center;
     background-color: white;
-    margin: 10px;
+}
+.portalHome__no_postMessage p {
+    color: rgba(0,0,0,0.74);
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    line-height: 24px;
 }
 .portalHome__no_postMessage p {
     color: rgba(0,0,0,0.74);

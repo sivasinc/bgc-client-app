@@ -55,7 +55,7 @@ const styles = (theme) => ({
   },
 });
 
-const Comments = ({openDialog, updatedComment, postId, refreshFunction, submitComment,getPostDetails, post, setOpenDialog, user}) => {
+const Comments = ({openDialog, updatedComment, postId, refreshFunction, submitComment,getPostDetails, post, setOpenDialog, user: { userInfo }}) => {
 
  useEffect(() => {
   getPostDetails(postId);
@@ -69,7 +69,11 @@ const [comment, setComment] = useState("");
     // this.setState({ comment: event.target.value });
   };
   const onSubmit = (e) => {
+<<<<<<< HEAD
     const { firstName, lastName, email, imageUrl } = user;
+=======
+    const { firstName, lastName, email, imageUrl } = userInfo;
+>>>>>>> upstream/main
     e.preventDefault();
     submitComment(postId, {
       body: comment,
@@ -89,6 +93,22 @@ const [comment, setComment] = useState("");
       <Fragment>
             <div>
               <hr />
+              <form style={{ display: "flex" }} onSubmit={onSubmit} className="form__text">
+              <TextField
+            name="singleComment"
+            type="text"
+            variant="outlined"
+            placeholder="Add your comments here ..."
+            // className={classes.textField}
+            value={comment}
+            onChange={handleChange}
+            fullWidth
+          />
+                <br />
+                <Button  size="small" onClick={onSubmit}>
+                  Post
+                </Button>
+              </form>
               {comments &&
                 comments.map(
                   (comment, index) =>
@@ -107,11 +127,13 @@ const [comment, setComment] = useState("");
                           updatedComment={updatedComment}
                           postId={postId}
                           parentCommentId={comment.commentId}
+                          firstChildCommentId = { comment.commentId }
                           refreshFunction={refreshFunction}
                         />
                       </React.Fragment>
                     )
                 )}
+<<<<<<< HEAD
               {/* Root Comment Form */}
               <form style={{ display: "flex" }} onSubmit={onSubmit} className="form__text">
               <TextField
@@ -129,6 +151,8 @@ const [comment, setComment] = useState("");
                   Submit
                 </Button>
               </form>
+=======
+>>>>>>> upstream/main
             </div>
       </Fragment>
     );
