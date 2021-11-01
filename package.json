@@ -19,6 +19,7 @@
     "fuse.js": "^6.4.6",
     "jwt-decode": "^2.2.0",
     "react": "^16.14.0",
+    "react-documents": "^1.0.4",
     "react-dom": "^16.14.0",
     "react-firebase-hooks": "^3.0.4",
     "react-flip-move": "^3.0.4",
