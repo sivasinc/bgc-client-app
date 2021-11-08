@@ -1,4 +1,4 @@
-import { signIn, signUpUserWithEmail } from '../../firebaseActions/service';
+import { signIn, signUpUserWithEmail, signUpAdminWithEmail } from '../../firebaseActions/service';
 import {getUserProfileInfo, updateUserDetails, getMemberDetails } from '../../firebaseActions/dataServices';
 
 
@@ -61,6 +61,20 @@ export const signupUser = (newUserData, history) => async (dispatch) => {
         payload: err
       });
     };
+};
+
+export const signupAdminUser = (newUserData) => async (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  try {
+    await signUpAdminWithEmail(newUserData);
+    dispatch({ type: CLEAR_ERRORS });
+  } catch (err) {
+    console.log('error1', err);
+    dispatch({
+      type: SET_ERRORS,
+      payload: err
+    });
+  };
 };
 
 export const getUserProfileData = () => async (dispatch, getState) => {

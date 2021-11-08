@@ -23,6 +23,7 @@ import BGCDirectoryHome from './components/BGCDirectory/DirectoryHome';
 import BGCProfileHome from './components/UserProfile/BGCProfileHome';
 import login from './pages/login/login';
 import signup from './pages/Signup/signup';
+import AdminSignup from './pages/Signup/AdminSignup';
 import UserProfile from './pages/UserProfile';
 import RecoverPassword from './pages/passwordrecovery/RecoverPassword';
 
@@ -65,6 +66,7 @@ class App extends Component {
                 <Route exact path="/" component={login} />
                 <Route exact path="/login" component={login} />
                 <Route exact path="/signup" component={signup} />
+                <Route exact path="/admin-signup" component={AdminSignup} />
                 <Route exact path="/recover" component={RecoverPassword} />
                 <Route exact path="/directory" component={BGCDirectoryHome} />
                 <Route path="/communityHome/:communityId" component={communityDetails} />

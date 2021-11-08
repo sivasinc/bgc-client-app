@@ -118,6 +118,7 @@ class login extends Component {
             <p className="signup_link">
               Don't have an account ? sign up <Link to="/signup">here</Link>
             </p>
+            Admin? <Link to="/admin-signup">here</Link>
           </form>
           </div>
         </Grid>
