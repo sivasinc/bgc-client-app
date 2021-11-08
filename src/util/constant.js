@@ -160,7 +160,7 @@ export const getRoutes = (authenticated, value, history) => {
     }
   }
 
-
+  
 }
 export const eventsData = [
   { name: "Workshop", value: "1" },
@@ -193,3 +193,6 @@ export const chapterValue = [
   { name: "South Africa", value: "14" },
   { name: "Washington D.C", value: "15" },
 ];
+
+// regex to capture links
+  export const linkRegex = /((https?:\/\/)?[^\s.]+\.[\w][^\s]+)/g

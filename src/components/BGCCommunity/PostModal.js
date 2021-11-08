@@ -2,67 +2,70 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ReactPlayer from "react-player";
 import { connect } from "react-redux";
-import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
-import CloseIcon from '@mui/icons-material/Close';
+import {Add, Clear} from '@mui/icons-material';
 
-import ImageIcon from "@mui/icons-material/Image";
-import Button from "@material-ui/core/Button";
-import { addAPost, addAPostwithImage, clearErrors } from '../../redux/actions/postActions';
+import TextField from "@material-ui/core/TextField";
+import { addAPost, addAPostwithImage, addAPostwithDocument, clearErrors } from '../../redux/actions/postActions';
+import { ButtonGroup, Modal, Button } from "@mui/material";
+import { linkRegex } from "../../util/constant";
 
 
 // import firebase from 'firebase';
 // import { postArticleAPI } from '../actions';
 
-const PostModal = ({ user : {userInfo} , showModal, addACommunityPost, addACommunityPostwithImage, handleClick, communityId }) => {
+const PostModal = ({ user, showModal, addACommunityPost, addACommunityPostwithImage, addACommunityPostwithDocument, handleClick, communityId }) => {
   const [editorText, setEditorText] = useState("");
-  const [sharedImage, setSharedImage] = useState("");
   const [videoLink, setVideoLink] = useState("");
+  const [sharedDocument, setSharedDocument] = useState("");
   const [assetArea, setAssetArea] = useState("");
+  const [documentType, setDocumentType] = useState("")
 
-  const handleChange = (e) => {
-    const image = e.target.files[0];
 
-    if (image === "" || image === undefined) {
-      alert(`not an image, the file is a ${typeof image}`);
+  const handleDocumentChange = (e) => {
+    const doc = e.target.files[0];
+
+    if (!doc) {
+      alert(`Not a valid image/document`);
       return;
     }
-    setSharedImage(image);
+
+    const imageTypes = ['image/gif', 'image/jgp', 'image/png', 'image/jpeg']
+    if(imageTypes.includes(doc.type)){
+      setDocumentType('image')
+    }
+    else setDocumentType('document')
+
+    setSharedDocument(doc);
   };
 
-  const switchAssetArea = (area) => {
-    setSharedImage("");
-    setVideoLink("");
-    setAssetArea(area);
-  };
 
   const postArticle = (e) => {
     const { firstName, lastName, imageUrl, email } = userInfo;
 
     e.preventDefault();
-    // if(e.target !== e.currentTarget)
-    // {
-    //     return;
-    // }
-    if(sharedImage !== "") {
-        const payload = {
-            postPayload: {
-                sharedImg: '',
-                sharedVideo: videoLink,
-                body: editorText,
-                communityId: communityId,
-                userName: `${firstName} ${lastName}`,
-                userHandle: email,
-                userImage: imageUrl,
-                createdAt: new Date().toISOString(), 
-                likeCount: 0,
-                commentCount: 0,
-                usersLiked:[]
-            },
-            sharedImage
-        };
-        addACommunityPostwithImage(payload);
-            reset(e);
-    } else {
+
+     if (sharedDocument) {
+      const payload = {
+        postPayload: {
+          // sharedImg: '',
+          sharedVideo: videoLink,
+          body: editorText,
+          docType: documentType,
+          communityId: communityId,
+          userName: `${firstName} ${lastName}`,
+          userHandle: email,
+          userImage: imageUrl,
+          createdAt: new Date().toISOString(),
+          likeCount: 0,
+          commentCount: 0,
+          usersLiked: []
+        },
+        sharedDocument
+      };
+      addACommunityPostwithDocument(payload);
+      reset(e);
+    }
+    else {
         const payload = {
             postPayload: {
             sharedImg: '',
@@ -81,114 +84,104 @@ const PostModal = ({ user : {userInfo} , showModal, addACommunityPost, addACommu
         addACommunityPost(payload);
             reset(e);
     }
-    
-        
   };
 
   const reset = (e) => {
     setEditorText("");
-    setSharedImage("");
     setVideoLink("");
     setAssetArea("");
+    setSharedDocument('')
     handleClick(e);
   };
   const { imageUrl, firstName } = userInfo;
+
+
 
   return (
     <>
       {showModal === "open" && (
         <Container>
           <Content>
-            <Header>
-              <h2>Create a post</h2>
-              <CloseIcon onClick={(event) => reset(event)} color="primary"/>
-            </Header>
-
+              <h2 style={{padding : '0 10px'}}>Post Something</h2>
             <SharedContent>
-              <UserInfo>
-                {imageUrl ? (
-                  <img src={imageUrl} />
-                ) : (
-                  <img src="/images/user.svg" alt="" />
-                )}
-                <span>{firstName}</span>
-              </UserInfo>
-
-              <Editor>
-                <textarea
+                <TextField
                   value={editorText}
-                  onChange={(e) => setEditorText(e.target.value)}
-                  placeholder="What do you want to talk about?"
-                  onFocus={true}
+                  onChange={(e) => {
+                    const link = e.target.value.match(linkRegex)
+                    setEditorText(e.target.value)
+                    setVideoLink(()=> link && link[0] ? link[0] : null)
+                  }}
+                  label="What do you want to share?"
+                  multiline
+                  variant='outlined'
+                  fullWidth
+                  rows={4}
                 />
-                {assetArea === "image" ? (
-                  <UploadImage>
-                    <input
-                      type="file"
-                      accept="image/gif, image/jgp, image/png, image/jpeg"
-                      id="file"
-                      style={{ display: "none" }}
-                      onChange={handleChange}
-                    />
-                    <p>
-                      <label htmlFor="file" style={{ cursor: "pointer" }}>
-                        Select an image
-                      </label>
-                    </p>
+                
 
-                    {sharedImage && (
-                      <img src={URL.createObjectURL(sharedImage)} />
-                    )}
-                  </UploadImage>
-                ) : (
-                  assetArea === "media" && (
-                    <>
-                      <input
-                        type="text"
-                        placeholder="Please upload a video"
-                        value={videoLink}
-                        onChange={(e) => setVideoLink(e.target.value)}
-                      />
-                      {videoLink && (
-                        <ReactPlayer width={"100%"} url={videoLink} />
-                      )}
-                    </>
-                  )
-                )}
-              </Editor>
+
+              {videoLink && <ReactPlayer width={"100%"} url={videoLink} />}
             </SharedContent>
+            <div style={{padding: '0 16px'}}>
+              {sharedDocument ? (
+                <>
+                  <a target="_blank" download={sharedDocument.name} href={URL.createObjectURL(sharedDocument)}>
+                    {sharedDocument.name}
+                  </a>
+                  <Button
+                    onClick={() => setSharedDocument("")}
+                    variant='text'
+                    component="span"
+                    color="primary"
+                  >
+                    <Clear />
+                    <strong>REMOVE FILE</strong>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <input
+                    disabled={sharedDocument}
+                    id="file-input"
+                    type="file"
+                    accept="image/gif, image/jgp, image/png, image/jpeg, .pdf, .docx"
+                    hidden
+                    onChange={handleDocumentChange}
+                  />
+                  <label htmlFor="file-input">
+                    <Button
+                      variant='text'
+                      component="span"
+                      color="primary"
+                    >
+                      <Add />
+                      <strong>ATTACH IMAGE OR FILE</strong>
+                    </Button>
+                  </label>
+                </>
+              )}
 
-            <SharedCreation>
-              <AttachAssets>
-                <AssetButton onClick={() => switchAssetArea("image")}>
-                  <ImageIcon color="primary" />
-                </AssetButton>
-                <AssetButton onClick={() => switchAssetArea("media")}>
-                  <OndemandVideoIcon color="primary"/>
-                  {/* <img src="/images/shared-vid.png" alt="" /> */}
-                </AssetButton>
-              </AttachAssets>
+            </div>
 
-              {/* <ShareComment>
-                <AssetButton>
-                  <img src="/images/shared-comment.png" alt="" />
-                  Anyone
-                </AssetButton>
-              </ShareComment> */}
+
+              <ButtonGroup style={{display: 'flex', justifyContent:'flex-end', padding: 10}}>
               <Button
-                disabled={!editorText ? true : false}
+                style={{margin: '0 10px'}}
+                onClick={(event) => reset(event)}
+                color="primary"
+                variant='text'
+              >
+                CANCEL
+              </Button>
+              <Button
+                disabled={!editorText}
                 onClick={(event) => postArticle(event)}
                 color="primary"
-                name= "post"
+                variant='text'
               >
-                Post
+                POST
               </Button>
-              {/* <PostButton 
-                                disabled = {!editorText ? true : false} 
-                                onClick = {(event) => postArticle(event)} >
-                                Post
-                            </PostButton> */}
-            </SharedCreation>
+              </ButtonGroup>
           </Content>
         </Container>
       )}
@@ -225,10 +218,10 @@ const Content = styled.div`
 const Header = styled.div`
   display: block;
   padding: 0 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  // border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   font-size: 14px;
   line-height: 1.5;
-  color: rgba(0, 0, 0, 0.6);
+  // color: rgba(0, 0, 0, 0.6);
   font-weight: 400;
   display: flex;
   justify-content: space-between;
@@ -281,12 +274,6 @@ const UserInfo = styled.div`
   }
 `;
 
-const SharedCreation = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 24px 12px 16px;
-`;
-
 const AssetButton = styled.button`
   display: flex;
   align-items: center;
@@ -334,25 +321,7 @@ const PostButton = styled.button`
 `;
 
 const Editor = styled.div`
-  padding: 12px 24px;
-
-  textarea {
-    width: 100%;
-    min-height: 100px;
-    resize: none;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    outline: none;
-  }
-
-  input {
-    width: 100%;
-    height: 35px;
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
+  padding: 10px;
 `;
 
 const UploadImage = styled.div`
@@ -371,8 +340,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    addACommunityPost: (payload) => dispatch(addAPost(payload)),
-    addACommunityPostwithImage: (payload) => dispatch(addAPostwithImage(payload))
+  addACommunityPost: (payload) => dispatch(addAPost(payload)),
+  addACommunityPostwithImage: (payload) => dispatch(addAPostwithImage(payload)),
+  addACommunityPostwithDocument: (payload) => dispatch(addAPostwithDocument(payload))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostModal);
