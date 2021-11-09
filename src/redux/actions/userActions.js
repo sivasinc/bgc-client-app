@@ -33,6 +33,10 @@ export const loginUser = (userData, history) => (dispatch) => {
     };
     signIn(user)
       .then((result) => {
+        const {userRole = ''} = result
+        if(userRole === 'admin-pending'){
+          throw Error('Admin approval pending, please contact super admin')
+        } 
         dispatch({ type: CLEAR_ERRORS });
              dispatch({
         type: SET_USER,
@@ -42,6 +46,7 @@ export const loginUser = (userData, history) => (dispatch) => {
       history.push('/portalHome');
       })
       .catch((error) => {
+        alert(error.toString())
         dispatch({
           type: SET_ERRORS,
           payload: error.message
