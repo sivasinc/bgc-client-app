@@ -13,7 +13,7 @@ import { linkRegex } from "../../util/constant";
 // import firebase from 'firebase';
 // import { postArticleAPI } from '../actions';
 
-const PostModal = ({ user, showModal, addACommunityPost, addACommunityPostwithImage, addACommunityPostwithDocument, handleClick, communityId }) => {
+const PostModal = ({ user: {userInfo}, showModal, addACommunityPost, addACommunityPostwithImage, addACommunityPostwithDocument, handleClick, communityId }) => {
   const [editorText, setEditorText] = useState("");
   const [videoLink, setVideoLink] = useState("");
   const [sharedDocument, setSharedDocument] = useState("");
