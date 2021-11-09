@@ -1,7 +1,15 @@
-.step3 > h4{
-    font-weight: 400;
-    padding: 0 0 0 0;
+.step3 > h4 {
+  font-weight: 400;
+  padding: 0 0 10px 0;
 }
 .step3 {
-    padding: 10px 10px 20px 20px;
+  padding: 4px 10px 20px 0px;
+}
+
+.step3 > h3 {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  margin: 0 0 20px 0;
 }

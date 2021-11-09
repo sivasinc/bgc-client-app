@@ -1,86 +1,105 @@
 .step5 {
-    padding: 10px 10px 20px 20px;
-  }
-  
-  /* .step5 {
-      width: 100% !important;
-      display: flex;
-      flex-direction: column;
-      padding: 20px 0;;
-      margin:20px;
-    
-  } */
-  .step5 > h4 {
-    font-family: Roboto;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: 0.15px;
-    line-height: 24px;
-    color: rgba(0, 0, 0, 0.87);
-    padding: 0 0 20px 0px;
-    margin: 5px;
-  }
-  .step5 > h5 {
-    font-family: Roboto;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.15px;
-    line-height: 24px;
-    color: rgba(0, 0, 0, 0.87);
-    padding: 0 0 10px 0px;
-    margin: 5px;
-  }
-  
-  .step5_section_element {
+  padding: 10px 0px 20px 0px;
+}
+
+/* .step5 {
+    width: 100% !important;
     display: flex;
     flex-direction: column;
-    width: 100% !important;
-  }
-  .step5__section_element {
-    margin: 5px !important;
-  }
-  .paper_element {
-    display: flex !important;
-    /* justify-content: center !important; */
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0.5;
-    margin: 0;
-  }
+    padding: 20px 0;;
+    margin:20px;
   
-  .step5_interest_div > h5 {
-    font-family: Roboto;
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: 0.15px;
-    line-height: 24px;
-    color: rgba(0, 0, 0, 0.87);
-    padding: 10px 0 0px 2px;
-    margin: 5px;
-  }
-  /* trpl */
-  .step5_interest_div > h6 {
-    padding: 0 0 0px 5px;
-    font-size: 16px;
-    font-family: "Roboto";
-    font-weight: 500;
-    line-height: 24px;
-    letter-spacing: 0.5px;
-    margin: 10px 0 10px 0;
-    color: rgba(0, 0, 0, 0.74);
-  }
-  .step_interest {
-    margin-top: 10px !important;
-    width: 50% !important;
-  }
-  
-  .step5__interest_field {
-    width: 100% !important;
-    margin-top: 10px !important;
-    display: flex;
-    flex-direction: column;
-  }
-  .step5_connect_div {
-    padding: 0 0 5px 10px;
-    margin-top: 20px !important;
-  }
+} */
+.step5 > h3 {
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  line-height: 24px;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 0 0 20px 0px;
+  margin: 5px;
+}
+.step5 > h4 {
+  font-family: Roboto !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.15px !important;
+  line-height: 24px !important;
+  color: rgba(0, 0, 0, 0.87) !important;
+  padding: 0 0 10px 0px !important;
+  margin: 5px !important;
+}
+.step5_section_textfield {
+  display: flex;
+  flex-direction: column;
+  width: 100% !important;
+  margin: 10px !important;
+}
+.step5_section_element {
+  display: flex;
+  flex-direction: column;
+  width: 100% !important;
+  overflow: hidden;
+  /* margin: 5px !important; */
+}
+
+.paper_element {
+  display: flex !important;
+  /* justify-content: center !important; */
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 10px 0 10px 0;
+}
+/* 
+.step5_interest_div > h4 {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  line-height: 24px;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 30px 0 0px 2px;
+  margin: 5px;
+} */
+/* trpl */
+.step5_interest_div > h6 {
+  padding: 0 0 0px 5px;
+  font-size: 16px;
+  font-family: "Roboto";
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  margin: 10px 0 10px 0;
+  color: rgba(0, 0, 0, 0.74);
+}
+.step_interest {
+  margin: 10px 0 10px 0 !important;
+  width: 100% !important;
+}
+.step_state {
+  margin: 10px 0 10px 0 !important;
+  width: 100% !important;
+}
+
+/* trbl */
+.step5__interest_field {
+  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0 10px 0 !important;
+}
+.step5_connect_div {
+  padding: 0 0 5px 0px !important;
+  margin: 10px 0 10px 0 !important;
+}
+.step5_interest_div > h4 {
+  font-family: Roboto !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.15px !important;
+  line-height: 24px !important;
+  color: rgba(0, 0, 0, 0.87) !important;
+  padding: 10px 0 10px 0px !important;
+  margin: 5px !important;
+}

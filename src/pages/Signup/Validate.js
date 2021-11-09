@@ -1,7 +1,6 @@
-
-
-export default function validateInfo(values) {
+exports.validateInfo = (values, currentStep) => {
   let errors = {};
+
   if (!values.firstName.trim()) {
     errors.firstName = "First name required";
   } else {
@@ -9,7 +8,6 @@ export default function validateInfo(values) {
       errors.firstName = "Only letters are allowed";
     }
   }
-
 
   if (!values.lastName.trim()) {
     errors.lastName = "Last name required";
@@ -19,15 +17,12 @@ export default function validateInfo(values) {
     }
   }
 
-  // else if (!/^[A-Za-z]+/.test(values.name.trim())) {
-  //   errors.name = 'Enter a valid name';
-  // }
-
   if (!values.email) {
     errors.email = "Email required";
   } else if (!/\S+@\S+\.\S+/.test(values.email)) {
     errors.email = "Email address is invalid";
   }
+
   if (!values.password) {
     errors.password = "Password is required";
   } else if (values.password.length < 6) {
@@ -47,4 +42,4 @@ export default function validateInfo(values) {
   }
 
   return errors;
-}
+};

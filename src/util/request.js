@@ -1,8 +1,4 @@
-export const generateRequest = (
-  userProfile,
-  selectedProfile,
-  
-) => {
+export const generateRequest = (userProfile, selectedProfile) => {
   const {
     firstName,
     lastName,
@@ -27,8 +23,8 @@ export const generateRequest = (
               fieldOfStudy: userProfile["college-1"],
               startMonth,
               startYear,
-              endMonth: endMonth ? endMonth: '',
-              endYear: endYear ? endYear: '',
+              endMonth,
+              endYear,
             },
           ],
         },
@@ -41,6 +37,15 @@ export const generateRequest = (
               chapter: userProfile["participatedChapter"],
               likeToLearn: userProfile["likeToLearn"],
               connection: userProfile["connections"],
+              state: userProfile["state"],
+            },
+          ],
+        },
+        {
+          type: "linkedInOption",
+          details: [
+            {
+              linkedInOption: userProfile["linkedInOption"],
             },
           ],
         },
@@ -57,8 +62,8 @@ export const generateRequest = (
               jobTtile: userProfile["workforce-2"],
               startMonth,
               startYear,
-              endMonth: endMonth ? endMonth: '',
-              endYear: endYear ? endYear: '',
+              endMonth,
+              endYear,
             },
           ],
         },
@@ -71,6 +76,15 @@ export const generateRequest = (
               chapter: userProfile["participatedChapter"],
               likeToLearn: userProfile["likeToLearn"],
               connection: userProfile["connections"],
+              state: userProfile["state"],
+            },
+          ],
+        },
+        {
+          type: "linkedInOption",
+          details: [
+            {
+              linkedInOption: userProfile["linkedInOption"],
             },
           ],
         },
@@ -95,6 +109,15 @@ export const generateRequest = (
               chapter: userProfile["participatedChapter"],
               likeToLearn: userProfile["likeToLearn"],
               connection: userProfile["connections"],
+              state: userProfile["state"],
+            },
+          ],
+        },
+        {
+          type: "linkedInOption",
+          details: [
+            {
+              linkedInOption: userProfile["linkedInOption"],
             },
           ],
         },
@@ -119,6 +142,15 @@ export const generateRequest = (
               chapter: userProfile["participatedChapter"],
               likeToLearn: userProfile["likeToLearn"],
               connection: userProfile["connections"],
+              state: userProfile["state"],
+            },
+          ],
+        },
+        {
+          type: "linkedInOption",
+          details: [
+            {
+              linkedInOption: userProfile["linkedInOption"],
             },
           ],
         },
@@ -127,6 +159,7 @@ export const generateRequest = (
     default:
       break;
   }
+
   return {
     firstName,
     lastName,
