@@ -59,7 +59,7 @@ const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user: {
          return null
     }
 
-      const { email } = user;
+      const { email } = userInfo;
       console.log('article', article);
     return (
         <Article key = {key}>
