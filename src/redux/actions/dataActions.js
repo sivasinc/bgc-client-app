@@ -35,12 +35,8 @@ import axios from 'axios';
 import { getPostDetails } from './postActions';
 import { getAllRecommenededCommunities, getAllUserMemberCommunityPost, 
   myCommunity, joinACommunity, getAllCommunityPosts, commentOnAPost,
-<<<<<<< HEAD
-getAPost, likeAPost, disLikeAPost, getAllMembers, addMemberToMyNetwork, getUserProfileInfo } from '../../firebaseActions/dataServices';
-=======
 getAPost, likeAPost, disLikeAPost, getAllMembers, addMemberToMyNetwork, getUserProfileInfo, 
 getAllCommunities, addNewCommunity } from '../../firebaseActions/dataServices';
->>>>>>> upstream/main
 
 export const createCommunity = (newCommunity, history) => async (dispatch) => {
   dispatch({ type: LOADING_UI });
@@ -59,14 +55,6 @@ export const createCommunity = (newCommunity, history) => async (dispatch) => {
   }
 };
 
-<<<<<<< HEAD
-export const getRecommendedCommunity = () => async (dispatch, getState) => {
-  dispatch({ type: LOADING_RECOMMENDED_COMMUNITY });
-  try {
-    const { user } = getState();
-    console.log(user);
-    const result = await getAllRecommenededCommunities(user);
-=======
 export const getAllUsersCommunity = () => async (dispatch, getState) => {
   dispatch({ type: LOADING_USERS_COMMUNITY });
   try {
@@ -89,7 +77,6 @@ export const getRecommendedCommunity = () => async (dispatch, getState) => {
   try {
     const { user: { userInfo } } = getState();
     const result = await getAllRecommenededCommunities(userInfo);
->>>>>>> upstream/main
       return dispatch({ type: SET_RECOMMENDED_COMMUNITY,
         payload: result });
     }
@@ -100,16 +87,6 @@ export const getRecommendedCommunity = () => async (dispatch, getState) => {
       });
     }
   };
-<<<<<<< HEAD
-
-
-export const joinCommunity = (newCommunity) => async (dispatch, getState) => {
-  dispatch({ type: LOADING_JOIN_COMMUNITY, payload: true });
-  try {
-    const { user } = getState();
-    const result = await joinACommunity(user, newCommunity);
-    await Promise.all([dispatch(getRecommendedCommunity(user)), dispatch(getAllCommunityOfUser(user)), dispatch(getAllPostsOfUser(user))]);
-=======
 
 
 export const joinCommunity = (newCommunity) => async (dispatch, getState) => {
@@ -118,7 +95,6 @@ export const joinCommunity = (newCommunity) => async (dispatch, getState) => {
     const { user: { userInfo } } = getState();
     const result = await joinACommunity(userInfo, newCommunity);
     await Promise.all([dispatch(getRecommendedCommunity(userInfo)), dispatch(getAllCommunityOfUser(userInfo)), dispatch(getAllPostsOfUser(userInfo))]);
->>>>>>> upstream/main
     return dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
   } catch(error) {
     dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
@@ -151,13 +127,8 @@ export const getPostsOfCommunity = (communityId) => async (dispatch) => {
 export const getAllPostsOfUser = () => async (dispatch, getState) => {
   dispatch({ type: LOADING_USERS_POST });
   try {
-<<<<<<< HEAD
-    const { user } = getState();
-    const result = await getAllUserMemberCommunityPost(user)
-=======
     const { user: { userInfo } } = getState();
     const result = await getAllUserMemberCommunityPost(userInfo)
->>>>>>> upstream/main
     return dispatch({
       type: SET_USERS_POSTS,
       payload: result
@@ -209,13 +180,8 @@ export const getAllCommunity = () => (dispatch) => {
 export const getAllCommunityOfUser = () => async (dispatch, getState) => {
   dispatch({ type: LOADING_MY_COMMUNITY });
   try {
-<<<<<<< HEAD
-    const { user } = getState();
-    const result = await myCommunity(user)
-=======
     const { user: { userInfo } } = getState();
     const result = await myCommunity(userInfo)
->>>>>>> upstream/main
     return dispatch({
       type: SET_MY_COMMUNITY,
       payload: result
@@ -284,15 +250,9 @@ export const postScream = (newScream) => (dispatch) => {
 };
 
 export const likePost = (postId, source) => async (dispatch, getState) => {
-<<<<<<< HEAD
-  const { user, data } = getState();
-  try {
-    const { email } = user;
-=======
   const { user: { userInfo }, data } = getState();
   try {
     const { email } = userInfo;
->>>>>>> upstream/main
     const result = await likeAPost({
       postId,
       email
@@ -313,15 +273,9 @@ export const likePost = (postId, source) => async (dispatch, getState) => {
 };
 
 export const dislikePost = (postId, source) => async (dispatch, getState) => {
-<<<<<<< HEAD
-  const { user, data } = getState();
-  try {
-    const { email } = user;
-=======
   const { user: { userInfo }, data } = getState();
   try {
     const { email } = userInfo;
->>>>>>> upstream/main
     const result = await disLikeAPost({
       postId,
       email
@@ -385,13 +339,8 @@ export const getUserData = (userHandle) => (dispatch) => {
 export const getAllMemberData = () => async (dispatch, getState) => {
   dispatch({ type: LOADING_MEMBERS });
    try {
-<<<<<<< HEAD
-    const { user } = getState();
-     const result = await getAllMembers(user);
-=======
     const { user: { userInfo } } = getState();
      const result = await getAllMembers(userInfo);
->>>>>>> upstream/main
      dispatch({
       type: SET_MEMBERS,
       payload: result
@@ -408,19 +357,11 @@ export const getAllMemberData = () => async (dispatch, getState) => {
 export const addMemberToNetwork = (email) => async (dispatch, getState) => {
   dispatch({ type: LOADING_DATA });
    try {
-<<<<<<< HEAD
-    const { user, data: { members } } = getState();
-    const newMember = members.filter(item => item.email === email);
-    if(newMember.length > 0) {
-      const result = await addMemberToMyNetwork(user, newMember[0]);
-      const userProfile = await getUserProfileInfo(user.email);
-=======
     const { user: { userInfo }, data: { members } } = getState();
     const newMember = members.filter(item => item.email === email);
     if(newMember.length > 0) {
       const result = await addMemberToMyNetwork(userInfo, newMember[0]);
       const userProfile = await getUserProfileInfo(userInfo.email);
->>>>>>> upstream/main
       dispatch({ type: CLEAR_ERRORS });
       dispatch({
  type: SET_USER,

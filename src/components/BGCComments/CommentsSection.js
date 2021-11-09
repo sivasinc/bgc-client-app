@@ -69,11 +69,7 @@ const [comment, setComment] = useState("");
     // this.setState({ comment: event.target.value });
   };
   const onSubmit = (e) => {
-<<<<<<< HEAD
-    const { firstName, lastName, email, imageUrl } = user;
-=======
     const { firstName, lastName, email, imageUrl } = userInfo;
->>>>>>> upstream/main
     e.preventDefault();
     submitComment(postId, {
       body: comment,
@@ -133,26 +129,6 @@ const [comment, setComment] = useState("");
                       </React.Fragment>
                     )
                 )}
-<<<<<<< HEAD
-              {/* Root Comment Form */}
-              <form style={{ display: "flex" }} onSubmit={onSubmit} className="form__text">
-              <TextField
-            name="singleComment"
-            type="text"
-            variant="outlined"
-            placeholder="Add your comments here ..."
-            // className={classes.textField}
-            value={comment}
-            onChange={handleChange}
-            fullWidth
-          />
-                <br />
-                <Button  size="small" onClick={onSubmit}>
-                  Submit
-                </Button>
-              </form>
-=======
->>>>>>> upstream/main
             </div>
       </Fragment>
     );

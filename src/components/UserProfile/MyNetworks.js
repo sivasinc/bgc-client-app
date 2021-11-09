@@ -11,11 +11,7 @@ import { editUserDetails } from '../../redux/actions/userActions';
 import ModelWindow from "./ModelWindow";
 
 
-<<<<<<< HEAD
-const MyNetworks = ({ user: { myNetworks } }) => {
-=======
 const MyNetworks = ({ user: { userInfo : { myNetworks } } }) => {
->>>>>>> upstream/main
     return (
         <div className="MyNetworks">
         <div className="MyNetworks__heading">

@@ -7,26 +7,6 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import Members from './Members';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
-<<<<<<< HEAD
-
-
-const Leftside = ({ user: { email },communityPosts : { community} = {},communityPosts: { community: { members } = [] } = {} }) => {
-    const communityActionHandler = () => {
-
-    }
-
-    const generateActionLink = () => {
-        if(members && Array.isArray(members) && members.filter((item) => item.email === email).length > 0) {
-            return (<React.Fragment>
-<CheckIcon onClick={() => communityActionHandler(email)} /> <span onClick={() => communityActionHandler(email)} className="community_action_footer__label">Joined</span>
-            </React.Fragment>);
-        } else {
-            return (<React.Fragment>
-                <AddIcon onClick={() => communityActionHandler(email)} /> <span onClick={() => communityActionHandler(email)} className="community_action_footer__label">ADD TO MY NETWORK</span>
-                            </React.Fragment>);
-        }
-    }
-=======
 import { uploadCommunityProfileImage } from '../../redux/actions/postActions';
 
 
@@ -59,7 +39,6 @@ const Leftside = ({ user: { userInfo },communityPosts : { community } = {},commu
        }
 
 
->>>>>>> upstream/main
     const communityTile = () => {
         let section = null;
         if(community) {

@@ -31,11 +31,7 @@ const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunit
         <div className="MyCommunity__header">
           <h3>My Communities</h3>
         </div>
-<<<<<<< HEAD
-        { myCommunities && Array.isArray(myCommunities) && myCommunities.length > 0 && (
-=======
         { filteredList && Array.isArray(filteredList) && filteredList.length > 0 && (
->>>>>>> upstream/main
             <div className="MyNetworks__header__right">
             <span>{myCommunities.length } Communities</span>
           </div>

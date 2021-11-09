@@ -13,22 +13,14 @@ import {likePost, dislikePost, getAllPostsOfUser, getPostsOfCommunity } from '..
 
 
 
-<<<<<<< HEAD
-const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user, getAllPostOfUserMemberCommunity, getAllPostOfACommunity, source, currentCommunityId }) => {
-=======
 const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user: { userInfo }, getAllPostOfUserMemberCommunity, getAllPostOfACommunity, source, currentCommunityId }) => {
->>>>>>> upstream/main
     const [updatedComment, setUpdatedComment] = useState(false);
     const [likeActionState, setLikeActionState] = useState("action");
     const [selectedPostId, setSelectedPostId] = useState("");
     const [openDialog, setOpenDialog] = useState(false);
     const [currentSelectedPost, setCurrentSelectedPost] = useState("");
     const likeHandler = (postId) => {
-<<<<<<< HEAD
-        const { email } = user;
-=======
         const { email } = userInfo;
->>>>>>> upstream/main
         if(article && article.usersLiked && Array.isArray(article.usersLiked) && article.usersLiked.includes(email)) {
             disLikeAPost(postId, source);
         } else {
@@ -50,11 +42,7 @@ const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user: {
     const updateComment = (value) => {
         setUpdatedComment(value);
       };
-<<<<<<< HEAD
-      const { email } = user;
-=======
       const { email } = userInfo;
->>>>>>> upstream/main
       console.log('article', article);
     return (
         <Article key = {key}>
@@ -86,17 +74,6 @@ const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user: {
                                 </SharedImage>
 }
                                 <SocialActions>
-<<<<<<< HEAD
-                                    <button>
-                                    <ThumbUpIcon color={article.usersLiked.includes(email) ? 'primary' : 'action' } onClick={() => likeHandler(article.postId)} />
-                                        <span>Like</span>
-                                    </button>
-                                    <button onClick={() =>handleCommentDialoge(article.postId)}>
-                                        <CommentIcon color="primary" />
-                                        <span>Post a comment</span>
-                                    </button>
-                                   
-=======
                                     {article.usersLiked.includes(email) && <FavoriteIcon color="primary" /> }
                                 <Typography
                 variant="button"
@@ -108,7 +85,6 @@ const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user: {
                 color="primary"
                 onClick={() =>handleCommentDialoge(article.postId)}
               >POST A COMMENT</Typography>
->>>>>>> upstream/main
                                         <p>{article.commentCount} comments</p>
                                         <p>{article.likeCount} Likes</p>
                                 </SocialActions>

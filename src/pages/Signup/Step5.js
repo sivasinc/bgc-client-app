@@ -8,11 +8,8 @@ import DoneIcon from "@mui/icons-material/Done";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-<<<<<<< HEAD
-=======
 import { eventsData } from "../../util/constant";
 import { chapterValue } from "../../util/constant";
->>>>>>> upstream/main
 
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -42,26 +39,13 @@ const Step5 = ({
           select
           value={participatedChapter}
           onChange={handleInputChange}
-<<<<<<< HEAD
-          helperText="Please select your currency"
-=======
->>>>>>> upstream/main
           variant="outlined"
           label="Which Black Girls Code chapter have you participated in?"
           name="participatedChapter"
         >
-<<<<<<< HEAD
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>{" "}
-=======
           {chapterValue.map((item) => (
             <MenuItem value={item.name}>{item.name}</MenuItem>
           ))}
->>>>>>> upstream/main
         </TextField>
 
         <TextField
@@ -78,35 +62,18 @@ const Step5 = ({
             onChange: handleInputChange,
           }}
         >
-<<<<<<< HEAD
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>{" "}
-=======
           {eventsData.map((item) => (
             <MenuItem value={item.name}>{item.name}</MenuItem>
           ))}
->>>>>>> upstream/main
         </TextField>
       </div>
 
       <div className="step5_interest_div">
-<<<<<<< HEAD
-        <h4>Your interests</h4>
-        <h5>
-          Select all that apply.We will use these to recommend you relevent
-          content
-        </h5>
-=======
         <h5>Your interests</h5>
         <h6>
           Select all that apply.We will use these to recommend you relevent
           content
         </h6>
->>>>>>> upstream/main
         <div className="paper_element">
           {chipData.map((item, index) => (
             <ListItem key={index}>

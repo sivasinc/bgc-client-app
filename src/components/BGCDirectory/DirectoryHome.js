@@ -10,11 +10,7 @@ import Member from './Member';
 import {getAllMemberData, addMemberToNetwork } from '../../redux/actions/dataActions';
 
 
-<<<<<<< HEAD
-const DirectoryHome = ({members, getMemberData, addMemberToMyNetwork, user, loadingMembers}) => {
-=======
 const DirectoryHome = ({members, getMemberData, addMemberToMyNetwork, user: { userInfo }, loadingMembers}) => {
->>>>>>> upstream/main
   const [searchItems, setSearchItem] = useState(members && Array.isArray(members) ? members : []);
     useEffect(() => {
         getMemberData();
@@ -29,11 +25,7 @@ const DirectoryHome = ({members, getMemberData, addMemberToMyNetwork, user: { us
     const addMemberHandler = (email) => {
         addMemberToMyNetwork(email);
     }
-<<<<<<< HEAD
-    const { myNetworks } = user;
-=======
     const { myNetworks } = userInfo;
->>>>>>> upstream/main
 
 const searchDirectoryHandler = (query) => {
   const fuse = new Fuse(members, { 

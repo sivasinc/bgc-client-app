@@ -83,11 +83,7 @@
     font-weight: 500 !important; 
     letter-spacing: 1.25px !important; 
     line-height: 16px !important;
-<<<<<<< HEAD
-    margin: 0 20px 20px 0 !important;
-=======
     margin: 0 20px 20px 20px !important;
->>>>>>> upstream/main
     cursor:pointer;
 }
 .portalHome__comments {

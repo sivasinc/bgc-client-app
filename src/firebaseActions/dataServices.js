@@ -8,10 +8,7 @@ import {
   orderBy,
   updateDoc,
   setDoc,
-<<<<<<< HEAD
-=======
   addDoc,
->>>>>>> upstream/main
   deleteDoc
 } from "firebase/firestore";
 import Fuse from 'fuse.js';
@@ -22,11 +19,6 @@ import { db, storage } from "../firebase";
 import { checkInterestMatch } from "../util/validators";
 
 const getAllRecommenededCommunities = async (user) => {
-<<<<<<< HEAD
-  let communityData = [];
-  const { interests, email } = user;
-  const communityCollection = [];
-=======
   try {
   let communityData = [];
   const { profileInfo, email } = user;
@@ -34,7 +26,6 @@ const getAllRecommenededCommunities = async (user) => {
   const usersInterests = profileInfo.filter((item) => item.type === "interests");
   const interests = [...usersInterests[0].details[0].interestFields];
   const chapter = usersInterests[0].details[0].chapter;
->>>>>>> upstream/main
   const querySnapshot = await getDocs(collection(db, "community"));
   querySnapshot.forEach((item) => {
     if (
@@ -52,17 +43,10 @@ const getAllRecommenededCommunities = async (user) => {
   });
   interests.forEach((interest) => {
     const community = filterRecommendedCommunity(interest, communityCollection);
-<<<<<<< HEAD
-    console.log('test', communityData.filter((item => item.communityId === community.communityId)));
-=======
->>>>>>> upstream/main
       if (community && communityData.length < 3 && (communityData.filter((item => item.communityId === community.communityId)).length === 0)) {
         communityData.push(community);
       }
   });
-<<<<<<< HEAD
-  return communityData;
-=======
     const community = filterRecommendedCommunity(chapter, communityCollection);
       if (community && communityData.length < 3 && (communityData.filter((item => item.communityId === community.communityId)).length === 0)) {
         communityData.push(community);
@@ -72,7 +56,6 @@ const getAllRecommenededCommunities = async (user) => {
     catch(error) {
       console.log('error', error);
     }
->>>>>>> upstream/main
 };
 
 const filterRecommendedCommunity = (interest, communityCollection) => {
@@ -257,10 +240,7 @@ const getAPost = async (postId) => {
         userHandle: doc.data().userHandle,
         userName: doc.data().userName,
         responseTo: doc.data().responseTo,
-<<<<<<< HEAD
-=======
         userImage: doc.data().userImage
->>>>>>> upstream/main
       });
     });
     return postData;
@@ -364,11 +344,7 @@ const getAllMembers = async (user) => {
     usersSnapshot.forEach((doc) => {
       if(doc.data().email !== email) {
         users.push({
-<<<<<<< HEAD
-          commentId: doc.id,
-=======
           memberId: doc.data().userId,
->>>>>>> upstream/main
           firstName: doc.data().firstName,
           lastName: doc.data().lastName,
           email: doc.data().email,
@@ -413,8 +389,6 @@ const getUserProfileInfo = async (email) => {
  }
 }
 
-<<<<<<< HEAD
-=======
 const updateUserDetails = async (userDetails) => {
   try {
     const { email } = userDetails;
@@ -484,7 +458,6 @@ const getMemberDetails = async (email) => {
 
 
 
->>>>>>> upstream/main
 export {
   getAllRecommenededCommunities,
   getAllUserMemberCommunityPost,
@@ -499,14 +472,10 @@ export {
   disLikeAPost,
   getAllMembers,
   addMemberToMyNetwork,
-<<<<<<< HEAD
-  getUserProfileInfo
-=======
   getUserProfileInfo,
   updateUserDetails,
   getAllCommunities,
   addNewCommunity,
   updateCommunityImage,
   getMemberDetails
->>>>>>> upstream/main
 };

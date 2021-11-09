@@ -1,9 +1,5 @@
 import { signIn, signUpUserWithEmail } from '../../firebaseActions/service';
-<<<<<<< HEAD
-import {getUserProfileInfo} from '../../firebaseActions/dataServices';
-=======
 import {getUserProfileInfo, updateUserDetails, getMemberDetails } from '../../firebaseActions/dataServices';
->>>>>>> upstream/main
 
 
 import {
@@ -69,10 +65,6 @@ export const signupUser = (newUserData, history) => async (dispatch) => {
 
 export const getUserProfileData = () => async (dispatch, getState) => {
   try {
-<<<<<<< HEAD
-    const { user } = getState();
-    const result = await getUserProfileInfo(user.email);
-=======
     const { user: { userInfo } } = getState();
     const result = await getUserProfileInfo(userInfo.email);
   }
@@ -88,33 +80,12 @@ export const getMemberData = (email) => async (dispatch) => {
       type : SET_SELECTED_MEMBER,
       payload: result
     })
->>>>>>> upstream/main
   }
   catch(err) {
     console.log(err);
   } 
 };
 
-<<<<<<< HEAD
-// export const signupUser = (newUserData, history) => (dispatch) => {
-//   dispatch({ type: LOADING_UI });
-//   axios
-//     .post('/signup', newUserData)
-//     .then((res) => {
-//       setAuthorizationHeader(res.data.token);
-//       dispatch(getUserData());
-//       dispatch({ type: CLEAR_ERRORS });
-//       history.push('/userprofile');
-//     })
-//     .catch((err) => {
-//       dispatch({
-//         type: SET_ERRORS,
-//         payload: err.response.data
-//       });
-//     });
-// };
-=======
->>>>>>> upstream/main
 
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem('FBIdToken');

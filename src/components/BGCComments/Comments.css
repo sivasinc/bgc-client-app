@@ -12,18 +12,11 @@
    }
 .single_comment_userLabel {
     font-family: Roboto;
-<<<<<<< HEAD
-    font-size: 20px;
-    font-weight: 500;
-=======
     font-size: 16px;
->>>>>>> upstream/main
     letter-spacing: 0.15px;
     line-height: 24px;
     color: #6200EE;
     margin: 0;
-<<<<<<< HEAD
-=======
 }
 .comment_section__box {
     display: flex;
@@ -65,5 +58,4 @@
 }
 .comment_section__actions {
     margin: 10px 20px 0 50px;
->>>>>>> upstream/main
 }

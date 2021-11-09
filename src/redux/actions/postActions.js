@@ -23,12 +23,8 @@ import {
   } from '../types';
   import axios from 'axios';
   import { getPostsOfCommunity } from './dataActions';
-<<<<<<< HEAD
-  import { addNewPost, getAPost } from '../../firebaseActions/dataServices';
-=======
   import { addNewPost, getAPost, getUserProfileInfo , updateCommunityImage} from '../../firebaseActions/dataServices';
   import { editUserDetails } from '../actions/userActions';
->>>>>>> upstream/main
   import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
   import { storage } from "../../firebase";
 
@@ -74,8 +70,6 @@ import {
     });
     }
   }
-<<<<<<< HEAD
-=======
   export const uploadProfileImage = (image, userDetails) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     if (image != "") {
@@ -132,7 +126,6 @@ import {
     }
   }
 
->>>>>>> upstream/main
   export const addAPost = (newPost) => async (dispatch) => {
     dispatch({ type: LOADING_UI });
     try {

@@ -1,11 +1,7 @@
 export const generateRequest = (
   userProfile,
-<<<<<<< HEAD
-  selectedProfile
-=======
   selectedProfile,
   
->>>>>>> upstream/main
 ) => {
   const {
     firstName,
@@ -31,13 +27,8 @@ export const generateRequest = (
               fieldOfStudy: userProfile["college-1"],
               startMonth,
               startYear,
-<<<<<<< HEAD
-              endMonth,
-              endYear,
-=======
               endMonth: endMonth ? endMonth: '',
               endYear: endYear ? endYear: '',
->>>>>>> upstream/main
             },
           ],
         },
@@ -66,13 +57,8 @@ export const generateRequest = (
               jobTtile: userProfile["workforce-2"],
               startMonth,
               startYear,
-<<<<<<< HEAD
-              endMonth,
-              endYear,
-=======
               endMonth: endMonth ? endMonth: '',
               endYear: endYear ? endYear: '',
->>>>>>> upstream/main
             },
           ],
         },
@@ -141,10 +127,6 @@ export const generateRequest = (
     default:
       break;
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/main
   return {
     firstName,
     lastName,

@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import withStyles from "@material-ui/core/styles/withStyles";
-<<<<<<< HEAD
-import TextField from '@mui/material/TextField';
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-=======
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import Grid from "@material-ui/core/Grid";
 import Typography from '@mui/material/Typography';
->>>>>>> upstream/main
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -60,11 +54,7 @@ function SingleComment({ comment, classes, submitComment, postId, user: { userIn
   };
   const onSubmit = (e) => {
     const { commentId } = comment;
-<<<<<<< HEAD
-    const {  firstName, lastName, email, imageUrl } = user;
-=======
     const {  firstName, lastName, email, imageUrl } = userInfo;
->>>>>>> upstream/main
     e.preventDefault();
     submitComment(postId, { 
       body: CommentValue, 
@@ -92,19 +82,12 @@ function SingleComment({ comment, classes, submitComment, postId, user: { userIn
   const { body, createdAt, userImage, userHandle, userName } = comment;
   return (
     <div key={createdAt} className="comment_section">
-<<<<<<< HEAD
-      <Grid item sm={12}>
-        <Grid container>
-          <Grid item sm={9}>
-            <div className={classes.commentData}>
-=======
        <div className="comment_section__box">
          <div className="comment_section__left">
          <Avatar alt="Remy Sharp" src={userImage} />
          </div>
          <div className="comment_section__right">
          <div className="comment_section__right__header">
->>>>>>> upstream/main
               <p className="single_comment_userLabel">{userName}</p>
               {/* <Typography
                 variant="h6"
@@ -114,16 +97,9 @@ function SingleComment({ comment, classes, submitComment, postId, user: { userIn
               >
                 
               </Typography> */}
-<<<<<<< HEAD
-              <Typography variant="body2" color="textSecondary">
-                {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
-              </Typography>
-              <hr className={classes.invisibleSeparator} />
-=======
               <p className="single_comment_userLabel">{dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}</p>
               </div>
               <div className="comment_section__body">
->>>>>>> upstream/main
               <Typography variabnt="body1" className={classes.bodyPadding}>
                 {body}
               </Typography>
