@@ -43,7 +43,7 @@ export const loginUser = (userData, history) => (dispatch) => {
         payload: result
       });
       dispatch({ type: SET_CURRENT_TAB_INDEX, payload: 1 });
-      history.push('/portalHome');
+      userRole === 'admin' ? history.push('/adminHome') : history.push('/portalHome')
       })
       .catch((error) => {
         alert(error.toString())

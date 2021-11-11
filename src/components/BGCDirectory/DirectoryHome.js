@@ -8,6 +8,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Fuse from 'fuse.js';
 import Member from './Member';
 import {getAllMemberData, addMemberToNetwork } from '../../redux/actions/dataActions';
+import Navigation from "../layout/Navigation";
 
 
 const DirectoryHome = ({members, getMemberData, addMemberToMyNetwork, user: { userInfo }, loadingMembers}) => {
@@ -45,6 +46,8 @@ if (result.length) {
 }
 console.log('searchItems', searchItems);
   return (
+    <React.Fragment>
+    <Navigation/>
     <div className="directory_container">
       <h4>Alumnae Directory</h4>
       <div className="directory__header">
@@ -78,6 +81,7 @@ console.log('searchItems', searchItems);
           }
            </div>   
     </div>
+    </React.Fragment>
   );
 };
 

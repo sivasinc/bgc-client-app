@@ -12,7 +12,6 @@ import store from './redux/store';
 import { SET_AUTHENTICATED } from './redux/types';
 import { logoutUser, getUserData } from './redux/actions/userActions';
 // Components
-import Navbar from './components/layout/Navigation';
 import themeObject from './util/theme';
 import AuthRoute from './util/AuthRoute';
 // Pages
@@ -28,6 +27,9 @@ import UserProfile from './pages/UserProfile';
 import RecoverPassword from './pages/passwordrecovery/RecoverPassword';
 
 import axios from 'axios';
+import AdminAuthRoute from './util/AdminAuthRoute';
+import { AdminHome } from './components/Admin/AdminHome';
+import Navigation from './components/layout/Navigation';
 
 const theme = createTheme(themeObject);
 
@@ -55,7 +57,6 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <Router>
-            <Navbar />
             <CssBaseline />
             {/* <div className="container"> */}
             <Container fixed>
@@ -74,6 +75,7 @@ class App extends Component {
                 <AuthRoute exact path="/portalHome" component={PortalHome} />
                 <AuthRoute exact path="/communityHome" component={communityHome} />
                 <AuthRoute exact path="/userprofile" component={BGCProfileHome} />
+                <AdminAuthRoute exact path="/adminHome" component={AdminHome} />
                 {/* <Route exact path="/communityHome" component={communityHome} /> */}
                 {/* <AuthRoute exact path="/login" component={login} />
                 <AuthRoute exact path="/signup" component={signup} />
