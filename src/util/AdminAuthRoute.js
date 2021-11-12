@@ -2,19 +2,19 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import MemberNavbar from '../components/layout/Navigation';
+import AdminNavbar from "../components/layout/AdminNavbar";
 
-
-const AuthRoute = ({ component: Component, userRole, authenticated, ...rest }) => (
+const AdminAuthRoute = ({ component: Component, userRole, authenticated, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      authenticated === true && userRole === 'member' ? (
+      authenticated === true && userRole === 'admin' ? (
         <React.Fragment>
-          <MemberNavbar />
+          <AdminNavbar />
           <Component {...props} />
         </React.Fragment>
-      ) : <Redirect to="/login" />
+      )
+        : <Redirect to="/login" />
     }
   />
 );
@@ -24,8 +24,8 @@ const mapStateToProps = (state) => ({
   userRole: state.user.userInfo.userRole
 });
 
-AuthRoute.propTypes = {
+AdminAuthRoute.propTypes = {
   user: PropTypes.object
 };
 
-export default connect(mapStateToProps)(AuthRoute);
+export default connect(mapStateToProps)(AdminAuthRoute);
