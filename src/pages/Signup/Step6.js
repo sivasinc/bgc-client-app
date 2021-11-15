@@ -40,10 +40,4 @@ const Step6 = ({ handleRadioChange, value }) => {
 
 Step6.propTypes = {};
 
-<<<<<<< HEAD
 export default Step6;
-=======
-}
-
-export default Step6
->>>>>>> upstream/main

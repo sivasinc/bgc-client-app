@@ -182,7 +182,7 @@ export const chapterValue = [
   { name: "Washington D.C", value: "15" },
   { name: "Other", value: "16" },
 ];
-;
+
 
 // regex to capture links
   export const linkRegex = /((https?:\/\/)?[^\s.]+\.[\w][^\s]+)/g
