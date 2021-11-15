@@ -1,23 +1,46 @@
 .step4__section {
-    width: 100% !important;
-    display: flex;
-    flex-direction: column;
-    padding: 20px 0;
-  }
-  .step4__section_element {
-    margin: 20px !important;
-  }
-  .step4__section_Selection {
-    width: 50% !important;
-    margin: 20px !important;
-    padding: 10px 10px 20px 20px;
-  }
-  .step4__section_element > h3 {
-    font-weight: 300 !important;
-  }
-  .startDateSelection {
-    display: flex;
-  }
-  .endDateSelection {
-    display: flex;
-  }
+  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 10px;
+}
+.step4__section h3 {
+  font-weight: 500;
+  margin: 0px 0 15px 0;
+  letter-spacing: 0.15px;
+}
+.step4__section_element {
+  margin: 10px 0 10px 0 !important;
+}
+.step4__section_Month {
+  /* width: 47.7% !important; */
+  margin: 0px 70px 10px 0px !important;
+  /* padding: 0px 0px 10px 10px !important; */
+}
+.step4__section_Year {
+  /* width: 47.7% !important; */
+  width: 100% !important;
+  margin: 0px 0 10px 10px !important;
+  padding-right: 10px !important;
+}
+.step4__section_element > h3 {
+  font-weight: 300 !important;
+}
+.startDateSelection {
+  display: flex !important;
+  margin: 0px !important;
+}
+.endDateSelection {
+}
+.step4__section_checkBox {
+  padding: 0px 10px 10px 5px !important;
+  margin: 0px;
+}
+
+.step4_inputLabel {
+  font-weight: 400 !important;
+  margin: 15px 0 15px 0px !important;
+  letter-spacing: 0.15px !important;
+  color: rgba(0, 0, 0, 0.87) !important;
+  font-size: 0.875rem !important;
+}

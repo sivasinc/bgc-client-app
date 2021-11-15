@@ -109,6 +109,14 @@
     letter-spacing: 0.15px;
     line-height: 24px;
 }
+.portalHome__no_postMessage p {
+    color: rgba(0,0,0,0.74);
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+}
 .portalHome__no_postMessage > svg {
     margin-top: 10px;
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 // MUI Stuff
-import LinearProgress from '@mui/material/LinearProgress';
+import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 // Redux stuff
 import { connect } from "react-redux";
@@ -12,19 +12,19 @@ import "./signup.css";
 import Step1 from "./step1";
 import Step2 from "./step2";
 import Step3 from "./step3";
-import {
-  initialChipData,
-} from "../../util/constant";
+import { initialChipData } from "../../util/constant";
+
 import Footer from "./Footer";
 import Step4 from "./step4";
 import Step5 from "./Step5";
 import Step6 from "./Step6";
 import Step7 from "./Step7";
 import { generateRequest } from "../../util/request";
-import validate from "./Validate";
+import { validateInfo } from "./Validate";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const signup = ({ signupUser, history, UI }) => {
-
   const [chipData, setChipData] = useState(initialChipData);
   const [selectedProfile, setSelectedProfile] = useState("college");
   const [currentStep, setCurrentStep] = useState(0);
@@ -43,6 +43,18 @@ const signup = ({ signupUser, history, UI }) => {
 
   const [progress, setProgress] = useState(0);
 
+  const handleRadioChange = (e) => {
+    console.log(e.target.name + ":::" + e.target.value);
+    setUserProfile({
+      ...userProfile,
+      [e.target.name]: e.target.value,
+    });
+  };
+  // const IsAlreadyExist = async (email) => {
+  //   const docRef = await doc(db, "users", email);
+  //   const docSnap = await getDoc(docRef);
+  //   return docSnap.exists();
+  // };
   const listToAray = (fullString) => {
     var fullArray = [];
 
@@ -60,11 +72,19 @@ const signup = ({ signupUser, history, UI }) => {
   const handleProfileRadioChange = (event) => {
     setSelectedProfile(event.target.value);
   };
-  const formButtonHandler = (currentStep) => {
+  const formButtonHandler = async (currentStep) => {
     let error1 = {};
     if (currentStep === 1) {
-      error1 = validate(userProfile, currentStep);
-      console.log("error", error1);
+      error1 = validateInfo(userProfile, currentStep);
+      // if (!error1.email) {
+      //   const docRef = doc(db, "users", userProfile.email);
+      //   const docSnap = await getDoc(docRef);
+      //   if (docSnap.exists()) {
+      //     error1.email = "email already exists";
+      //   }
+      //   }
+
+      // console.log("error", error1);
       if (Object.keys(error1).length > 0) {
         setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
       }
@@ -76,6 +96,11 @@ const signup = ({ signupUser, history, UI }) => {
       let interstedItem = chipData
         .filter((x) => x.itemSelected === true)
         .map((y) => y.label);
+      if (interstedItem.length === 0) {
+        error1.interestField = "Select at least One Interest";
+        setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
+        return;
+      }
       connectionArray = listToAray(userProfile.connections);
       likeToLearnArray = listToAray(userProfile.likeToLearn);
 
@@ -98,13 +123,20 @@ const signup = ({ signupUser, history, UI }) => {
     }
   };
   const handleInputChange = (event) => {
-    setUserProfile({ ...userProfile, [event.target.name]: event.target.value });
-    if (currentStep === 3) {
-      userProfile.disabled = validate(
-        userProfile,
-        currentStep,
-        selectedProfile
-      ).disabled;
+    if (event.target.name === "endDateCheckBox") {
+      console.log(
+        "check",
+        event.target.name + "valuee:" + event.target.checked
+      );
+      setUserProfile({
+        ...userProfile,
+        [event.target.name]: event.target.checked,
+      });
+    } else {
+      setUserProfile({
+        ...userProfile,
+        [event.target.name]: event.target.value,
+      });
     }
   };
 
@@ -121,13 +153,16 @@ const signup = ({ signupUser, history, UI }) => {
   };
 
   const addNewData = () => {
-    const interest = {
-      key: chipData.length,
-      label: userProfile.interestField,
-      itemSelected: true,
-    };
-    setChipData((prev) => [...prev, interest]);
-    console.log(chipData);
+    if (userProfile.tempInterestField.trim().length > 0) {
+      const interest = {
+        key: chipData.length,
+        label: userProfile.tempInterestField,
+        itemSelected: true,
+      };
+      userProfile.tempInterestField = "";
+      setChipData((prev) => [...prev, interest]);
+      console.log(chipData);
+    }
   };
   console.log("userProfile", userProfile);
   const loadCurrentSection = (currentStep) => {
@@ -171,21 +206,15 @@ const signup = ({ signupUser, history, UI }) => {
         return (
           <Step6
             selectedProfile={selectedProfile}
-            handleInputChange={handleInputChange}
+            handleRadioChange={handleRadioChange}
             userProfile={userProfile}
           />
         );
-      case 6:
-          return (
-            <Step7
-              userProfile={userProfile}
-            />
-          );  
       default:
         return;
     }
   };
-  const { errors, loading } = UI;
+  const { errors } = UI;
   const progressSection = (
     <div className="spinnerDiv">
       <CircularProgress size={200} thickness={2} />
@@ -196,11 +225,24 @@ const signup = ({ signupUser, history, UI }) => {
     <Grid container>
       <Grid item md={2} />
       <Grid xs={12} md={8}>
-        { loading  ? (
+        {currentStep === 6 ? (
           progressSection
         ) : (
           <div className="signUp">
-            <div className="signUpHeader">
+            <div className="signup_header">
+              <div className="signup_header__left">
+                <img
+                  className="signup_header__logo"
+                  src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/bgc-logo.svg?alt=media&token=0f61a406-04b2-42a7-98ee-43f4d2183524"
+                />
+              </div>
+              <div className="signup_header__right">
+                <p>Alumnae Portal</p>
+                <p>Sign-up</p>
+              </div>
+            </div>
+
+            {/* <div className="signUpHeader">
               <div className="logo_div">
                 <img
                   className="img"
@@ -208,10 +250,11 @@ const signup = ({ signupUser, history, UI }) => {
                 />
               </div>
               <div className="heading_div">
-                <h1>Alumnae Portal</h1>
-                <h3>Sign-up</h3>
+                <Typography variant="h1">Alumnae Portal</Typography>
+                <Typography variant="h3">Sign-up</Typography>
               </div>
-            </div>
+            </div> */}
+
             <div></div>
             <div className="signUp__section">
               {errors && (
@@ -223,11 +266,11 @@ const signup = ({ signupUser, history, UI }) => {
                 value={progress}
               />
               {loadCurrentSection(currentStep)}
-              {currentStep !== 6 &&  <Footer
+              <Footer
                 currentStep={currentStep}
                 formButtonHandler={formButtonHandler}
                 disabled={currentStep === 3 ? userProfile.disabled : false}
-              /> }
+              />
             </div>
           </div>
         )}
