@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import { connect } from "react-redux";
 import { loginUser } from "../../redux/actions/userActions";
 import "./login.css";
+import { validateLoginData } from "../../util/validators";
 
 class login extends Component {
   constructor() {
@@ -31,19 +32,17 @@ class login extends Component {
   }
   handleSubmit = (event) => {
     event.preventDefault();
-    if (this.state.email.trim() && this.state.password.trim()) {
-      const userData = {
-        email: this.state.email,
-        password: this.state.password,
-      };
+
+    const userData = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    const { errors, valid } = validateLoginData(userData);
+    console.log(errors);
+    if (valid) {
       this.props.loginUser(userData, this.props.history);
     } else {
-      this.setState({
-        errors: {
-          email: "Please enter Username & Password",
-          password: "Please enter Username & Password",
-        },
-      });
+      this.setState({ errors: errors });
     }
   };
   handleChange = (event) => {

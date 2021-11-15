@@ -14,7 +14,9 @@ import { MenuItem } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Select from "@material-ui/core/Select";
 import "./step4.css";
-
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
 import { profileQuestionsInit, years, months } from "../../util/constant";
 
 const Step4 = ({
@@ -25,6 +27,8 @@ const Step4 = ({
   handleRadioChange,
   handleInputChange,
   userProfile,
+  handleStartYearChange,
+  handleEndYearChange,
 }) => {
   const { startMonth, startYear, endMonth, endYear } = userProfile;
   const [shrink1, setShrink1] = useState(false);
@@ -84,23 +88,23 @@ const Step4 = ({
               </TextField>
             </Grid>
             <Grid item md={6} xs={6}>
-              <TextField
-                id="step4_startYear"
-                size="small"
-                select
-                fullWidth
-                className="step4__section_Year"
-                variant="outlined"
-                value={startYear}
-                label="Year"
-                onChange={handleInputChange}
-                name="startYear"
-                InputLabelProps={{ shrink: startYear ? true : false }}
-              >
-                {years.map((item) => (
-                  <MenuItem value={item.value}>{item.name}</MenuItem>
-                ))}
-              </TextField>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  views={["year"]}
+                  label="Year"
+                  value={startYear ? startYear : null}
+                  onChange={handleStartYearChange}
+                  renderInput={(params) => (
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      className="step4__section_Year"
+                      {...params}
+                      InputLabelProps={{ shrink: startYear ? true : false }}
+                    />
+                  )}
+                />
+              </LocalizationProvider>
             </Grid>
           </Grid>
 
@@ -137,29 +141,26 @@ const Step4 = ({
               </TextField>
             </Grid>
             <Grid item md={6} xs={6}>
-              <TextField
-                id="step4_startYear"
-                size="small"
-                disabled={!userProfile.endDateCheckBox}
-                select
-                className="step4__section_Year"
-                variant="outlined"
-                value={endYear}
-                label="Year"
-                onChange={handleInputChange}
-                name="endYear"
-                fullWidth
-                InputLabelProps={{ shrink: endYear ? true : false }}
-              >
-                {years.map((item) => (
-                  <MenuItem value={item.value}>{item.name}</MenuItem>
-                ))}
-              </TextField>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  views={["year"]}
+                  label="Year"
+                  disabled={!userProfile.endDateCheckBox}
+                  value={endYear ? endYear : null}
+                  onChange={handleEndYearChange}
+                  renderInput={(params) => (
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      className="step4__section_Year"
+                      {...params}
+                      InputLabelProps={{ shrink: endYear ? true : false }}
+                    />
+                  )}
+                />
+              </LocalizationProvider>
             </Grid>
           </Grid>
-          {/* </div>
-            
-          </div> */}
         </React.Fragment>
       )}
       {selectedProfileInfo[0].type === "workforce" && (

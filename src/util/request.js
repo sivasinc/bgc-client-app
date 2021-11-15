@@ -11,6 +11,12 @@ export const generateRequest = (userProfile, selectedProfile) => {
     endYear,
   } = userProfile;
   let profileInfo;
+
+  const stDate =
+    startYear !== "" ? new Date(startYear).getFullYear().toString() : "";
+  const enDate =
+    endYear !== "" ? new Date(endYear).getFullYear().toString() : "";
+
   switch (selectedProfile) {
     case "college":
       profileInfo = [
@@ -22,9 +28,9 @@ export const generateRequest = (userProfile, selectedProfile) => {
               university: userProfile["college-0"],
               fieldOfStudy: userProfile["college-1"],
               startMonth,
-              startYear,
+              startYear:stDate,
               endMonth,
-              endYear,
+              endYear:enDate,
             },
           ],
         },
@@ -61,9 +67,9 @@ export const generateRequest = (userProfile, selectedProfile) => {
               department: userProfile["workforce-1"],
               jobTtile: userProfile["workforce-2"],
               startMonth,
-              startYear,
+              startYear:stDate,
               endMonth,
-              endYear,
+              endYear:enDate,
             },
           ],
         },
