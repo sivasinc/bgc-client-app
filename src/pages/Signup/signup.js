@@ -18,6 +18,7 @@ import Footer from "./Footer";
 import Step4 from "./step4";
 import Step5 from "./Step5";
 import Step6 from "./Step6";
+import Step7 from "./Step7";
 import { generateRequest } from "../../util/request";
 import { validateInfo } from "./Validate";
 import { doc, getDoc } from "firebase/firestore";

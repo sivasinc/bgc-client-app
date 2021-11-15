@@ -148,7 +148,9 @@ export const getRoutes = (authenticated, value, history) => {
         history.push("/login");
     }
   }
-};
+
+  
+}
 export const eventsData = [
   { name: "Workshop", value: "1" },
   { name: "Summer Camp", value: "2" },
@@ -180,3 +182,7 @@ export const chapterValue = [
   { name: "Washington D.C", value: "15" },
   { name: "Other", value: "16" },
 ];
+;
+
+// regex to capture links
+  export const linkRegex = /((https?:\/\/)?[^\s.]+\.[\w][^\s]+)/g

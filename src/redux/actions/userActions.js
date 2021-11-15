@@ -1,4 +1,4 @@
-import { signIn, signUpUserWithEmail } from '../../firebaseActions/service';
+import { signIn, signUpUserWithEmail, signUpAdminWithEmail } from '../../firebaseActions/service';
 import {getUserProfileInfo, updateUserDetails, getMemberDetails } from '../../firebaseActions/dataServices';
 
 
@@ -33,15 +33,20 @@ export const loginUser = (userData, history) => (dispatch) => {
     };
     signIn(user)
       .then((result) => {
+        const {userRole = ''} = result
+        if(userRole === 'admin-pending'){
+          throw Error('Admin approval pending, please contact super admin')
+        } 
         dispatch({ type: CLEAR_ERRORS });
              dispatch({
         type: SET_USER,
         payload: result
       });
       dispatch({ type: SET_CURRENT_TAB_INDEX, payload: 1 });
-      history.push('/portalHome');
+      userRole === 'admin' ? history.push('/adminHome') : history.push('/portalHome')
       })
       .catch((error) => {
+        alert(error.toString())
         dispatch({
           type: SET_ERRORS,
           payload: error.message
@@ -61,6 +66,20 @@ export const signupUser = (newUserData, history) => async (dispatch) => {
         payload: err
       });
     };
+};
+
+export const signupAdminUser = (newUserData) => async (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  try {
+    await signUpAdminWithEmail(newUserData);
+    dispatch({ type: CLEAR_ERRORS });
+  } catch (err) {
+    console.log('error1', err);
+    dispatch({
+      type: SET_ERRORS,
+      payload: err
+    });
+  };
 };
 
 export const getUserProfileData = () => async (dispatch, getState) => {

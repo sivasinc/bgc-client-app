@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import {DocumentViewer} from 'react-documents'
 import PropTypes from 'prop-types'
 import './Post.css';
 import dayjs from "dayjs";
@@ -42,6 +43,22 @@ const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user: {
     const updateComment = (value) => {
         setUpdatedComment(value);
       };
+
+    const showDocument = () => {
+        if(article.sharedDocumentURL){
+            return (
+                <SharedImage>
+                    {article.docType === 'image' ?
+                        <img src={article.sharedDocumentURL} />
+                        :
+                        <DocumentViewer viewer="google" url={article.sharedDocumentURL} />}
+                </SharedImage>
+            )
+         }
+
+         return null
+    }
+
       const { email } = userInfo;
       console.log('article', article);
     return (
@@ -62,17 +79,9 @@ const Post =({ key, article, getCommentOfAPost, likeAPost, disLikeAPost, user: {
                                     </button> */}
                                 </SharedActor>
                                 <Description>{article.body}</Description>
-                                { (article.sharedImg || article.sharedVideo) && <SharedImage>
-                                        {
-                                            !article.sharedImg && article.sharedVideo ? 
-                                                (<ReactPlayer width = {'100%'} url={article.sharedVideo} />)
-                                            :
-                                            (
-                                                article.sharedImg && <img src={article.sharedImg} />
-                                            )
-                                        }
-                                </SharedImage>
-}
+                                {showDocument()}
+                                {article.sharedVideo &&
+                                    (<ReactPlayer style={{padding: '0 16px'}} width={'100%'} url={article.sharedVideo} />)}
                                 <SocialActions>
                                     {article.usersLiked.includes(email) && <FavoriteIcon color="primary" /> }
                                 <Typography
@@ -270,7 +279,8 @@ const Description = styled.div`
 const SharedImage = styled.div`
     margin-top: 8px;
     width: 100%;
-    // max-height: 250px;
+    max-height: 250px;
+    padding: 0 16px;
     display: block;
     position: relative;
     background-color: #f9fafb;

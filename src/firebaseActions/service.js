@@ -63,8 +63,46 @@ const signUpUserWithEmail = async (newUser) => {
         userId: uid,
         myNetworks: []
       };
-  const results = await setDoc(doc(db, "users", email), userCredentials);
-  return results;
+      const results = await setDoc(doc(db, "users", email), userCredentials);
+      return results;
+        } else {
+          return {
+            user: userCred.user,
+          };
+        }
+      } catch (e) {
+        console.log('error', e);
+        throw (e.message);
+      }
+    }
+
+const signUpAdminWithEmail = async (newUser) => {
+  try {
+    const { valid, errors } = validateSignupData(newUser);
+    const noImg = "no-img.png";
+    if (!valid) {
+      return errors;
+    }
+    const userCred = await createUserWithEmailAndPassword(auth, newUser.email, newUser.password);
+    const result = await sendEmailVerification(auth.currentUser, {
+      url: "https://bgc-functions.web.app/login",
+    });
+    // console.log("email", result);
+    const { email, uid } = userCred.user;
+    const docRef = doc(db, "users", email);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      const userCredentials = {
+        email: newUser.email,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        createdAt: new Date().toISOString(),
+        imageUrl: `https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/${noImg}?alt=media`,
+        userId: uid,
+        userRole: 'admin-pending'
+      };
+      const results = await setDoc(doc(db, "users", email), userCredentials);
+      return results;
     } else {
       return {
         user: userCred.user,
@@ -80,4 +118,4 @@ const setAuthorizationHeader = (token) => {
     const FBIdToken = `Bearer ${token}`;
     localStorage.setItem('FBIdToken', FBIdToken);
   };
-export { signIn, signUpUserWithEmail };
+export { signIn, signUpUserWithEmail, signUpAdminWithEmail };

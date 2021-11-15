@@ -12,7 +12,6 @@ import store from './redux/store';
 import { SET_AUTHENTICATED } from './redux/types';
 import { logoutUser, getUserData } from './redux/actions/userActions';
 // Components
-import Navbar from './components/layout/Navigation';
 import themeObject from './util/theme';
 import AuthRoute from './util/AuthRoute';
 // Pages
@@ -23,10 +22,14 @@ import BGCDirectoryHome from './components/BGCDirectory/DirectoryHome';
 import BGCProfileHome from './components/UserProfile/BGCProfileHome';
 import login from './pages/login/login';
 import signup from './pages/Signup/signup';
+import AdminSignup from './pages/Signup/AdminSignup';
 import UserProfile from './pages/UserProfile';
 import RecoverPassword from './pages/passwordrecovery/RecoverPassword';
 
 import axios from 'axios';
+import AdminAuthRoute from './util/AdminAuthRoute';
+import { AdminHome } from './components/Admin/AdminHome';
+import Navigation from './components/layout/Navigation';
 
 const theme = createTheme(themeObject);
 
@@ -54,7 +57,6 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <Router>
-            <Navbar />
             <CssBaseline />
             {/* <div className="container"> */}
             <Container fixed>
@@ -65,6 +67,7 @@ class App extends Component {
                 <Route exact path="/" component={login} />
                 <Route exact path="/login" component={login} />
                 <Route exact path="/signup" component={signup} />
+                <Route exact path="/admin-signup" component={AdminSignup} />
                 <Route exact path="/recover" component={RecoverPassword} />
                 <Route exact path="/directory" component={BGCDirectoryHome} />
                 <Route path="/communityHome/:communityId" component={communityDetails} />
@@ -72,6 +75,7 @@ class App extends Component {
                 <AuthRoute exact path="/portalHome" component={PortalHome} />
                 <AuthRoute exact path="/communityHome" component={communityHome} />
                 <AuthRoute exact path="/userprofile" component={BGCProfileHome} />
+                <AdminAuthRoute exact path="/adminHome" component={AdminHome} />
                 {/* <Route exact path="/communityHome" component={communityHome} /> */}
                 {/* <AuthRoute exact path="/login" component={login} />
                 <AuthRoute exact path="/signup" component={signup} />

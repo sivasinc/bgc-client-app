@@ -184,6 +184,8 @@ const getAllCommunityPosts = async (communityId) => {
         userImage: doc.data().userImage,
         userName: doc.data().userName,
         sharedImg: doc.data().sharedImg,
+        docType: doc.data().docType,
+        sharedDocumentURL: doc.data().sharedDocumentURL,
         sharedVideo: doc.data().sharedVideo,
         likeCount: doc.data().likeCount,
         commentCount: doc.data().commentCount,
