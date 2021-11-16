@@ -13,6 +13,7 @@
     "antd": "^3.24.1",
     "axios": "^0.18.1",
     "clsx": "^1.1.1",
+    "date-fns": "^2.25.0",
     "dayjs": "^1.10.6",
     "firebase": "^9.1.1",
     "firebase-tools": "^9.19.0",

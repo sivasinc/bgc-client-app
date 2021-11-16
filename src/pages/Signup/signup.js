@@ -50,11 +50,12 @@ const signup = ({ signupUser, history, UI }) => {
       [e.target.name]: e.target.value,
     });
   };
-  // const IsAlreadyExist = async (email) => {
-  //   const docRef = await doc(db, "users", email);
-  //   const docSnap = await getDoc(docRef);
-  //   return docSnap.exists();
-  // };
+  const handleEndYearChange = (value) => {
+    setUserProfile({ ...userProfile, endYear: value });
+  };
+  const handleStartYearChange = (value) => {
+    setUserProfile({ ...userProfile, startYear: value });
+  };
   const listToAray = (fullString) => {
     var fullArray = [];
 
@@ -115,7 +116,6 @@ const signup = ({ signupUser, history, UI }) => {
     if (Object.keys(error1).length === 0) {
       if (currentStep === 6) {
         const request = generateRequest(userProfile, selectedProfile);
-        console.log(request);
         signupUser(request, history);
       }
       setProgress(currentStep * 20);
@@ -124,10 +124,6 @@ const signup = ({ signupUser, history, UI }) => {
   };
   const handleInputChange = (event) => {
     if (event.target.name === "endDateCheckBox") {
-      console.log(
-        "check",
-        event.target.name + "valuee:" + event.target.checked
-      );
       setUserProfile({
         ...userProfile,
         [event.target.name]: event.target.checked,
@@ -190,6 +186,9 @@ const signup = ({ signupUser, history, UI }) => {
             selectedProfile={selectedProfile}
             handleInputChange={handleInputChange}
             userProfile={userProfile}
+            handleStartYearChange={handleStartYearChange}
+            handleEndYearChange={handleEndYearChange}
+            handleRadioChange={handleRadioChange}
           />
         );
       case 4:
