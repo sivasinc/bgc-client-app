@@ -57,7 +57,6 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <Router>
-            <Navbar />
             <CssBaseline />
             {/* <div className="container"> */}
             <Container fixed>

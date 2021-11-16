@@ -27,7 +27,7 @@ const Navigation = ({
   const [openDrawer, setDrawer] = useState(false);
   const history = useHistory();
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("sm"));
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
   console.log("currentTabIndex", currentTabIndex);
   useEffect(() => {
     if (authenticated) {
@@ -222,7 +222,7 @@ const Navigation = ({
           src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/BGC-Logo.png?alt=media&token=ba7c24c2-d25e-467f-91fa-d57c69fe5c0b"
           alt=""
         />
-        <h5>Alumnae Portal Home</h5>
+        <h5 className="heading_sm">Alumnae Portal Home</h5>
 
         <IconButton
           className="header_right"
