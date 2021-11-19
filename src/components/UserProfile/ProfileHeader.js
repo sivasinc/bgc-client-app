@@ -10,41 +10,79 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import AddLinkIcon from '@mui/icons-material/AddLink';
 import IconButton from "@material-ui/core/IconButton";
+import Switch from '@mui/material/Switch';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { editUserDetails } from '../../redux/actions/userActions';
 import { uploadProfileImage } from '../../redux/actions/postActions';
 
 import "./BGCProfileHome.css";
+import { InputAdornment } from '@material-ui/core';
 
-const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUserDetails, uploadProfileImage }) => {
+
+
+const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUserDetails, uploadProfileImage, }) => {
    
 
   const [openModel, setOpenModel] = useState(false);
-  const [profile, setProfile] = useState({
+  const [openSocialModel, setOpenSocialModel] = useState(false);
+  const {socialLinks } = userInfo;
+   console.log('userinfo',userInfo)
+  const [profile, setProfile] = useState({ updatedSocialLinks:socialLinks
   });
-
+  // const [updatedSocialLinks, setpdatedSocialLinks] = useState({LinkedIn: '', Facebook: '',Twitter:''});
+  const label = { inputProps: { 'aria-label': 'Switch demo' } };
   const handleChange = (event) => {
     setProfile({ ...profile, [event.target.name] : event.target.value });
   }
   const handleModelChange = (value) => {
-    const {firstName, lastName, email, profileInfo, headLine, location } = userInfo;
+    const {firstName, lastName, email, profileInfo, headLine, location,profileVisibletoAlumnaeCommunity } = userInfo;
     setProfile({
-      updatedFirstName: firstName, updatedLastName: lastName, updatedHeadLine: headLine, updatedLocation, location
+      ...profile,updatedFirstName: firstName, updatedLastName: lastName, updatedHeadLine: headLine, updatedLocation: location, updatedEmail: email,updatedProfileVisibletoAlumnaeCommunity: profileVisibletoAlumnaeCommunity
+    
     })
+    
     setOpenModel(value);
   }
+  const handleSocialModelClick=(value)=>{
+    const{updatedSocialLinks}=profile;
+    if(updatedSocialLinks[value]){
+      window.open(updatedSocialLinks[value])
+    }
+    
+  }
+  const handleSocialModelChange = (event) => {
+    // setSocialLinks({
+    //   [socialkey]:value
+    // })
+    
+    // window.open('https://www.linkedin.com/in/sivaprasad-s-b01740166/')
+    setProfile({ ...profile, updatedSocialLinks:{...profile.updatedSocialLinks,[event.target.name] : event.target.value }});
+  }
+  // const handleSocialSubmit=()=>{
+  //   const {sociallink}=profile;
+  //   setSocialLinks({
+  //       [openSocialModel]:sociallink
+  //     })
+  //     setOpenSocialModel('');
+  // }
   const handleSubmit = () => {
-    const {firstName, lastName, email, profileInfo, headLine, location } = userInfo;
-    const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine } = profile;
+    const {firstName, lastName, email, profileInfo, headLine, location,profileVisibletoAlumnaeCommunity } = userInfo;
+   
+    const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine, updatedEmail,updatedProfileVisibletoAlumnaeCommunity,updatedSocialLinks} = profile;
     const userDetails = {
       firstName: updatedFirstName !== undefined ? updatedFirstName : firstName,
       lastName: updatedLastName !== undefined ? updatedLastName : lastName,
-      location: updatedLocation !== undefined ? updatedLocation : location,
-      headLine: updatedHeadLine !== undefined ? updatedHeadLine : headLine 
+      location: updatedLocation !== undefined ? updatedLocation : location || '',
+      headLine: updatedHeadLine !== undefined ? updatedHeadLine : headLine || '',
+      email: updatedEmail !== undefined ? updatedEmail : email,
+      profileVisibletoAlumnaeCommunity: updatedProfileVisibletoAlumnaeCommunity !== undefined ? updatedProfileVisibletoAlumnaeCommunity: profileVisibletoAlumnaeCommunity || '',
+      socialLinks: updatedSocialLinks,
     };
     const request = { ...userInfo, ...userDetails}
+    console.log('profile header req',request)
     editUserDetails(request);
     setOpenModel(false);
   }
@@ -58,29 +96,31 @@ const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUs
   }
   uploadProfileImage(image, userInfo);
  }
-  const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine } = profile;
-  
+  const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine, updatedEmail,updatedProfileVisibletoAlumnaeCommunity,updatedSocialLinks={LinkedIn:'',Facebook:'',Twitter:''} } = profile;
+  console.log('sllinks',updatedSocialLinks)
    let info = {
    }
 if(readOnlyFlow) {
-  const { firstName, lastName, email, headLine, location, imageUrl } = selectedMember;
+  const { firstName, lastName, email, headLine, location, imageUrl,profileVisibletoAlumnaeCommunity } = selectedMember;
    info = {
     firstName,
     lastName,
     email,
     headLine,
     location,
-    imageUrl
+    imageUrl,
+    profileVisibletoAlumnaeCommunity
    }
 } else {
-  const {firstName, lastName, email, headLine, location, imageUrl } = userInfo;
+  const {firstName, lastName, email, headLine, location, imageUrl,profileVisibletoAlumnaeCommunity } = userInfo;
   info = {
     firstName,
     lastName,
     email,
     headLine,
     location,
-    imageUrl
+    imageUrl,
+    profileVisibletoAlumnaeCommunity
    }
 }
   
@@ -99,19 +139,24 @@ if(readOnlyFlow) {
               type="file"
               onChange={handleImageUploadClick}
             />
+          
             <label htmlFor="contained-button-file">
+             
             <Avatar
                 alt="Remy Sharp"
                 className="profile__header__image"
                 src={info.imageUrl}
               />
-              <AddAPhotoIcon style= {{ marginLeft: '80px' }}/>    
-            </label>  
+              <AddAPhotoIcon className="profileImage__addIcon " style= {{ marginLeft: '80px' }}/>  
+              
+            </label> 
+         
                         
               <div className="profile__user">
-                <h2>{`${info.firstName}  ${info.lastName}`}</h2>
+              <h2>{`${info.firstName}  ${info.lastName}`}</h2>
                 {info.headLine === undefined ? <p>No Headline added</p>: <p>{info.headLine}</p>}
                 {info.location === undefined ? <p>No Location added</p>: <p>{`${info.location} , United States`}</p>}
+                
               </div>
             </div>
             { !readOnlyFlow && <div className="profile__header__main__container">
@@ -129,56 +174,150 @@ if(readOnlyFlow) {
             </div>
             <div className="profile__user_bar_right">
               <p>Social :</p>{" "}
-              <p className="profile__user_bar_left__value">Linked In</p>{" "}
-              <p className="profile__user_bar_left__value">Twitter</p>
-              <p className="profile__user_bar_left__value">Facebook</p>
+              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('LinkedIn')}>Linked In</p>{" "}
+              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('Twitter')}>Twitter</p>
+              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('Facebook')}>Facebook</p>
             </div>
           </div>
         </div>
-        <Dialog
+        <Dialog 
           open={openModel}
           onClose={() => setOpenModel(false)}
           fullWidth
-          maxWidth="sm"
+          maxWidth="md"
         >
-          <DialogTitle>Edit your details</DialogTitle>
+          <DialogTitle>Edit Basic details</DialogTitle>
           <DialogContent>
             <form>
+            <div className="signUp__form_names">
+              <div className="signUp__form__page">
               <TextField
+               className="text_field_outline"
                 name="updatedFirstName"
+                id="outlined-required"
                 tpye="text"
-                label="FirstName"
-                multiline
+                label="First Name"
                 rows="3"
+                variant="outlined"
                 value={updatedFirstName}
                 onChange={handleChange}
                 fullWidth
               />
+              
+              </div>
+              <div className="signUp__form__page">
               <TextField
+                className="text_field_outline"
                 name="updatedLastName"
+                id="outlined-required"
                 tpye="text"
-                label="LastName"
+                label="Last Name"
+                variant="outlined"
                 value={updatedLastName}
                 onChange={handleChange}
                 fullWidth
               />
-               <TextField
-                name="updatedHeadLine"
+              </div>
+              </div>
+              <div className="signUp__form_names">
+              <div className="signUp__form__page">
+              <TextField
+               className="text_field_outline"
+                name="updatedEmail"
+                id="outlined-required"
                 tpye="text"
-                label="Headline"
-                value={updatedHeadLine}
+                label="Email"
+                variant="outlined"
+                value={updatedEmail}
                 onChange={handleChange}
                 fullWidth
               />
+              </div>
+              <div className="signUp__form__page modal">
+              <label htmlFor="Profile Visibleto Alumnae Community" >
+                   Profile Visibleto Alumnae Community
+                <Switch {...label} defaultChecked />
+              </label>
+               </div>
+               </div>
+               <div className="modal">
               <TextField
+                className="text_field_outline"
                 name="updatedLocation"
+                id="outlined-required"
                 tpye="text"
                 label="Location"
                 placeholder="Where you live"
+                variant="outlined"
                 value={updatedLocation}
                 onChange={handleChange}
                 fullWidth
               />
+              </div>
+              <DialogTitle>Social Profile URLs</DialogTitle>
+              <div className="social__form_names">
+              <div className="social__form__page">
+              <div className="modal">
+              <TextField 
+                name="LinkedIn"
+                id="outlined-required"
+                tpye="text"
+                label="LinkedIn"
+                placeholder="Linkto"
+                variant="outlined"
+                value={updatedSocialLinks.LinkedIn}
+                onChange={handleSocialModelChange}
+                fullWidth
+                endAdornment={
+                  <InputAdornment position="end">
+                    <AddLinkIcon
+                      edge="end"
+                    >
+                      
+                    </AddLinkIcon>
+                  </InputAdornment>
+                }
+              />
+              
+              </div>
+              </div>
+              <div className="social__form__page">
+              <TextField 
+             
+                name="Facebook"
+                id="outlined-required"
+                tpye="text"
+                label="Facebook"
+                placeholder="Linkto"
+                variant="outlined"
+                value={updatedSocialLinks.Facebook}
+                onChange={handleSocialModelChange}
+                fullWidth
+                endAdornment={
+                  <InputAdornment position="end">
+                    <AddLinkIcon
+                      edge="end"
+                    >
+                      
+                    </AddLinkIcon>
+                  </InputAdornment>
+                }
+              />
+              </div>
+              <div className="social__form__page">
+              <TextField
+                name="Twitter"
+                id="outlined-required"
+                tpye="text"
+                label="Twitter"
+                placeholder="Linkto"
+                variant="outlined"
+                value={updatedSocialLinks.Twitter}
+                onChange={handleSocialModelChange}
+                fullWidth
+              />
+              </div>
+              </div>
             </form>
           </DialogContent>
           <DialogActions>
@@ -189,8 +328,9 @@ if(readOnlyFlow) {
               Save
             </Button>
           </DialogActions>
+
         </Dialog>
-        </div>
+                </div>
     )
 }
 
@@ -203,3 +343,5 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = { editUserDetails, uploadProfileImage };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileHeader);
+
+
