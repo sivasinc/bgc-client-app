@@ -1,8 +1,4 @@
-import { ListItem } from "@material-ui/core";
-import React, { Component } from "react";
-import CommunityCard from "../Card";
-//import List from "@material-ui/core/List";
-import Stack from "@mui/material/Stack";
+import React, { useState } from "react";
 import {
   setCurrentCommunityId,
   getRecommendedCommunity,
@@ -13,8 +9,53 @@ import {
 import { updateTabIndex } from "../../../redux/actions/userActions";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import "./CommunityCard.css";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Card from "@mui/material/Card";
+import { Link } from "react-router-dom";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import CardHeader from "@mui/material/CardHeader";
+import Avatar from "@mui/material/Avatar";
+import LoadingButton from "@mui/lab/LoadingButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Grid from "@material-ui/core/Grid";
+
+const useStyles = (muiBaseTheme) => ({
+  cardContainer: {
+    height: "182px",
+    width: {
+      sx: 1.0, // 100%
+      sm: 250,
+      md: 365,
+    },
+    minWidth: 275,
+    margin: "10px",
+  },
+  cardTitle: {
+    height: "24px",
+    width: "146px",
+    color: "rgba(0,0,0,0.87)",
+    fontFamily: "Roboto",
+    fontSize: "20px",
+    fontWeight: 500,
+    letterSpacing: "0.15px",
+    lineHeight: "24px",
+  },
+  cardSubTitle: {
+    height: "20px",
+    width: "89px",
+    color: "rgba(0, 0, 0, 0.74)",
+    fontfamily: "Roboto",
+    fontsize: "14px",
+    letterspacing: "0.25px",
+    lineheight: "20px",
+  },
+
+  title: {
+    color: "red",
+  },
+});
 
 const CommunityCardList = ({
   myCommunities,
@@ -34,6 +75,13 @@ const CommunityCardList = ({
   joinCommunityLoading,
   loadingUsersPosts,
 }) => {
+  const [updateCommunityId, setUpdatedCommunityId] = useState("");
+
+  const joinCommunity = (communityId) => {
+    setUpdatedCommunityId(communityId);
+    joinCommunityHandler(communityId);
+  };
+
   const history = useHistory();
   const communityClickHandler = (communityId) => {
     console.log("communityClickHandler");
@@ -46,27 +94,73 @@ const CommunityCardList = ({
     joinACommunity(communityId);
   };
 
+  const classes = useStyles();
+
   return (
     <div>
       {Array.isArray(recommendedCommunities) &&
         recommendedCommunities.length > 0 && (
           <div className="recomended_container">
-            <div className="recommended__communityBox__header">
+            <div className="recommended__community__header">
               <h2>Your Recommended Communities</h2>
+              <CloseIcon color="primary" />
             </div>
-            <Stack direction="row" spacing={1} style={{ justifyContent: 'space-evenly' }}>
-              {recommendedCommunities.map((community, key) => {
-                console.log(community);
-                return (
-                  <CommunityCard
-                    key={key}
-                    community={community}
-                    joinCommunityHandler={joinCommunityHandler}
-                    joinCommunityLoading={joinCommunityLoading}
-                  ></CommunityCard>
-                );
-              })}
-            </Stack>
+            <div>
+              <Grid container spacing={2} justify="flex-start">
+                {recommendedCommunities.map((community, key) => (
+                  <Grid item xs={12} sm={6} md={4}>
+                    <Card style={classes.cardContainer}>
+                      <CardHeader
+                        classes={{
+                          title: classes.cardTitle,
+                          subheader: classes.cardSubTitle,
+                        }}
+                        titleTypographyProps={{ variant: "h6" }}
+                        avatar={
+                          <Avatar
+                            aria-label="recipe"
+                            alt="Remy Sharp"
+                            className="MyCommunity__body_item__image"
+                            src={community.image}
+                          />
+                        }
+                        title={community.name}
+                        subheader={
+                          community.members && Array.isArray(community.members)
+                            ? community.members.length + " Members"
+                            : 0 + " Members"
+                        }
+                      />
+                      <CardContent>
+                        <Typography
+                          className="_community__card__body__Text"
+                          variant="body2"
+                          color="text.secondary"
+                        >
+                          {community.description}
+                        </Typography>
+                      </CardContent>
+
+                      {joinCommunityLoading &&
+                      updateCommunityId === community.communityId ? (
+                        <LoadingButton loading variant="outlined">
+                          Submit
+                        </LoadingButton>
+                      ) : (
+                        <Typography
+                          component={Link}
+                          onClick={() => joinCommunity(community.communityId)}
+                          color="primary"
+                          className="__community__card__join__button"
+                        >
+                          JOIN COMMUNITY
+                        </Typography>
+                      )}
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
           </div>
         )}
     </div>
@@ -74,29 +168,6 @@ const CommunityCardList = ({
 };
 
 CommunityCardList.propTypes = {};
-
-const Container = styled.div`
-  grid-area: main;
-  margin-top: 20px;
-`;
-
-const CommonCard = styled.div`
-  text-align: center;
-  overflow: hidden;
-  margin-bottom: 8px;
-  background-color: #fff;
-  border-radius: 5px;
-  position: relative;
-  border: none;
-  border-radius: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
-`;
-
-const Content = styled.div`
-  text-align: center;
-  & > img {
-    width: 30px;
-  }
-`;
 
 const mapStateToProps = (state) => {
   return {
@@ -123,4 +194,5 @@ const mapDispatchToProps = (dispatch) => ({
   updateTabIndex: (tabIndex) => dispatch(updateTabIndex(tabIndex)),
 });
 
+withStyles(useStyles);
 export default connect(mapStateToProps, mapDispatchToProps)(CommunityCardList);

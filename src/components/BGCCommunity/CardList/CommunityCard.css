@@ -1,0 +1,112 @@
+.recommended__community__header {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 20px;
+}
+
+.recommended__community__header > h2 {
+  color: rgba(0, 0, 0, 0.87);
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  line-height: 24px;
+  width: 310px;
+}
+
+.recommended__community__header > svg{
+  margin: 10px !important;
+}
+
+.recommended__communityBox__communities {
+  display: flex;
+  justify-content: left;
+}
+._community__card__box {
+  margin: 0px 0px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+ 
+._community__card__container {
+  height: 182px;
+  width: 365px;
+}
+
+._community__card_header_Text {
+  height: 24px;
+  width: 146px;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  line-height: 24px;
+}
+
+._community__card__body__Text {
+  height: 40px;
+  width: 330px;
+  color: rgba(0, 0, 0, 0.74);
+  font-family: Roboto;
+  font-size: 14px;
+  letter-spacing: 0.25px;
+  line-height: 20px;
+  overflow: hidden;
+}
+.__community__card__join__button {
+  color: #6200ee !important;
+  font-family: Roboto !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  height: 49px;
+  width: 149px;
+  letter-spacing: 1.25px !important;
+  line-height: 16px !important;
+  margin: 0 20px 20px 20px !important;
+  cursor: pointer;
+  display: flex;
+}
+
+.__community_joined_button_action {
+  display: flex;
+  align-items: center;
+  margin: 20px 0 20px 0;
+  color: #6200ee;
+  cursor: pointer;
+  height: 36px;
+  width: 102px;
+  border-radius: 4px;
+  background-color: rgba(187, 134, 252, 0.1);
+}
+
+.__community_join_button_action {
+  display: flex;
+  align-items: center;
+  margin: 20px 0 20px 0;
+  color: #6200ee;
+  cursor: pointer;
+}
+
+.__community_join__action_label {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1.25px;
+  line-height: 16px;
+  margin-left: 5px;
+}
+
+.__community__grid__container {
+  display: grid;
+  grid-gap: 5px;
+  grid-auto-flow: column; /* appear Vertically*/
+  justify-items: center;
+}
+@media (min-width: 767px) { 
+  .grid-container { 
+    grid-auto-flow: row; /* appear Horizontally on mobile phones*/
+  }
+}
