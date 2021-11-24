@@ -72,7 +72,7 @@ class login extends Component {
               </div>
               <div className="login_header__right">
                 <p>Alumnae Portal</p>
-                <p>Log in</p>
+                <p>Log In</p>
               </div>
             </div>
           </Grid>

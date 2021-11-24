@@ -14,6 +14,7 @@ import { getRoutes } from "../../util/constant";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
+import AdminNavbar from "../layout/AdminNavbar";
 
 import "./Navigation.css";
 
@@ -22,6 +23,7 @@ const Navigation = ({
   authenticated,
   currentTabIndex,
   updateTabIndex,
+  userRole,
 }) => {
   const [value, setValue] = useState(3);
   const [openDrawer, setDrawer] = useState(false);
@@ -33,19 +35,19 @@ const Navigation = ({
     if (authenticated) {
       switch (currentTabIndex) {
         case 0:
-        case 1:
-          // Needs to change later
           history.push("/portalHome");
           break;
-        case 2:
+        case 1:
+          // Needs to change later
           history.push("/userprofile");
           break;
-        case 3:
+        case 2:
           history.push("/communityHome");
           break;
-        case 4:
+        case 3:
           history.push("/directory");
           break;
+
         default:
           history.push("/login");
           setValue(2);
@@ -70,7 +72,7 @@ const Navigation = ({
 
   const handleMenuChange = (event, newValue) => {
     updateTabIndex(newValue);
-    console.log(matches);
+    console.log(newValue);
     setDrawer(false);
   };
   const a11yProps = (index) => {
@@ -81,47 +83,51 @@ const Navigation = ({
   };
   console.log("value", matches);
   const authenticatedMenuItems = (
-    <Tabs
-      value={currentTabIndex}
-      onChange={handleMenuChange}
-      aria-label="menu bar"
-    >
+    <div className="main_header">
       <img
         className="header__img"
         src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/BGC-Logo.png?alt=media&token=ba7c24c2-d25e-467f-91fa-d57c69fe5c0b"
         alt=""
       />
-      <Tab
-        label="Alumnae Portal Home"
-        name="home"
-        className="header__bar_item"
-        {...a11yProps(1)}
-      />
-      <Tab
-        label="My Profile"
-        name="profile"
-        className="header__bar_item"
-        {...a11yProps(2)}
-      />
-      <Tab
-        label="Communities"
-        name="community"
-        className="header__bar_item"
-        {...a11yProps(3)}
-      />
-      <Tab
-        label="Directory"
-        name="directory"
-        className="header__bar_item"
-        {...a11yProps(4)}
-      />
-      <Tab
-        label="Log out"
-        name="logout"
-        className="header__bar_item"
-        {...a11yProps(5)}
-      />
-    </Tabs>
+      <Tabs
+        className="menu_bar"
+        value={currentTabIndex}
+        onChange={handleMenuChange}
+        aria-label="menu bar"
+        TabIndicatorProps={{ style: { background: "white" } }}
+      >
+        <Tab
+          label="Alumnae Portal Home"
+          name="home"
+          className="header__bar_item"
+          // {...a11yProps(0)}
+        />
+        <Tab
+          label="My Profile"
+          name="profile"
+          className="header__bar_item"
+          // {...a11yProps(1)}
+        />
+        <Tab
+          label="Communities"
+          name="community"
+          className="header__bar_item"
+          // {...a11yProps(2)}
+        />
+        <Tab
+          label="Directory"
+          name="directory"
+          className="header__bar_item"
+          // {...a11yProps(3)}
+        />
+        <Tab
+          label="Log Out"
+          name="logOut"
+          className="header__bar_item"
+          // {...a11yProps(4)}
+        />
+      </Tabs>
+    </div>
   );
   const unAuthenticatedMenuItems = (
     <Tabs value={value} onChange={handleMenuChange} aria-label="menu bar">
@@ -172,48 +178,50 @@ const Navigation = ({
           <Tab
             label="Alumnae Portal Home"
             name="home"
+            value={0}
             className="header__bar_item"
-            {...a11yProps(1)}
           />
           <Tab
             label="My Profile"
             name="profile"
             className="header__bar_item"
-            {...a11yProps(2)}
+            value={1}
           />
           <Tab
             label="Communities"
             name="community"
+            value={2}
             className="header__bar_item"
-            {...a11yProps(3)}
           />
           <Tab
             label="Directory"
             name="directory"
+            value={3}
             className="header__bar_item"
-            {...a11yProps(4)}
           />
           <Tab
             label="Change Password"
             name="logout"
+            value={4}
             className="header__item_sm"
-            {...a11yProps(5)}
           />
           <Tab
             label="Log out"
             name="logout"
+            value={5}
             className="header__bar_item"
-            {...a11yProps(5)}
           />
         </Tabs>
       </div>
     </Drawer>
   );
-  const mediumSize = (
+  const memberNavbar = (
     <AppBar position="static" className="header__bar">
       {authenticated ? authenticatedMenuItems : unAuthenticatedMenuItems}
     </AppBar>
   );
+  const mediumSize =
+    userRole === "admin" ? <AdminNavbar /> : <div>{memberNavbar}</div>;
   const authenticatedSmMenu = (
     <React.Fragment>
       <div className="header_sm">
@@ -249,6 +257,7 @@ const Navigation = ({
   return (
     <div className="header__app">
       {openDrawer && drawerPage}
+
       {!matches ? mediumSize : responsiveSize}
     </div>
   );
@@ -259,6 +268,7 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
   authenticated: state.user.authenticated,
   currentTabIndex: state.UI.currentTabIndex,
+  userRole: state.user.userInfo.userRole,
 });
 
 const mapDispatchToProps = { logoutUser, updateTabIndex };

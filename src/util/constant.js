@@ -64,7 +64,7 @@ export const profileQuestionsInit = [
     type: "workforce",
     values: [
       "Where do you work ?",
-      "What depeartment do you work in ?",
+      "What department do you work in ?",
       "What is your job titile ?",
     ],
   },
@@ -112,7 +112,7 @@ export const initialChipData = [
   { key: 0, label: "Artificial Intelligence", itemSelected: false },
   { key: 1, label: "Blockchain", itemSelected: false },
   { key: 2, label: "Gaming", itemSelected: false },
-  { key: 3, label: "Mobile and app design", itemSelected: false },
+  { key: 3, label: "Mobile and App design", itemSelected: false },
   { key: 4, label: "Robotics", itemSelected: false },
   { key: 5, label: "HTML/CSS", itemSelected: false },
   { key: 6, label: "UX/UI", itemSelected: false },

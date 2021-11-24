@@ -9,7 +9,7 @@ import jwtDecode from "jwt-decode";
 // Redux
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import { SET_AUTHENTICATED } from "./redux/types";
+import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "./redux/types";
 import { logoutUser, getUserData } from "./redux/actions/userActions";
 // Components
 import themeObject from "./util/theme";
@@ -41,10 +41,12 @@ const token = localStorage.FBIdToken;
 console.log("token", token);
 if (token) {
   const decodedToken = jwtDecode(token);
-  if (decodedToken.exp * 1000 < Date.now()) {
+  if (decodedToken.exp < Date.now()) {
+    // store.dispatch({ type: SET_UNAUTHENTICATED });
     store.dispatch(logoutUser());
     window.location.href = "/login";
   } else {
+    // store.dispatch({ type: SET_UNAUTHENTICATED });
     store.dispatch({ type: SET_AUTHENTICATED });
     // axios.defaults.headers.common['Authorization'] = token;
     // store.dispatch(getUserData());
@@ -57,23 +59,18 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <Router>
+            <Navbar />
             <CssBaseline />
             {/* <div className="container"> */}
             <Container fixed>
               <Switch>
-                {/* <Route exact path="/portalHome" component={PortalHome} />
-                <Route exact path="/userprofile" component={BGCProfileHome} />
-                <Route exact path="/communityHome" component={communityHome} /> */}
                 <Route exact path="/" component={login} />
                 <Route exact path="/login" component={login} />
                 <Route exact path="/signup" component={signup} />
                 <Route exact path="/admin-signup" component={AdminSignup} />
                 <Route exact path="/recover" component={RecoverPassword} />
                 <Route exact path="/directory" component={BGCDirectoryHome} />
-                <Route
-                  path="/communityHome/:communityId"
-                  component={communityDetails}
-                />
+
                 <Route path="/userprofile/:userId" component={BGCProfileHome} />
                 <AuthRoute exact path="/portalHome" component={PortalHome} />
                 <AuthRoute
@@ -86,17 +83,17 @@ class App extends Component {
                   path="/userprofile"
                   component={BGCProfileHome}
                 />
-                <AdminAuthRoute exact path="/adminHome" component={AdminHome} />
-                {/* <Route exact path="/communityHome" component={communityHome} /> */}
-                {/* <AuthRoute exact path="/login" component={login} />
-                <AuthRoute exact path="/signup" component={signup} />
-                <Route exact path="/users/:handle" component={user} />
-                <Route exact path="/communityHome/:communityId" component={communityHome} />
-                <Route
+                <AuthRoute
                   exact
-                  path="/users/:handle/scream/:screamId"
-                  component={user}
-                /> */}
+                  path="/directory"
+                  component={BGCDirectoryHome}
+                />
+                <AuthRoute
+                  exact
+                  path="/communityHome/:communityId"
+                  component={communityDetails}
+                />
+                <AdminAuthRoute exact path="/adminHome" component={AdminHome} />
               </Switch>
             </Container>
           </Router>
