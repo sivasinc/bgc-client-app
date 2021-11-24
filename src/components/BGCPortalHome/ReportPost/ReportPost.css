@@ -1,0 +1,33 @@
+.__reportstep1__ {
+  padding: 10px 10px 20px 20px;
+}
+
+.__reportstep1__ > h4 {
+  font-weight: 400;
+  padding: 0 0 0 0;
+}
+.reportstep2_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.__reportstep2__section__ > p {
+  margin: 10px 0 0 0;
+}
+.__reportstep2__section__ > h4 {
+  font-family: Roboto;
+  /* margin-bottom: 5px; */
+  font-size: 20px;
+  padding: 0 0 0px 0px;
+  letter-spacing: 0.15px;
+  line-height: 24px;
+  margin: 10px 0 0 0;
+}
+
+.__report__post__footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px 20px 20px;
+    margin: 20px 0 0 0;
+}

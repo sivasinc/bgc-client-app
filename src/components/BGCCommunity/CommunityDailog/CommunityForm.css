@@ -1,0 +1,97 @@
+.communityCreate__form__page {
+  width: 100% !important;
+  margin: 10px !important;
+}
+.communityCreate__form__page__form_names {
+  display: flex;
+}
+.communityCreate__form__page__form_login {
+  display: flex;
+  flex-direction: column;
+}
+.communityCreate__form__page__form_login > div {
+  margin-top: 10px;
+  width: 50% !important;
+}
+.communityCreate__form__page__form_password_recovery {
+  width: 100% !important;
+}
+.security_answer {
+  margin-top: 10px !important;
+  width: 100% !important;
+}
+.step1 {
+  padding: 10px 10px 20px 20px;
+}
+.step1 > h4 {
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  line-height: 24px;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 0 0 10px 0px;
+}
+/* .step1 > h2 {
+    font-family:Roboto ;
+    font-size: 16px;
+    font-weight: 100;
+    letter-spacing: 0.15px;
+    line-height: 24px;
+    color: rgba(0,0,0,0.87);
+    padding: 0 0 10px 10px;
+} */
+.communityCreate__form__page__loginInfo > h4 {
+  font-family: Roboto;
+  margin-bottom: 5px;
+  font-size: 16px;
+  padding: 0 0 0px 0px;
+  letter-spacing: 0.15px;
+  color: rgba(0, 0, 0, 0.87);
+}
+.communityCreate__form__page__password_recovery > h4 {
+  margin-bottom: 5px;
+  padding: 0 0 0px 0px;
+}
+
+.__create__community__dialog {
+  display: flex;
+  margin-top: 10px;
+  width: 780px;
+  height: 576px;
+  background-color: #ffffff;
+}
+
+.__create__community__agree__div {
+  box-sizing: border-box;
+  height: 68px;
+  border: 1px solid #d5d5d5;
+  border-radius: 4px;
+  background-color: #f4f4f4;
+}
+
+.create__community__agree__message {
+  height: 48px;
+  width: 678px;
+  color: rgb(0, 0, 0, 0.74);
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  line-height: 24px;
+  font-family: Roboto;
+}
+
+.create_community_container {
+  display: flex;
+  box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%),
+    0px 3px 1px -2px rgb(0 0 0 / 12%);
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 10px;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.create_community_container > div {
+  margin: 20px;
+}

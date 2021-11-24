@@ -34,7 +34,7 @@ import {
 import axios from 'axios';
 import { getPostDetails } from './postActions';
 import { getAllRecommenededCommunities, getAllUserMemberCommunityPost, 
-  myCommunity, joinACommunity, getAllCommunityPosts, commentOnAPost,
+  myCommunity, joinACommunity, getAllCommunityPosts, commentOnAPost,addAReportToPost,
 getAPost, likeAPost, disLikeAPost, getAllMembers, addMemberToMyNetwork, getUserProfileInfo, 
 getAllCommunities, addNewCommunity } from '../../firebaseActions/dataServices';
 
@@ -247,6 +247,26 @@ export const postScream = (newScream) => (dispatch) => {
         payload: err.response.data
       });
     });
+};
+
+export const addReportsPost = (postId, source) => async (dispatch, getState) => {
+   
+  const { data } = getState();
+  try { 
+    await addAReportToPost(postId,source);
+    if(source === 'home') {
+      dispatch(getAllPostsOfUser());
+    } else {
+      const { currentCommunityId } = data;
+      dispatch(getPostsOfCommunity(currentCommunityId));
+    }
+    dispatch(clearErrors());
+  } catch(error) {
+    dispatch({
+      type: SET_ERRORS,
+      payload: error
+    });
+  }
 };
 
 export const likePost = (postId, source) => async (dispatch, getState) => {

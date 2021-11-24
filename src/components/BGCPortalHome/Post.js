@@ -16,6 +16,7 @@ import {
   getAllPostsOfUser,
   getPostsOfCommunity,
 } from "../../redux/actions/dataActions";
+import ReportPost from "./ReportPost";
 
 const Post = ({
   key,
@@ -61,6 +62,18 @@ const Post = ({
     setUpdatedComment(value);
   };
 
+  const { email } = userInfo;
+  console.log("article", article);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const showDocument = () => {
     if (article.sharedDocumentURL) {
       return (
@@ -76,8 +89,7 @@ const Post = ({
 
     return null;
   };
-
-  const { email } = userInfo;
+ 
   console.log("article", article);
   return (
     <Article key={key}>
@@ -97,6 +109,10 @@ const Post = ({
                 <span className="sharedActor__userLabel_sub">posted</span>
               </span>
             )}
+
+            <div>
+              <ReportPost article={article} email={email} />
+            </div>
             <span>
               {dayjs(article.createdAt).format("MMMM DD YYYY, h:mm a")}
             </span>

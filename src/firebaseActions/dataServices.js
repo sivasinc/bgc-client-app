@@ -312,6 +312,44 @@ const likeAPost = async (payload) => {
   }
 }
 
+
+const addAReportToPost = async (postId, currentReport) => {
+  const docRef = doc(db, "posts", postId);
+  const docSnap = await getDoc(docRef);
+  const reports = docSnap.data().reports;
+  const statusValue ='active';
+  let filterReports = null;
+  if(reports) {
+    const existingUserReports =  reports.filter(report => report.userId === currentReport.userId)
+    filterReports = existingUserReports.length > 0 ? null : [...reports, currentReport] 
+  } else {
+    filterReports = [currentReport];
+  }
+
+  if(!filterReports) {
+    console.log("Post Exist for User !");
+    return;
+  }
+
+  // if(reports.length>=10)
+  // {
+  //   statusValue= 'inactive'
+
+  // }
+  if (docSnap.exists()) {
+    //usersArray.push(payload.email);
+    const result = await updateDoc(docRef, {
+      reports : filterReports,
+      status : docSnap.data().status || 'active'
+    });
+    return result;
+  } else {
+    console.log("No such post!");
+  }
+}
+
+
+
 const disLikeAPost = async (payload) => {
   try {
     const docRef = doc(db, "posts", payload.postId);
@@ -472,6 +510,7 @@ export {
   addPostWithImageUpload,
   likeAPost,
   disLikeAPost,
+  addAReportToPost,
   getAllMembers,
   addMemberToMyNetwork,
   getUserProfileInfo,

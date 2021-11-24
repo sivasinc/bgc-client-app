@@ -20,7 +20,6 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Avatar from "@mui/material/Avatar";
-import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
@@ -29,6 +28,131 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Fuse from "fuse.js";
 import LoadingButton from "@mui/lab/LoadingButton";
+import TablePagination from "@mui/material/TablePagination";
+import { visuallyHidden } from "@mui/utils";
+import Box from "@mui/material/Box";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import ArrowDropDown from "@material-ui/icons/ArrowDropDown";
+
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+// This method is created for cross-browser compatibility, if you don't
+// need to support IE11, you can use Array.prototype.sort() directly
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+const headCells = [
+  {
+    id: "avatar",
+    numeric: false,
+    disablePadding: true,
+    label: "",
+    sortRequired: false,
+  },
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: false,
+    label: "Community Name",
+    sortRequired: true,
+  },
+  {
+    id: "description",
+    numeric: false,
+    disablePadding: false,
+    label: "Description",
+    sortRequired: true,
+  },
+  {
+    id: "members",
+    numeric: true,
+    disablePadding: false,
+    label: "Members",
+    sortRequired: true,
+  },
+  {
+    id: "joinLink",
+    numeric: false,
+    disablePadding: false,
+    label: "",
+    sortRequired: false,
+  },
+];
+
+function CommunityTableHead(props) {
+  const { order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+
+  return (
+    <TableHead>
+      <TableRow>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? "right" : "left"}
+            padding={"normal"}
+            sortDirection={orderBy === headCell.id ? order : false}
+            className="_communitytable_tableCell__"
+          >
+            {headCell.sortRequired ? (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+                IconComponent={ArrowDropDown}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            ) : (
+              ""
+            )}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+CommunityTableHead.propTypes = {
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
+};
 
 const CommunityTable = ({
   myCommunities,
@@ -111,36 +235,6 @@ const CommunityTable = ({
 
   const { email } = userInfo;
 
-  function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  }
-
-  function getComparator(order, orderBy) {
-    return order === "desc"
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  }
-
-  // This method is created for cross-browser compatibility, if you don't
-  // need to support IE11, you can use Array.prototype.sort() directly
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) {
-        return order;
-      }
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
-
   const generateActionLink = (community) => {
     if (joinCommunityLoading && updateCommunityId === community.communityId) {
       return (
@@ -159,119 +253,190 @@ const CommunityTable = ({
       (updateCommunityId && updateCommunityId === community.communityId)
     ) {
       return (
-        <React.Fragment>
-          <CheckIcon
-          // onClick={() => joinCommunityHandler(community.communityId)}
-          />{" "}
-          <span
-            // onClick={() => joinCommunity(email)}
-            className="member_add_action_label"
-          >
-            JOINED
-          </span>
-        </React.Fragment>
+        <div className="__community_joined_button_action">
+          <React.Fragment>
+            <CheckIcon
+            // onClick={() => joinCommunityHandler(community.communityId)}
+            />{" "}
+            <span
+              // onClick={() => joinCommunity(email)}
+              className="__community_join__action_label"
+            >
+              JOINED
+            </span>
+          </React.Fragment>
+        </div>
       );
     } else {
       return (
-        <React.Fragment>
-          <AddIcon
-            onClick={() => joinCommunityHandler(community.communityId)}
-          />{" "}
-          <span
-            onClick={() => joinCommunityHandler(community.communityId)}
-            className="member_add_action_label"
-          >
-            JOIN
-          </span>
-        </React.Fragment>
+        <div className="__community_join_button_action">
+          <React.Fragment>
+            <AddIcon
+              onClick={() => joinCommunityHandler(community.communityId)}
+            />{" "}
+            <span
+              onClick={() => joinCommunityHandler(community.communityId)}
+              className="__community_join__action_label"
+            >
+              JOIN
+            </span>
+          </React.Fragment>
+        </div>
       );
     }
   };
 
-  return (
-    <div className="all_community_container">
-      <div className="all_communityBox_header">
-        <h2>All Alumnae Communities</h2>
-      </div>
-      <div className="search_community__header">
-        <div className="search_community_left">
-          <TextField
-            label="Search Community"
-            id="outlined-start-adornment"
-            className="search_community_searchBar"
-            onChange={(e) => searchCommunityHandler(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </div>
-        <div>
-          <CommunityCreateDailog />
-        </div>
-      </div>
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState("calories");
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [dense, setDense] = React.useState(true);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-      <TableContainer
-        sx={{ width: "auto", margin: "0px 20px 20px 20px", display: "flex" }}
-        component={Paper}
-      >
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="left"> </TableCell>
-              <TableCell align="left" sortDirection="asc" color="primary">
-                Community Name
-              </TableCell>
-              <TableCell align="left">Description</TableCell>
-              <TableCell align="left">Members</TableCell>
-              <TableCell align="left"> </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {searchItems.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  <Avatar
-                    aria-label="recipe"
-                    alt="Remy Sharp"
-                    className="MyCommunity__body_item__image"
-                    src={row.image}
-                  />
-                </TableCell>
-                <TableCell align="left">
-                  <p>
-                    <Link
-                      to={`/communityHome/${row.communityId}`}
-                      onClick={() => communityClickHandler(row.communityId)}
-                    >
-                      {row.name}
-                    </Link>
-                  </p>
-                </TableCell>
-                <TableCell align="left" padding="30px;">
-                  {row.description}
-                </TableCell>
-                <TableCell align="left">
-                  {row.members && Array.isArray(row.members)
-                    ? row.members.length
-                    : 0}
-                </TableCell>
-                <TableCell align="center">
-                  <div className="member_add_action">
-                    {generateActionLink(row)}
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - searchItems.length) : 0;
+
+  return (
+    <div>
+      {Array.isArray(searchItems) && searchItems.length > 0 && (
+        <div className="all_community_container">
+          <div className="all_communityBox_header">
+            <h2>All Alumnae Communities</h2>
+          </div>
+          <div className="search_community__header">
+            <div className="search_community_left">
+              <TextField
+                label="Search Community"
+                id="outlined-start-adornment"
+                className="search_community_searchBar"
+                onChange={(e) => searchCommunityHandler(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </div>
+            <div>
+              <CommunityCreateDailog />
+            </div>
+          </div>
+          {/* <Box sx={{ margin: "0px 20px 20px 20px", display: "flex" }}> */}
+          <Paper className="__communitytable__container__">
+            <Table
+              stickyHeader
+              aria-label="sticky table"
+              
+              aria-labelledby="tableTitle"
+              size={dense ? "small" : "medium"}
+            >
+              <CommunityTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={searchItems.length}
+              />
+
+              <TableBody>
+                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                 rows.slice().sort(getComparator(order, orderBy)) */}
+                {stableSort(searchItems, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                    return (
+                      <TableRow
+                        key={row.name}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          <Avatar
+                            aria-label="recipe"
+                            alt="Remy Sharp"
+                            className="MyCommunity__body_item__image"
+                            src={row.image}
+                          />
+                        </TableCell>
+                        <TableCell
+                          align="left"
+                          component="th"
+                          id={labelId}
+                          scope="row" 
+                        >
+                          <p>
+                            <Link
+                              to={`/communityHome/${row.communityId}`}
+                              onClick={() =>
+                                communityClickHandler(row.communityId)
+                              }
+                            >
+                              {row.name}
+                            </Link>
+                          </p>
+                        </TableCell>
+                        <TableCell align="left"  >
+                          {row.description}
+                        </TableCell>
+                        <TableCell align="right" >
+                          {row.members && Array.isArray(row.members)
+                            ? row.members.length
+                            : 0}
+                        </TableCell>
+                        <TableCell align="right">
+                          {generateActionLink(row)}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: (dense ? 33 : 53) * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+            <div className="__communitytable__pagination__">
+              <TablePagination
+                rowsPerPageOptions={[]}
+                component="div"
+                count={searchItems.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage=""
+              />
+            </div>
+          </Paper>
+          {/* </Box> */}
+        </div>
+      )}
     </div>
   );
 };
@@ -291,7 +456,7 @@ const mapStateToProps = (state) => {
     recommendedCommunityLoading: state.data.recommendedCommunityLoading,
     joinCommunityLoading: state.data.joinCommunityLoading,
     loadingUsersPosts: state.data.loadingUsersPosts,
-    allUsersCommunitiesLoading: state.data.allUsersCommunitiesLoading
+    allUsersCommunitiesLoading: state.data.allUsersCommunitiesLoading,
   };
 };
 
