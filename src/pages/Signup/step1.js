@@ -10,8 +10,15 @@ import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormHelperText from "@mui/material/FormHelperText";
+import { makeStyles } from "@material-ui/core/styles";
+import { width } from "@mui/system";
+import { useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
+import Grid from "@material-ui/core/Grid";
 
 const Step1 = ({ handleInputChange, userProfile }) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
   const [showElement, sethowElement] = useState({
     showPassword: false,
     showCnfPassword: false,
@@ -68,133 +75,136 @@ const Step1 = ({ handleInputChange, userProfile }) => {
       </div>
       <div className="signup__loginInfo">
         <h4>Login Information</h4>
-        <Box>
-          {/* <Grid container xs={12} >
-         <Grid item xs={12}  style={{display:"flex",flexDirection:"column"}}> */}
-          <TextField
-            className="signUp__form__password"
-            required
-            fullWidth
-            error={!!errorMessage.email}
-            name="email"
-            id="outlined-required"
-            label="Email Address"
-            value={email}
-            variant="outlined"
-            onChange={handleInputChange}
-            helperText={errorMessage.email}
-          />
-          {/* <FormHelperText id="outlined-weight-helper-text" sx={{color:'red'}}>{errorMessage.email}</FormHelperText> */}
-          <div></div>
-          <FormControl
-            sx={{ width: "47.7%", margin: "10px 0px 10px 0px" }}
-            variant="outlined"
-          >
-            <InputLabel
-              error={!!errorMessage.password}
-              htmlFor="outlined-adornment-password"
-            >
-              Password *
-            </InputLabel>
-            <OutlinedInput
-              // variant="outlined"
-              // className="signUp__form__password"
-              required
-              error={!!errorMessage.password}
-              id="outlined-adornment-password"
-              label="Password"
-              name="password"
-              type={showElement.showPassword ? "text" : "password"}
-              autoComplete="current-password"
-              value={password}
-              onChange={handleInputChange}
-              helperText={
-                !errorMessage.password
-                  ? "Case sensitive. Must be at least 6 characters long and can contain numbers and symbols "
-                  : errorMessage.password
-              }
-              InputLabelProps={{ shrink: true }}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => handleClickShowPassword("Password")}
+        <Grid container>
+          <Grid item xs={12} md={6}>
+            <Box>
+              <Grid item xs={12} md={12}>
+                <TextField
+                 style={matches? {width:"100%"}:{width:"96%"}}
+                  className="signUp__form__password"
+                  required
+                  fullWidth
+                  error={!!errorMessage.email}
+                  name="email"
+                  id="outlined-required"
+                  label="Email Address"
+                  value={email}
+                  variant="outlined"
+                  onChange={handleInputChange}
+                  helperText={errorMessage.email}
+                />
+              </Grid>
+              <div></div>
+              <Grid item xs={12} md={12}>
+                <FormControl
+                  sx={matches?{ width: "100%", margin: "15px 0px 10px 0px" }:{ width: "96%", margin: "15px 0px 10px 0px" }}
+                  variant="outlined"
+                >
+                  <InputLabel
+                    error={!!errorMessage.password}
+                    htmlFor="outlined-adornment-password"
+                  >
+                    Password *
+                  </InputLabel>
+                  <OutlinedInput
+                    required
+                    fullWidth
+                    error={!!errorMessage.password}
+                    id="outlined-adornment-password"
+                    label="Password"
                     name="password"
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
+                    type={showElement.showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={handleInputChange}
+                   
+                    InputLabelProps={{ shrink: true }}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => handleClickShowPassword("Password")}
+                          name="password"
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showElement.showPassword ? (
+                            <VisibilityOff fontSize="small" />
+                          ) : (
+                            <Visibility fontSize="small" />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                  <FormHelperText
+                    error={!!errorMessage.password}
+                    id="outlined-weight-helper-text"
                   >
-                    {showElement.showPassword ? (
-                      <VisibilityOff fontSize="small" />
-                    ) : (
-                      <Visibility fontSize="small" />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-            <FormHelperText
-              error={!!errorMessage.password}
-              id="outlined-weight-helper-text"
-            >
-              {!errorMessage.password
-                ? "Case sensitive. Must be at least 6 characters long and can contain numbers and symbols "
-                : errorMessage.password}
-            </FormHelperText>
-          </FormControl>
-          <div></div>
-          <FormControl
-            sx={{ width: "47.7%", margin: "10px 0px 10px 0px" }}
-            variant="outlined"
-          >
-            <InputLabel
-              error={!!errorMessage.password}
-              htmlFor="outlined-adornment-password"
-            >
-              Confirm Password *
-            </InputLabel>
-            <OutlinedInput
-              // className="signUp__form__password"
-              fullWidth
-              error={!!errorMessage.confirmPassword}
-              id="outlined-password-input"
-              label="Confirm Password"
-              InputLabelProps={{ shrink: true }}
-              name="confirmPassword"
-              type={showElement.showCnfPassword ? "text" : "password"}
-              autoComplete="current-password"
-              variant="outlined"
-              value={confirmPassword}
-              onChange={handleInputChange}
-              // helperText={errorMessage.confirmPassword}
-              // InputProps={{
-
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => handleClickShowPassword("cnfPassword")}
-                    edge="end"
+                    {!errorMessage.password
+                      ? "Case sensitive. Must be at least 6 characters long and can contain numbers and symbols "
+                      : errorMessage.password}
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <div></div>
+              <Grid item xs={12} md={12}>
+                <FormControl
+                  sx={matches?{ width: "100%", margin: "10px 0px 10px 0px" }:{ width: "96%", margin: "10px 0px 10px 0px" }}
+                  variant="outlined"
+                >
+                  <InputLabel
+                    error={!!errorMessage.confirmPassword}
+                    htmlFor="outlined-password-input"
                   >
-                    {showElement.showCnfPassword ? (
-                      <VisibilityOff fontSize="small" />
-                    ) : (
-                      <Visibility fontSize="small" />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-            <FormHelperText
-              id="outlined-weight-helper-text"
-              sx={{ color: "red" }}
-            >
-              {errorMessage.confirmPassword}
-            </FormHelperText>
-          </FormControl>
-          {/* </Grid>
-        </Grid> */}
-        </Box>
+                    Confirm Password *
+                  </InputLabel>
+                  <OutlinedInput
+                    // className="signUp__form__password"
+                    required
+                    fullWidth
+                    error={!!errorMessage.confirmPassword}
+                    id="outlined-password-input"
+                    label="Confirm Password"
+                    InputLabelProps={{ shrink: true }}
+                    name="confirmPassword"
+                    type={showElement.showCnfPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    variant="outlined"
+                    value={confirmPassword}
+                    onChange={handleInputChange}
+                    // helperText={errorMessage.confirmPassword}
+                    // InputProps={{
 
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => handleClickShowPassword("cnfPassword")}
+                          edge="end"
+                        >
+                          {showElement.showCnfPassword ? (
+                            <VisibilityOff fontSize="small" />
+                          ) : (
+                            <Visibility fontSize="small" />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                  <FormHelperText
+                  error=  {!!errorMessage.confirmPassword}
+                    id="outlined-weight-helper-text"
+                    
+                  >
+                    {errorMessage.confirmPassword}
+                  </FormHelperText>
+                </FormControl>
+              </Grid> 
+              <div></div>
+            </Box>
+          </Grid>
+        </Grid>
         {/* <div className="signUp__form_login">
           <TextField
           

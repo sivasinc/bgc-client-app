@@ -18,7 +18,7 @@ const Step6 = ({ handleRadioChange, value }) => {
       <FormControl component="fieldset">
         <RadioGroup
           aria-label="linkedInOption"
-          name="linkedInOption"
+          name="visibility"
           value={value}
           onChange={handleRadioChange}
         >

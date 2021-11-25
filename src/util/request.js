@@ -1,3 +1,5 @@
+import { id } from "date-fns/locale";
+
 export const generateRequest = (userProfile, selectedProfile) => {
   const {
     firstName,
@@ -9,14 +11,18 @@ export const generateRequest = (userProfile, selectedProfile) => {
     startYear,
     endMonth,
     endYear,
+    endDateCheckBox,
   } = userProfile;
   let profileInfo;
-
+  let enDate;
   const stDate =
     startYear !== "" ? new Date(startYear).getFullYear().toString() : "";
-  const enDate =
-    endYear !== "" ? new Date(endYear).getFullYear().toString() : "";
 
+  if (endDateCheckBox) {
+    enDate = endYear !== "" ? new Date(endYear).getFullYear().toString() : "";
+  }
+
+  const userRole = "member";
   switch (selectedProfile) {
     case "college":
       profileInfo = [
@@ -28,9 +34,9 @@ export const generateRequest = (userProfile, selectedProfile) => {
               university: userProfile["college-0"],
               fieldOfStudy: userProfile["college-1"],
               startMonth,
-              startYear:stDate,
+              startYear: stDate,
               endMonth,
-              endYear:enDate,
+              endYear: endDateCheckBox ? enDate : null,
             },
           ],
         },
@@ -48,10 +54,13 @@ export const generateRequest = (userProfile, selectedProfile) => {
           ],
         },
         {
-          type: "linkedInOption",
+          type: "Visible and search option",
           details: [
             {
-              linkedInOption: userProfile["linkedInOption"],
+              visibility:
+                typeof userProfile["visibility"] !== "undefined"
+                  ? userProfile["visibility"]
+                  : "yes",
             },
           ],
         },
@@ -67,9 +76,9 @@ export const generateRequest = (userProfile, selectedProfile) => {
               department: userProfile["workforce-1"],
               jobTtile: userProfile["workforce-2"],
               startMonth,
-              startYear:stDate,
+              startYear: stDate,
               endMonth,
-              endYear:enDate,
+              endYear: enDate,
             },
           ],
         },
@@ -87,10 +96,10 @@ export const generateRequest = (userProfile, selectedProfile) => {
           ],
         },
         {
-          type: "linkedInOption",
+          type: "Visible and search option",
           details: [
             {
-              linkedInOption: userProfile["linkedInOption"],
+              visibility: userProfile["visibility"],
             },
           ],
         },
@@ -120,10 +129,10 @@ export const generateRequest = (userProfile, selectedProfile) => {
           ],
         },
         {
-          type: "linkedInOption",
+          type: "Visible and search option",
           details: [
             {
-              linkedInOption: userProfile["linkedInOption"],
+              visibility: userProfile["visibility"],
             },
           ],
         },
@@ -135,7 +144,7 @@ export const generateRequest = (userProfile, selectedProfile) => {
           type: "figureout",
           details: [
             {
-              reason: userProfile["timeoff-0"],
+              reason: userProfile["figureout-0"],
             },
           ],
         },
@@ -153,10 +162,10 @@ export const generateRequest = (userProfile, selectedProfile) => {
           ],
         },
         {
-          type: "linkedInOption",
+          type: "Visible and search option",
           details: [
             {
-              linkedInOption: userProfile["linkedInOption"],
+              visibility: userProfile["visibility"],
             },
           ],
         },
@@ -173,5 +182,6 @@ export const generateRequest = (userProfile, selectedProfile) => {
     password,
     confirmPassword,
     profileInfo,
+    userRole,
   };
 };

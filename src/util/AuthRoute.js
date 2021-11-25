@@ -11,7 +11,6 @@ const AuthRoute = ({ component: Component, userRole, authenticated, ...rest }) =
     render={(props) =>
       authenticated === true && userRole === 'member' ? (
         <React.Fragment>
-          <MemberNavbar />
           <Component {...props} />
         </React.Fragment>
       ) : <Redirect to="/login" />

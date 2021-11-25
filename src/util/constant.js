@@ -56,7 +56,7 @@ export const profileQuestionsInit = [
   {
     type: "college",
     values: [
-      "What College or University do you attend ?",
+      "What College/University do you attend ?",
       "What are you studying ?",
     ],
   },
@@ -64,7 +64,7 @@ export const profileQuestionsInit = [
     type: "workforce",
     values: [
       "Where do you work ?",
-      "What depeartment do you work in ?",
+      "What department do you work in ?",
       "What is your job titile ?",
     ],
   },
@@ -112,7 +112,7 @@ export const initialChipData = [
   { key: 0, label: "Artificial Intelligence", itemSelected: false },
   { key: 1, label: "Blockchain", itemSelected: false },
   { key: 2, label: "Gaming", itemSelected: false },
-  { key: 3, label: "Mobile and app design", itemSelected: false },
+  { key: 3, label: "Mobile and App design", itemSelected: false },
   { key: 4, label: "Robotics", itemSelected: false },
   { key: 5, label: "HTML/CSS", itemSelected: false },
   { key: 6, label: "UX/UI", itemSelected: false },
@@ -148,9 +148,7 @@ export const getRoutes = (authenticated, value, history) => {
         history.push("/login");
     }
   }
-
-  
-}
+};
 export const eventsData = [
   { name: "Workshop", value: "1" },
   { name: "Summer Camp", value: "2" },
@@ -183,6 +181,5 @@ export const chapterValue = [
   { name: "Other", value: "16" },
 ];
 
-
 // regex to capture links
-  export const linkRegex = /((https?:\/\/)?[^\s.]+\.[\w][^\s]+)/g
+export const linkRegex = /((https?:\/\/)?[^\s.]+\.[\w][^\s]+)/g;

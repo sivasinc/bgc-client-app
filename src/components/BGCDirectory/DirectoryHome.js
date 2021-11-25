@@ -47,7 +47,6 @@ if (result.length) {
 console.log('searchItems', searchItems);
   return (
     <React.Fragment>
-    <Navigation/>
     <div className="directory_container">
       <h4>Alumnae Directory</h4>
       <div className="directory__header">

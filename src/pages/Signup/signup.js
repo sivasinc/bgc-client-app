@@ -19,6 +19,7 @@ import Step4 from "./step4";
 import Step5 from "./Step5";
 import Step6 from "./Step6";
 import Step7 from "./Step7";
+import { validateStep4, validateStep5 } from "../../util/validators";
 import { generateRequest } from "../../util/request";
 import { validateInfo } from "./Validate";
 import { doc, getDoc } from "firebase/firestore";
@@ -39,6 +40,15 @@ const signup = ({ signupUser, history, UI }) => {
     participatedChapter: "",
     eventsAttended: [],
     disabled: false,
+    state: "",
+    interestField: [],
+    "college-0":'',
+    "college-1":'',
+    startYear:"",
+    startMonth:"",
+    endMonth:'',
+    endYear:"",
+    endDateCheckBox:false
   });
 
   const [progress, setProgress] = useState(0);
@@ -75,15 +85,9 @@ const signup = ({ signupUser, history, UI }) => {
   };
   const formButtonHandler = async (currentStep) => {
     let error1 = {};
+    let valid;
     if (currentStep === 1) {
       error1 = validateInfo(userProfile, currentStep);
-      // if (!error1.email) {
-      //   const docRef = doc(db, "users", userProfile.email);
-      //   const docSnap = await getDoc(docRef);
-      //   if (docSnap.exists()) {
-      //     error1.email = "email already exists";
-      //   }
-      //   }
 
       // console.log("error", error1);
       if (Object.keys(error1).length > 0) {
@@ -97,25 +101,31 @@ const signup = ({ signupUser, history, UI }) => {
       let interstedItem = chipData
         .filter((x) => x.itemSelected === true)
         .map((y) => y.label);
-      if (interstedItem.length === 0) {
-        error1.interestField = "Select at least One Interest";
-        setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
-        return;
-      }
+      userProfile.interestField.push(...interstedItem);
       connectionArray = listToAray(userProfile.connections);
       likeToLearnArray = listToAray(userProfile.likeToLearn);
-
       setUserProfile({
         ...userProfile,
-        interestField: interstedItem,
+        interestField: userProfile.interestField,
         connections: connectionArray,
         likeToLearn: likeToLearnArray,
       });
+      ({ error1, valid } = validateStep5(userProfile));
+      if (!valid) {
+        setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
+      }
+    }
+    if (currentStep === 4) {
+      ({ error1, valid } = validateStep4(userProfile,selectedProfile));
+      if (!valid) {
+        setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
+      }
     }
 
     if (Object.keys(error1).length === 0) {
       if (currentStep === 6) {
         const request = generateRequest(userProfile, selectedProfile);
+        console.log("request", request);
         signupUser(request, history);
       }
       setProgress(currentStep * 20);
@@ -225,7 +235,11 @@ const signup = ({ signupUser, history, UI }) => {
       <Grid item md={2} />
       <Grid xs={12} md={8}>
         {currentStep === 6 ? (
-          progressSection
+          <Step7
+          userProfile={userProfile}
+          error={UI.errors}
+          loading={UI.loading}
+        />
         ) : (
           <div className="signUp">
             <div className="signup_header">
