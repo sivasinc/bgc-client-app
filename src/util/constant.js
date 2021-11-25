@@ -56,7 +56,7 @@ export const profileQuestionsInit = [
   {
     type: "college",
     values: [
-      "What College or University do you attend ?",
+      "What College/University do you attend ?",
       "What are you studying ?",
     ],
   },
@@ -148,9 +148,7 @@ export const getRoutes = (authenticated, value, history) => {
         history.push("/login");
     }
   }
-
-  
-}
+};
 export const eventsData = [
   { name: "Workshop", value: "1" },
   { name: "Summer Camp", value: "2" },
@@ -183,6 +181,5 @@ export const chapterValue = [
   { name: "Other", value: "16" },
 ];
 
-
 // regex to capture links
-  export const linkRegex = /((https?:\/\/)?[^\s.]+\.[\w][^\s]+)/g
+export const linkRegex = /((https?:\/\/)?[^\s.]+\.[\w][^\s]+)/g;

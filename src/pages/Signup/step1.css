@@ -34,10 +34,10 @@
   padding: 0px 0px 10px 0px !important;
 }
 .signUp__form__password {
-  width: 47.7% !important;
+  /* width: 100% !important; */
   /* overflow: hidden !important; */
-  margin: 10px 0px 10px 0px !important;
-  padding: 0px 0 10px 0 !important;
+  margin: 10px 15px 13px 0px !important;
+  /* padding: 0px 10px 0px 0 !important;  */
 }
 .step1 > h4 {
   font-family: Roboto;
@@ -71,3 +71,4 @@
   margin-bottom: 5px;
   padding: 0 0 0px 0px;
 }
+

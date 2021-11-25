@@ -30,7 +30,8 @@ const Step4 = ({
   handleStartYearChange,
   handleEndYearChange,
 }) => {
-  const { startMonth, startYear, endMonth, endYear } = userProfile;
+  const { startMonth, startYear, endMonth, endYear, errorMessage } =
+    userProfile;
   const [shrink1, setShrink1] = useState(false);
   const selectedProfileInfo = profileQuestionsInit.filter(
     (item) => item.type === selectedProfile
@@ -41,6 +42,7 @@ const Step4 = ({
       <h3>Please,tell us more</h3>
       {selectedProfileInfo[0].values.map((item, index) => (
         <TextField
+          error={!!errorMessage[`${selectedProfileInfo[0].type}-${index}`]}
           className="step4__section_element"
           name={selectedProfileInfo[0].type + "-" + index}
           id={selectedProfileInfo[0].type + "-" + index}
@@ -48,6 +50,7 @@ const Step4 = ({
           value={userProfile[selectedProfileInfo[0].type + "-" + index]}
           onChange={handleInputChange}
           variant="outlined"
+          helperText={errorMessage[`${selectedProfileInfo[0].type}-${index}`]}
         />
       ))}
       {["college", "workforce"].includes(selectedProfileInfo[0].type) && (
@@ -70,6 +73,7 @@ const Step4 = ({
           <Grid container>
             <Grid item md={6} xs={6}>
               <TextField
+                error={!!errorMessage.startMonth}
                 fullWidth
                 id="step4_startYear"
                 size="small"
@@ -81,6 +85,7 @@ const Step4 = ({
                 variant="outlined"
                 label="Month"
                 InputLabelProps={{ shrink: startMonth ? true : false }}
+                helperText={errorMessage.startMonth}
               >
                 {months.map((item) => (
                   <MenuItem value={item.value}>{item.name}</MenuItem>
@@ -94,13 +99,16 @@ const Step4 = ({
                   label="Year"
                   value={startYear ? startYear : null}
                   onChange={handleStartYearChange}
+                  helperText={errorMessage.startYear}
                   renderInput={(params) => (
                     <TextField
+                      error={!!errorMessage.startYear}
                       fullWidth
                       variant="outlined"
                       className="step4__section_Year"
                       {...params}
                       InputLabelProps={{ shrink: startYear ? true : false }}
+                      helperText={errorMessage.startYear}
                     />
                   )}
                 />
@@ -122,6 +130,7 @@ const Step4 = ({
           <Grid container>
             <Grid item md={6} xs={6}>
               <TextField
+                error={!!errorMessage.endMonth}
                 id="step4_startYear"
                 size="small"
                 disabled={!userProfile.endDateCheckBox}
@@ -134,6 +143,7 @@ const Step4 = ({
                 label="Month"
                 fullWidth
                 InputLabelProps={{ shrink: endMonth ? true : false }}
+                helperText={errorMessage.endMonth}
               >
                 {months.map((item) => (
                   <MenuItem value={item.value}>{item.name}</MenuItem>
@@ -148,13 +158,16 @@ const Step4 = ({
                   disabled={!userProfile.endDateCheckBox}
                   value={endYear ? endYear : null}
                   onChange={handleEndYearChange}
+                  helperText={errorMessage.endYear}
                   renderInput={(params) => (
                     <TextField
+                      error={!!errorMessage.endYear}
                       fullWidth
                       variant="outlined"
                       className="step4__section_Year"
                       {...params}
                       InputLabelProps={{ shrink: endYear ? true : false }}
+                      helperText={errorMessage.endYear}
                     />
                   )}
                 />

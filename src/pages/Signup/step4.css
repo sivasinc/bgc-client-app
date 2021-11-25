@@ -11,6 +11,7 @@
 }
 .step4__section_element {
   margin: 10px 0 10px 0 !important;
+  overflow: hidden !important;
 }
 .step4__section_Month {
   margin: 0px 80px 10px 0px !important;
@@ -41,3 +42,4 @@
   color: rgba(0, 0, 0, 0.87) !important;
   font-size: 0.875rem !important;
 }
+

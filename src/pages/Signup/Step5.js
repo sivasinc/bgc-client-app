@@ -50,6 +50,7 @@ const Step5 = ({
           Which Black Girls Code Chapter have you participated in?
         </Typography>
         <TextField
+          error={!!errorMessage.participatedChapter}
           fullwidth
           className="step_state"
           select
@@ -59,6 +60,7 @@ const Step5 = ({
           label="Select participated chapter?"
           name="participatedChapter"
           size="small"
+          helperText={errorMessage.participatedChapter}
         >
           {chapterValue.map((item) => (
             <MenuItem value={item.name}>{item.name}</MenuItem>
@@ -66,6 +68,7 @@ const Step5 = ({
         </TextField>
         {userProfile.participatedChapter === "Other" && (
           <TextField
+            error={!!errorMessage.state}
             id="step_interest"
             disabled={
               userProfile.participatedChapter === "Other" ? false : true
@@ -82,10 +85,12 @@ const Step5 = ({
                 : null
             }
             onChange={handleInputChange}
+            helperText={errorMessage.state}
           />
         )}
 
         <TextField
+          error={!!errorMessage.eventsAttended}
           className="step_state"
           select
           fullwidth
@@ -93,18 +98,20 @@ const Step5 = ({
           id="outlined-required"
           variant="outlined"
           label="Which events have you attended"
-          helperText="Must have attended at least 3 events to join the Alumnae Portal"
+          helperText={
+            errorMessage.eventsAttended
+              ? errorMessage.eventsAttended
+              : "Must have attended at least 3 events to join the Alumnae Portal"
+          }
           SelectProps={{
             multiple: true,
             value: eventsAttended,
             onChange: handleInputChange,
           }}
         >
-          {/* <Menu> */}
           {eventsData.map((item) => (
             <MenuItem value={item.name}>{item.name}</MenuItem>
           ))}
-          {/* </Menu> */}
         </TextField>
       </div>
 
@@ -127,11 +134,18 @@ const Step5 = ({
             </ListItem>
           ))}
         </div>
+        {errorMessage.interestField && (
+          <Typography
+            sx={{ color: "red", fontSize: ".75em", marginLeft: "10px" }}
+            variant="p"
+          >
+          { errorMessage.interestField }
+          </Typography>
+        )}
       </div>
       <Grid container>
         <Grid sm={12} md={6}>
           <TextField
-            error={errorMessage.interestField}
             id="step_interest"
             className="step_interest"
             label="Add Some Interests"
@@ -140,7 +154,6 @@ const Step5 = ({
             variant="outlined"
             value={tempInterestField}
             onChange={handleInputChange}
-            helperText={errorMessage.interestField}
             InputProps={{
               // <-- This is where the toggle button is added.
               endAdornment: (
