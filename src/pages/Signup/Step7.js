@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Step7 = ({ userProfile: { email } = "", error, loading }) => {
     console.log(error);

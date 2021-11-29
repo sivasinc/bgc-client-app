@@ -1,0 +1,19 @@
+.content_body{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    margin:10px;
+}
+.item_description{
+display: flex;
+flex-direction: column;
+align-items: center;
+    margin-left: 10px;
+    margin-bottom: auto;
+}
+.MyNetworks__body_item__image{
+width:24px !important;
+height:24px !important;
+margin-top: 10px !important;
+
+}

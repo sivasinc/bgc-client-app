@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 // MUI Stuff
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Typography from "@material-ui/core/Typography";
+import LinearProgress from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
 // Redux stuff
 import { connect } from "react-redux";
 import { signupUser } from "../../redux/actions/userActions";
@@ -42,13 +42,13 @@ const signup = ({ signupUser, history, UI }) => {
     disabled: false,
     state: "",
     interestField: [],
-    "college-0":'',
-    "college-1":'',
-    startYear:"",
-    startMonth:"",
-    endMonth:'',
-    endYear:"",
-    endDateCheckBox:false
+    "college-0": "",
+    "college-1": "",
+    startYear: "",
+    startMonth: "",
+    endMonth: "",
+    endYear: "",
+    endDateCheckBox: false,
   });
 
   const [progress, setProgress] = useState(0);
@@ -116,7 +116,7 @@ const signup = ({ signupUser, history, UI }) => {
       }
     }
     if (currentStep === 4) {
-      ({ error1, valid } = validateStep4(userProfile,selectedProfile));
+      ({ error1, valid } = validateStep4(userProfile, selectedProfile));
       if (!valid) {
         setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
       }
@@ -236,10 +236,10 @@ const signup = ({ signupUser, history, UI }) => {
       <Grid xs={12} md={8}>
         {currentStep === 6 ? (
           <Step7
-          userProfile={userProfile}
-          error={UI.errors}
-          loading={UI.loading}
-        />
+            userProfile={userProfile}
+            error={UI.errors}
+            loading={UI.loading}
+          />
         ) : (
           <div className="signUp">
             <div className="signup_header">
