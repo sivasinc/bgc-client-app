@@ -9,11 +9,6 @@ import FlipMove from "react-flip-move";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { setCurrentCommunityId } from "../../redux/actions/dataActions";
 import { updateTabIndex } from "../../redux/actions/userActions";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Button from "@material-ui/core/Button";
 import DialogWindow from "./DialogWindow";
 
 
@@ -36,27 +31,7 @@ const MyCommunities = ({
   };
   const windowModal = (
     <div>
-      <Dialog open={openModal} fullWidth>
-        <DialogTitle>
-        <div className="MyCommunity__heading">
-        <div className="MyCommunity__header">
-          <h3>My Communities</h3>
-        </div>
-        <div className="MyNetworks__header__right">
-              <span>{myCommunities.length} Communities</span>
-            </div>
-        
-         </div>
-          </DialogTitle>
-        <DialogContent>
-          <DialogWindow myCommunities={myCommunities} communityClickHandler={communityClickHandler} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleModal} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DialogWindow myCommunities={myCommunities} communityClickHandler={communityClickHandler} openModal={openModal}  handleModal={handleModal} noOfPages={Math.ceil(myCommunities.length / 10)}/>
     </div>
   );
 
@@ -102,23 +77,23 @@ const MyCommunities = ({
                 className="MyCommunity__body_item__image"
                 src={item.image}
               />
-              {/* <Typography
+              <Typography
           variant="p"
-          component={Link}
-          to={`/communityHome/${item.communityId}`}
+         
           color="primary"
           className="MyCommunity__body_item_label"
+          onClick={() => communityClickHandler(item.communityId)}
         >
          {item.name}
-        </Typography> */}
-              <p>
-                <Link
+        </Typography>
+             
+                {/* <Link
                   to={`/communityHome/${item.communityId}`}
-                  onClick={() => communityClickHandler(item.communityId)}
+                  
                 >
                   {item.name}
                 </Link>
-              </p>
+              </p> */}
             </div>
           ))}
         </FlipMove>

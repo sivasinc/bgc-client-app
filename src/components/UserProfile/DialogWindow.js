@@ -4,63 +4,101 @@ import Box from "@mui/material/Box";
 import Avatar from "@material-ui/core/Avatar";
 import "./DialogWindow.css";
 import { Link } from "react-router-dom";
-import TablePagination from "@mui/material/TablePagination";
+import Pagination from "@mui/material/Pagination";
+import Typography from "@mui/material/Typography";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Button from "@material-ui/core/Button";
 
 const DialogWindow = ({
   handleModal,
   myCommunities,
   communityClickHandler,
+  openModal,
+  noOfPages,
 }) => {
   const [page, setPage] = React.useState(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  const itemsPerPage = 10;
+  // const [totalPages] = React.useState(
+  //   noOfPages
+  // );
+  let string = "";
+  const changeDescription = (description) => {
+    return (string = description.substring(0, 40) + "...");
   };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+
+  const handleChangePage = (e, value) => {
+    setPage(value);
   };
   return (
-    <div>
-      <Grid container>
-        {myCommunities
-          .slice((page-1) * rowsPerPage, page * rowsPerPage )
-          .map((item) => (
-            <Grid item sm={6}>
-              <Box>
-                <div className="content_body">
-                  <Avatar
-                    alt={item.name}
-                    sx={{ width: 24, height: 24 }}
-                    className="MyNetworks__body_item__image"
-                    src={item.image}
-                  />
-                  <div className="item_description">
-                    <p>
-                      <Link
-                        to={`/communityHome/${item.communityId}`}
-                        onClick={() => communityClickHandler(item.communityId)}
-                      >
-                        {item.name}
-                      </Link>
-                    </p>
-                    {/* <Typography variant='p'>{item.description}</Typography> */}
+    <Dialog open={openModal} fullWidth>
+      <DialogTitle>
+        <div className="MyCommunity__heading">
+          <div className="MyCommunity__header">
+            <h3>My Communities</h3>
+          </div>
+          <div className="MyNetworks__header__right">
+            <span>{myCommunities.length} Communities</span>
+          </div>
+        </div>
+      </DialogTitle>
+      <DialogContent>
+        <Grid container>
+          {myCommunities
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((item) => (
+              <Grid item sm={12}>
+                <Box>
+                  <div className="content_body">
+                    <Avatar
+                      alt={item.name}
+                      sx={{ width: 30, height: 30 }}
+                      className="MyNetworks__body_item__image"
+                      src={item.image}
+                    />
+                    <div className="item_description">
+                      <div>
+                        <Typography
+                          variant="h6"
+                          component={Link}
+                          to={`/communityHome/${item.communityId}`}
+                          onClick={() =>
+                            communityClickHandler(item.communityId)
+                          }
+                          className="community_title"
+                        >
+                          {item.name}
+                        </Typography>
+                      </div>
+                      <Typography variant="p">
+                        {item.description.length > 40
+                          ? changeDescription(item.description)
+                          : item.description}
+                      </Typography>
+                    </div>
                   </div>
-                </div>
-              </Box>
-            </Grid>
-          ))}
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+                </Box>
+              </Grid>
+            ))}
+        </Grid>
+      </DialogContent>
+      <DialogActions className="action_content">
+        <Pagination
+          className="pagination_div"
+          rowsPerPageOptions={[]}
           component="div"
-          count={myCommunities.length}
-          rowsPerPage={rowsPerPage}
+          count={noOfPages}
+          rowsPerPage={itemsPerPage}
           page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+          onChange={handleChangePage}
         />
-      </Grid>
-    </div>
+        <Button onClick={handleModal} color="primary">
+          Cancel
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
