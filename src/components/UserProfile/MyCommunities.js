@@ -7,22 +7,43 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import FlipMove from "react-flip-move";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {setCurrentCommunityId} from '../../redux/actions/dataActions';
-import { updateTabIndex } from '../../redux/actions/userActions';
+import { setCurrentCommunityId } from "../../redux/actions/dataActions";
+import { updateTabIndex } from "../../redux/actions/userActions";
+import DialogWindow from "./DialogWindow";
 
-const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunityId, updateTabIndex }) => {
+
+const MyCommunities = ({
+  myCommunities,
+  loadingMyCommunities,
+  setCurrentCommunityId,
+  updateTabIndex,
+}) => {
   const history = useHistory();
+  const [openModal, setOpenModal] = useState(false);
   const communityClickHandler = (communityId) => {
-    console.log('communityClickHandler');
+    console.log("communityClickHandler");
     history.push("/communityHome");
     setCurrentCommunityId(communityId);
-  }
- 
+  };
 
+  const handleModal = () => {
+    setOpenModal((prevState)=>!prevState);
+  };
+  const windowModal = (
+    <div>
+      <DialogWindow myCommunities={myCommunities} communityClickHandler={communityClickHandler} openModal={openModal}  handleModal={handleModal} noOfPages={Math.ceil(myCommunities.length / 10)}/>
+    </div>
+  );
 
   let filteredList = [];
-  if(myCommunities && Array.isArray(myCommunities) && myCommunities.length > 0) {
-    filteredList = myCommunities.slice(0,3);
+  console.log("communities1", myCommunities);
+  if (
+    myCommunities &&
+    Array.isArray(myCommunities) &&
+    myCommunities.length > 0
+  ) {
+    filteredList = myCommunities.slice(0, 3);
+    console.log("communities", filteredList);
   }
 
   return (
@@ -31,16 +52,18 @@ const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunit
         <div className="MyCommunity__header">
           <h3>My Communities</h3>
         </div>
-        { filteredList && Array.isArray(filteredList) && filteredList.length > 0 && (
+        {filteredList &&
+          Array.isArray(filteredList) &&
+          filteredList.length > 0 && (
             <div className="MyNetworks__header__right">
-            <span>{myCommunities.length } Communities</span>
-          </div>
-         ) }
+              <span>{myCommunities.length} Communities</span>
+            </div>
+          )}
       </div>
       <div className="MyCommunity__body">
         {loadingMyCommunities && (
           <div className="MyCommunity__progressBar">
-<CircularProgress size={30} className="progress" />
+            <CircularProgress size={30} className="progress" />
           </div>
         )}
         {!loadingMyCommunities && myCommunities.length === 0 && (
@@ -54,23 +77,23 @@ const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunit
                 className="MyCommunity__body_item__image"
                 src={item.image}
               />
-              {/* <Typography
+              <Typography
           variant="p"
-          component={Link}
-          to={`/communityHome/${item.communityId}`}
+         
           color="primary"
           className="MyCommunity__body_item_label"
+          onClick={() => communityClickHandler(item.communityId)}
         >
          {item.name}
-        </Typography> */}
-              <p>
-                <Link
+        </Typography>
+             
+                {/* <Link
                   to={`/communityHome/${item.communityId}`}
-                  onClick={() => communityClickHandler(item.communityId)}
+                  
                 >
                   {item.name}
                 </Link>
-              </p>
+              </p> */}
             </div>
           ))}
         </FlipMove>
@@ -81,9 +104,13 @@ const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunit
           component={Link}
           color="primary"
           className="recommended__communityBox_community_join_button"
+          onClick={handleModal}
         >
-          {myCommunities.length === 0 ? 'Explore Alumnae Communities' : 'VIEW ALL' }
+          {myCommunities.length === 0
+            ? "Explore Alumnae Communities"
+            : "VIEW ALL"}
         </Typography>
+        {windowModal}
       </div>
     </div>
   );
@@ -97,8 +124,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentCommunityId : (communityId) => dispatch(setCurrentCommunityId(communityId)),
-  updateTabIndex: (tabIndex) => dispatch(updateTabIndex(tabIndex))
-})
+  setCurrentCommunityId: (communityId) =>
+    dispatch(setCurrentCommunityId(communityId)),
+  updateTabIndex: (tabIndex) => dispatch(updateTabIndex(tabIndex)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyCommunities);

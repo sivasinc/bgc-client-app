@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -10,7 +10,6 @@ import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormHelperText from "@mui/material/FormHelperText";
-import { makeStyles } from "@material-ui/core/styles";
 import { width } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
@@ -80,7 +79,7 @@ const Step1 = ({ handleInputChange, userProfile }) => {
             <Box>
               <Grid item xs={12} md={12}>
                 <TextField
-                 style={matches? {width:"100%"}:{width:"96%"}}
+                  style={matches ? { width: "100%" } : { width: "96%" }}
                   className="signUp__form__password"
                   required
                   fullWidth
@@ -97,7 +96,11 @@ const Step1 = ({ handleInputChange, userProfile }) => {
               <div></div>
               <Grid item xs={12} md={12}>
                 <FormControl
-                  sx={matches?{ width: "100%", margin: "15px 0px 10px 0px" }:{ width: "96%", margin: "15px 0px 10px 0px" }}
+                  sx={
+                    matches
+                      ? { width: "100%", margin: "15px 0px 10px 0px" }
+                      : { width: "96%", margin: "15px 0px 10px 0px" }
+                  }
                   variant="outlined"
                 >
                   <InputLabel
@@ -117,7 +120,6 @@ const Step1 = ({ handleInputChange, userProfile }) => {
                     autoComplete="current-password"
                     value={password}
                     onChange={handleInputChange}
-                   
                     InputLabelProps={{ shrink: true }}
                     endAdornment={
                       <InputAdornment position="end">
@@ -150,7 +152,11 @@ const Step1 = ({ handleInputChange, userProfile }) => {
               <div></div>
               <Grid item xs={12} md={12}>
                 <FormControl
-                  sx={matches?{ width: "100%", margin: "10px 0px 10px 0px" }:{ width: "96%", margin: "10px 0px 10px 0px" }}
+                  sx={
+                    matches
+                      ? { width: "100%", margin: "10px 0px 10px 0px" }
+                      : { width: "96%", margin: "10px 0px 10px 0px" }
+                  }
                   variant="outlined"
                 >
                   <InputLabel
@@ -193,14 +199,13 @@ const Step1 = ({ handleInputChange, userProfile }) => {
                     }
                   />
                   <FormHelperText
-                  error=  {!!errorMessage.confirmPassword}
+                    error={!!errorMessage.confirmPassword}
                     id="outlined-weight-helper-text"
-                    
                   >
                     {errorMessage.confirmPassword}
                   </FormHelperText>
                 </FormControl>
-              </Grid> 
+              </Grid>
               <div></div>
             </Box>
           </Grid>

@@ -61,7 +61,8 @@ const signUpUserWithEmail = async (newUser) => {
         //TODO Append token to imageUrl. Work around just add token from image in storage.
         imageUrl: `https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/${noImg}?alt=media`,
         userId: uid,
-        myNetworks: []
+        myNetworks: [],
+        userRole: newUser.userRole
       };
       const results = await setDoc(doc(db, "users", email), userCredentials);
       return results;
