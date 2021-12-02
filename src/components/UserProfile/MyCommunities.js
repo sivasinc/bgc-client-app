@@ -49,11 +49,13 @@ const MyCommunities = ({ myCommunities, loadingMyCommunities, setCurrentCommunit
         <FlipMove>
           {filteredList.map((item) => (
             <div className="MyCommunity__body_item">
+              <div className="mycPic">
               <Avatar
                 alt="Remy Sharp"
                 className="MyCommunity__body_item__image"
                 src={item.image}
               />
+              </div>
               {/* <Typography
           variant="p"
           component={Link}

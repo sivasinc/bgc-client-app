@@ -5,15 +5,39 @@ import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import { editUserDetails } from '../../redux/actions/userActions';
 import ModelWindow from "./ModelWindow";
+import { IndeterminateCheckBox } from "@material-ui/icons";
+
 
 
 const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUserDetails}) => {
     const [profile, setProfile] = useState({});
   const [openModel, setOpenModel] = useState(false);
+  const [modeType, setModeType] = useState('add');
   const handleChange = (event) => {
     setProfile({ ...profile , [event.target.name]: event.target.value, });
   };
-  const handleModelChange = (value) => {
+  const handleAddModel = (value, mode) => {
+    setOpenModel(value);
+    setModeType('add');
+    setProfile({})
+  }
+  const handleModelChange = (value, item, index) => {
+    const { university,fieldOfStudy, startMonth, startYear, endMonth, endYear
+    } = item;
+    setProfile({
+      updatedUniversity: university, 
+      updatedFieldOfStudy: fieldOfStudy, 
+      updatedStartMonth: startMonth, 
+      updatedStartYear: startYear, 
+      updatedEndMonth: endMonth, 
+      updatedEndYear: endYear,
+      itemIndex : index
+  });
+  setOpenModel(value);
+  setModeType('edit');
+ };
+
+  //const handleModelChange = (value) => {
     // setProfile({
     //   updatedFirstName: firstName,
     //   updatedLastName: lastName,
@@ -22,12 +46,13 @@ const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUser
     //   location,
     // });
     // setOpenModel(value);
-  };
+  //};
   const handleSubmit = () => {
     const {
         updatedUniversity,
         updatedFieldOfStudy,
         updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear,
+        itemIndex
     } = profile;
     const userDetails = {
       university: updatedUniversity !== undefined ? updatedUniversity : '',
@@ -42,6 +67,9 @@ const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUser
     if(tempInfo.length > 0) {
         tempProfileInfo.forEach(item => {
             if(item.type === "education") {
+              if(modeType==='edit'){
+                item.details.splice(itemIndex, 1, userDetails);
+              }
                 item.details.push(userDetails)
             }
         });
@@ -53,6 +81,8 @@ const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUser
     editUserDetails(request);
     setOpenModel(false);
   };
+  
+
     let profileDetails = [];
     if(readOnlyFlow && selectedMember && Array.isArray(selectedMember.profileInfo)) {
       const { profileInfo } = selectedMember;
@@ -66,21 +96,36 @@ const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUser
         ...profileInfo
       ]
     }
+
+    const { updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear, updatedUniversity, updatedFieldOfStudy } = profile;
+  let educationInfo = (
+    <div className="experience__item">
+      <p className="experience__subheader__p">No Data exists</p>
+    </div>
+  );
     let info = [];
     if(profileDetails) {
         info = profileDetails.filter(item => item.type === 'education');
     }
-    let educationInfo = null;
+    
+    
+    
     if(profileDetails && info.length > 0) {
-        educationInfo =  info[0].details.map((item) => {
+        educationInfo =  info[0].details.map((item,index) => {
             return (
-                <div className="experience__item">
+                <div  className="experience__item">
           <div className="experiance__item__body">
-                  <h4 className="education__subheader">{item.university}</h4>
+                  <h4 className="education__subheader">
+                    
+                    {item.university}
+                    </h4>
                   <p className="education__subheader__p">{item.fieldOfStudy}</p>
                   <p className="education__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth} ${item.endYear}`}</p> </div>
-                 <div className="experience__edit__icon">
-                 <EditIcon color="primary" />
+                 
+                 <div className="summary_add"><div className="experience__edit__icon">
+                 <EditIcon color="primary" onClick={() => handleModelChange(true, item, index)} />
+               </div>
+               EDIT
                </div>
                 </div>
             )
@@ -90,10 +135,13 @@ const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUser
     <div className="education">
     <div className="education__heading">
       <div className="education__header">
-        <h3>Education</h3>
+        <h3 className="subText">Education</h3>
       </div>
+      <div className="summary_add">
       <div className="education_add__icon">
-        <AddIcon color="primary" onClick={() => setOpenModel(true)} />
+        <AddIcon color="primary" onClick={() => handleAddModel(true)} />
+      </div>
+      ADD
       </div>
     </div>
 
@@ -102,11 +150,10 @@ const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUser
     <ModelWindow handleChange={handleChange} profile={profile} setOpenModel= {setOpenModel} openModel={openModel} 
     handleSubmit={handleSubmit} type ="education" />
   </div>);
-}
+};
 
-Education.propTypes = {
 
-}
+Education.propTypes = {};
 
 const mapStateToProps = (state) => ({
  user :state.user

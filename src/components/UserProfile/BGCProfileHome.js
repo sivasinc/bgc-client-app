@@ -34,7 +34,7 @@ const BGCProfileHome = ({ history, UI, user: { userInfo }, match : { params : { 
   } else {
     setReadOnlyFlow(false);
   }
- }, [])
+ }, [userId])
 
   const progressSection = (<div className="spinnerDiv">
   <CircularProgress size={200} thickness={2} />
@@ -56,9 +56,17 @@ const BGCProfileHome = ({ history, UI, user: { userInfo }, match : { params : { 
      <MyNetworks readOnlyFlow={readOnlyFlow} />
      <MyCommunities readOnlyFlow={readOnlyFlow} />
       </div>
+     
       </div>
-    </div>)}
-    </React.Fragment>);
+    </div>
+   
+    
+    
+    )}
+
+    </React.Fragment>
+    
+    );
    
     // </GridContainer>
 };

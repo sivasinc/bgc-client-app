@@ -119,9 +119,11 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
               {item.description}
             </p>}
           </div>
-
+          <div className="summary_add">
           <div className="experience__edit__icon">
             <EditIcon color="primary" onClick={() => handleModelChange(true, item, index)} />
+          </div>
+          EDIT
           </div>
         </div>
       );
@@ -131,15 +133,17 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
     <div className="experience">
       <div className="experience__heading">
         <div className="experience__header">
-          <h3>Experience</h3>
+          <h3 className="subText">Experience</h3>
         </div>
+        <div className="summary_add">
         <div className="experience__add__icon">
           <AddIcon color="primary" onClick={() => handleAddModel(true)} />
+        </div>
         </div>
       </div>
 
       {educationInfo}
-
+      
       <ModelWindow handleChange={handleChange} profile={profile} setOpenModel= {setOpenModel} openModel={openModel} 
       handleSubmit={handleSubmit} type ="workforce" />
     </div>
