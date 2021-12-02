@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@mui/material/Box";
 // Redux stuff
@@ -22,7 +22,7 @@ class login extends Component {
     this.state = {
       email: "",
       password: "",
-      errors: {},
+      error: {},
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -42,7 +42,7 @@ class login extends Component {
     if (valid) {
       this.props.loginUser(userData, this.props.history);
     } else {
-      this.setState({ errors: errors });
+      this.setState({ error: errors });
     }
   };
   handleChange = (event) => {
@@ -54,9 +54,10 @@ class login extends Component {
     console.log("email", this.state.email);
     const {
       classes,
-      UI: { loading },
+      UI: { loading, errors },
     } = this.props;
-    const { errors } = this.state;
+    console.log("errors+++++", errors);
+    const { error } = this.state;
 
     return (
       <React.Fragment>
@@ -89,8 +90,8 @@ class login extends Component {
                       id="email"
                       name="email"
                       className="login_block_text"
-                      helperText={errors.email}
-                      error={errors.email ? true : false}
+                      helperText={error.email}
+                      error={error.email ? true : false}
                       value={this.state.email}
                       onChange={this.handleChange}
                       fullWidth
@@ -101,19 +102,15 @@ class login extends Component {
                       type="password"
                       label="Password"
                       className="login_block_text"
-                      helperText={errors.password}
-                      error={errors.password ? true : false}
+                      helperText={error.password}
+                      error={error.password ? true : false}
                       value={this.state.password}
                       onChange={this.handleChange}
                       fullWidth
                     />
                   </Box>
                 </div>
-                {errors.general && (
-                  <Typography variant="body2" className={classes.customError}>
-                    {errors.general}
-                  </Typography>
-                )}
+                {errors && <Typography className="alert_content">{errors}</Typography>}
                 <Button
                   type="submit"
                   variant="contained"

@@ -1,6 +1,13 @@
-import { signIn, signUpUserWithEmail, signUpAdminWithEmail } from '../../firebaseActions/service';
-import {getUserProfileInfo, updateUserDetails, getMemberDetails } from '../../firebaseActions/dataServices';
-
+import {
+  signIn,
+  signUpUserWithEmail,
+  signUpAdminWithEmail,
+} from "../../firebaseActions/service";
+import {
+  getUserProfileInfo,
+  updateUserDetails,
+  getMemberDetails,
+} from "../../firebaseActions/dataServices";
 
 import {
   SET_USER,
@@ -12,10 +19,9 @@ import {
   SET_UNAUTHENTICATED,
   LOADING_USER,
   MARK_NOTIFICATIONS_READ,
-  SET_CURRENT_COMMUNITY_IMAGE
-} from '../types';
-import axios from 'axios';
-
+  SET_CURRENT_COMMUNITY_IMAGE,
+} from "../types";
+import axios from "axios";
 
 export const updatePage = (pageName) => (dispatch) => {
   dispatch({ type: LOADING_UI, payload: pageName });
@@ -27,31 +33,32 @@ export const updateTabIndex = (index) => (dispatch) => {
 
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
-    const user = {
-      email: userData.email,
-      password: userData.password,
-    };
-    signIn(user)
-      .then((result) => {
-        const {userRole = ''} = result
-        if(userRole === 'admin-pending'){
-          throw Error('Admin approval pending, please contact super admin')
-        } 
-        dispatch({ type: CLEAR_ERRORS });
-             dispatch({
+  const user = {
+    email: userData.email,
+    password: userData.password,
+  };
+  signIn(user)
+    .then((result) => {
+      const { userRole = "" } = result;
+      if (userRole === "admin-pending") {
+        throw Error("Admin approval pending, please contact super admin");
+      }
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({
         type: SET_USER,
-        payload: result
+        payload: result,
       });
-      dispatch({ type: SET_CURRENT_TAB_INDEX, payload: 1 });
-      userRole === 'admin' ? history.push('/adminHome') : history.push('/portalHome')
-      })
-      .catch((error) => {
-        alert(error.toString())
-        dispatch({
-          type: SET_ERRORS,
-          payload: error.message
-        });
+      dispatch({ type: SET_CURRENT_TAB_INDEX, payload: 0 });
+      userRole === "admin"
+        ? history.push("/adminHome")
+        : history.push("/portalHome");
+    })
+    .catch((error) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: error.message,
       });
+    });
 };
 
 export const signupUser = (newUserData, history) => async (dispatch) => {
@@ -59,13 +66,13 @@ export const signupUser = (newUserData, history) => async (dispatch) => {
   try {
     const result = await signUpUserWithEmail(newUserData);
     dispatch({ type: CLEAR_ERRORS });
-  } catch(err) {
-    console.log('error1', err);
-      dispatch({
-        type: SET_ERRORS,
-        payload: err
-      });
-    };
+  } catch (err) {
+    console.log("error1", err);
+    dispatch({
+      type: SET_ERRORS,
+      payload: err,
+    });
+  }
 };
 
 export const signupAdminUser = (newUserData) => async (dispatch) => {
@@ -74,51 +81,50 @@ export const signupAdminUser = (newUserData) => async (dispatch) => {
     await signUpAdminWithEmail(newUserData);
     dispatch({ type: CLEAR_ERRORS });
   } catch (err) {
-    console.log('error1', err);
+    console.log("error1", err);
     dispatch({
       type: SET_ERRORS,
-      payload: err
+      payload: err,
     });
-  };
+  }
 };
 
 export const getUserProfileData = () => async (dispatch, getState) => {
   try {
-    const { user: { userInfo } } = getState();
+    const {
+      user: { userInfo },
+    } = getState();
     const result = await getUserProfileInfo(userInfo.email);
-  }
-  catch(err) {
+  } catch (err) {
     console.log(err);
-  } 
+  }
 };
 
 export const getMemberData = (email) => async (dispatch) => {
   try {
     const result = await getMemberDetails(email);
     dispatch({
-      type : SET_SELECTED_MEMBER,
-      payload: result
-    })
-  }
-  catch(err) {
+      type: SET_SELECTED_MEMBER,
+      payload: result,
+    });
+  } catch (err) {
     console.log(err);
-  } 
+  }
 };
 
-
 export const logoutUser = () => (dispatch) => {
-  localStorage.removeItem('FBIdToken');
-  delete axios.defaults.headers.common['Authorization'];
+  localStorage.removeItem("FBIdToken");
+  delete axios.defaults.headers.common["Authorization"];
   dispatch({ type: SET_UNAUTHENTICATED });
 };
 
 export const getUserData = () => async (dispatch) => {
   axios
-    .get('/user')
+    .get("/user")
     .then((res) => {
       dispatch({
         type: SET_USER,
-        payload: res.data
+        payload: res.data,
       });
     })
     .catch((err) => console.log(err));
@@ -127,7 +133,7 @@ export const getUserData = () => async (dispatch) => {
 export const uploadImage = (formData) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
-    .post('/user/image', formData)
+    .post("/user/image", formData)
     .then(() => {
       dispatch(getUserData());
     })
@@ -137,10 +143,13 @@ export const uploadImage = (formData) => (dispatch) => {
 export const uploadCommunityImage = (formData) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
-    .post('/community/image', formData)
+    .post("/community/image", formData)
     .then((res) => {
-      console.log('res', res);
-      dispatch({ type: SET_CURRENT_COMMUNITY_IMAGE, payload: res.data.imageUrl });
+      console.log("res", res);
+      dispatch({
+        type: SET_CURRENT_COMMUNITY_IMAGE,
+        payload: res.data.imageUrl,
+      });
     })
     .catch((err) => console.log(err));
 };
@@ -153,28 +162,27 @@ export const editUserDetails = (userDetails) => async (dispatch) => {
     const usersData = await getUserProfileInfo(email);
     dispatch({
       type: SET_USER,
-      payload: usersData
+      payload: usersData,
     });
-  }
-  catch(error) {
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
 };
 
 export const markNotificationsRead = (notificationIds) => (dispatch) => {
   axios
-    .post('/notifications', notificationIds)
+    .post("/notifications", notificationIds)
     .then((res) => {
       dispatch({
-        type: MARK_NOTIFICATIONS_READ
+        type: MARK_NOTIFICATIONS_READ,
       });
     })
     .catch((err) => console.log(err));
 };
 const setAuthorizationHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
-  localStorage.setItem('FBIdToken', FBIdToken);
+  localStorage.setItem("FBIdToken", FBIdToken);
   axios.defaults.headers["content-type"] = "application/json";
   axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
-  axios.defaults.headers.common['Authorization'] = FBIdToken;
+  axios.defaults.headers.common["Authorization"] = FBIdToken;
 };

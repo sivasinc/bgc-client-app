@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Box from "@mui/material/Box";
-import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@mui/material/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import Radio from "@material-ui/core/Radio";
+import Radio from '@mui/material/Radio';
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
@@ -44,6 +45,7 @@ const Step4 = ({
         <TextField
           error={!!errorMessage[`${selectedProfileInfo[0].type}-${index}`]}
           className="step4__section_element"
+          fullWidth
           name={selectedProfileInfo[0].type + "-" + index}
           id={selectedProfileInfo[0].type + "-" + index}
           label={item}
@@ -55,28 +57,19 @@ const Step4 = ({
       ))}
       {["college", "workforce"].includes(selectedProfileInfo[0].type) && (
         <React.Fragment>
-          {/* <InputLabel className="step4_inputLabel">Start Date</InputLabel>
-           */}
+           
           <div className="endDateCheckBox">
             <FormGroup className="step4__section_checkBox">
               <InputLabel className="step4_inputLabel">Start Date</InputLabel>
             </FormGroup>
           </div>
-          {/* <Box
-            component="form"
-            // sx={{
-            //   "& .MuiTextField-root": { },
-            // }}
-            
-            
-          > */}
+         
           <Grid container>
             <Grid item md={6} xs={6}>
               <TextField
                 error={!!errorMessage.startMonth}
                 fullWidth
                 id="step4_startYear"
-                size="small"
                 className="step4__section_Month"
                 select
                 name="startMonth"
@@ -132,7 +125,6 @@ const Step4 = ({
               <TextField
                 error={!!errorMessage.endMonth}
                 id="step4_startYear"
-                size="small"
                 disabled={!userProfile.endDateCheckBox}
                 className="step4__section_Month"
                 select
