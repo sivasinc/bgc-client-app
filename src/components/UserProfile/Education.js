@@ -120,7 +120,7 @@ const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUser
                     {item.university}
                     </h4>
                   <p className="education__subheader__p">{item.fieldOfStudy}</p>
-                  <p className="education__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth} ${item.endYear}`}</p> </div>
+                  <p className="education__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth !== '' || item.endMonth !== 'month' ? item.endMonth + ' ' +  item.endYear : 'Present'}`}</p> </div>
                   {!readOnlyFlow && (
                  <div className="summary_add"><div className="experience__edit__icon">
                  <EditIcon color="#6200EE" onClick={() => handleModelChange(true, item, index)} />

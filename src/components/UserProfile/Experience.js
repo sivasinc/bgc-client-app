@@ -114,7 +114,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
             <h4 className="experience__subheader">{item.jobTtile}</h4>
             <p className="experience__subheader__p">{item.company}</p>
             <p className="experience__subheader__p">{item.department}</p>
-            <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth !== '' || item.endMonth !== 'month' ? item.endMonth + '' +  item.endYear : 'Present' }`}</p>
+            <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth !== '' || item.endMonth !== 'month' ? item.endMonth + ' ' +  item.endYear : 'Present' }`}</p>
             {item.description && <p className="experience__description__p">
               {item.description}
             </p>}
