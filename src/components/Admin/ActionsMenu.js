@@ -4,7 +4,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { MoreVert } from "@mui/icons-material";
 
-export function ActionsMenu({ onClick, label }) {
+export function ActionsMenu({ onClick, label, children }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -25,7 +25,7 @@ export function ActionsMenu({ onClick, label }) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <MoreVert />
+       {children}
       </Button>
       <Menu
         id="basic-menu"

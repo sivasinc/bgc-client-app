@@ -92,7 +92,9 @@ function AdminsPage({ user }) {
                 setSelectedUser(row.original);
                 setShowDialog(true);
               }}
-            />
+            >
+              <MoreVert/>
+            </ActionsMenu>
           );
         },
       },
