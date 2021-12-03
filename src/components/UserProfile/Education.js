@@ -121,12 +121,13 @@ const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUser
                     </h4>
                   <p className="education__subheader__p">{item.fieldOfStudy}</p>
                   <p className="education__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth} ${item.endYear}`}</p> </div>
-                 
+                  {!readOnlyFlow && (
                  <div className="summary_add"><div className="experience__edit__icon">
-                 <EditIcon color="primary" onClick={() => handleModelChange(true, item, index)} />
+                 <EditIcon color="#6200EE" onClick={() => handleModelChange(true, item, index)} />
                </div>
                EDIT
                </div>
+                  )}
                 </div>
             )
         })
@@ -137,12 +138,14 @@ const Education = ({ user: { userInfo, selectedMember } , readOnlyFlow, editUser
       <div className="education__header">
         <h3 className="subText">Education</h3>
       </div>
+      {!readOnlyFlow && (
       <div className="summary_add">
       <div className="education_add__icon">
-        <AddIcon color="primary" onClick={() => handleAddModel(true)} />
+        <AddIcon color="#6200EE" onClick={() => handleAddModel(true)} />
       </div>
       ADD
       </div>
+      )}
     </div>
 
     {educationInfo}

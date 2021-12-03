@@ -29,22 +29,34 @@ const Summary = ({ user: { userInfo, selectedMember },readOnlyFlow, editUserDeta
   
   let info = {
   }
-  if(readOnlyFlow) {
-    const { summary } = selectedMember;
-     info = {
-      summary
-     }
-  } else {
-    const { summary } = userInfo;
-    info = {
-      Summary
-     }
-  }
   let summaryInfo = (
     <div className="experience__item">
       <p className="summary__subheader__p">{ summary !== undefined ? summary : 'Add a summary'}</p>
     </div>
   );
+  if(readOnlyFlow) {
+    const { summary } = selectedMember;
+     info = {
+      summary
+     }
+      summaryInfo = (
+      <div className="experience__item">
+        <p className="summary__subheader__p">{ summary !== undefined ? summary : 'Add a summary'}</p>
+      </div>
+    );
+     
+  } else {
+    const { summary } = userInfo;
+    info = {
+      summary
+     }
+      summaryInfo = (
+      <div className="experience__item">
+        <p className="summary__subheader__p">{ summary !== undefined ? summary : 'Add a summary'}</p>
+      </div>
+    );
+  }
+  
     return (
         <div className="summary">
         <div className="summary__heading">
@@ -55,7 +67,7 @@ const Summary = ({ user: { userInfo, selectedMember },readOnlyFlow, editUserDeta
           
           <div className="Summary_add__icon">
             
-            <AddIcon color="primary" onClick={() => setOpenModel(true)} />
+            <AddIcon color="#6200EE" onClick={() => setOpenModel(true)} />
             </div>
             ADD
            
@@ -66,8 +78,8 @@ const Summary = ({ user: { userInfo, selectedMember },readOnlyFlow, editUserDeta
         </div>
         
     
-        {info.Summary}
-        {summaryInfo}
+       
+       {summaryInfo}
         
         
         <ModelWindow className="text_field_outline" variant="outlined" handleChange={handleChange} profile={profile} setOpenModel= {setOpenModel} openModel={openModel} 

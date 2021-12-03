@@ -119,13 +119,16 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
               {item.description}
             </p>}
           </div>
+          {!readOnlyFlow && (
           <div className="summary_add">
           <div className="experience__edit__icon">
-            <EditIcon color="primary" onClick={() => handleModelChange(true, item, index)} />
+            <EditIcon color="#6200EE" onClick={() => handleModelChange(true, item, index)} />
           </div>
           EDIT
           </div>
+          )}
         </div>
+        
       );
     });
   }
@@ -135,11 +138,14 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
         <div className="experience__header">
           <h3 className="subText">Experience</h3>
         </div>
+        {!readOnlyFlow && (
         <div className="summary_add">
         <div className="experience__add__icon">
-          <AddIcon color="primary" onClick={() => handleAddModel(true)} />
+          <AddIcon color="#6200EE" onClick={() => handleAddModel(true)} />
         </div>
+        ADD
         </div>
+        )}
       </div>
 
       {educationInfo}

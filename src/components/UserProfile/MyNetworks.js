@@ -23,7 +23,7 @@ const MyNetworks = ({ user: { userInfo : { myNetworks, setCurrentMyNetworkId } }
     getMemberData();
 }, [])
 const [pageNumber, setPageNumber] = useState(1);
-const limit=10;
+const limit=20;
 const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
 
   const myNetworkClickHandler = (email) => {
@@ -101,14 +101,16 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
           maxWidth="md">
            
            <DialogTitle>My Networks 
-             <div className="MyNetworks__header__right">
-            <span>{myNetworks.length }Connections</span>
-          </div></DialogTitle>
+             
+            <span className="mynCon">{myNetworks.length }Connections</span>
+          </DialogTitle>
 
        <DialogContent>
+       <div className="mySplit">
        {myNetworks.slice((pageNumber-1)*limit,limit*pageNumber).map((item)=>(
+          
               <div className="myNetworks__social__form_names">
-              <div className="MyNetworks__social__form__page">
+              
        <div className="MyCommunity__body_item" onClick={()=> myNetworkClickHandler(item.email)}>
        <Avatar
                 alt="Remy Sharp"
@@ -117,7 +119,7 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
               />
               
             <div className="mynModal">
-       <div className="myNetworks__item_description" onClick={()=> myNetworkClickHandler(item.email)}>{item.firstName} {item.lastName} </div>
+       <div className="myNetworks__item_description_title" onClick={()=> myNetworkClickHandler(item.email)}>{item.firstName} {item.lastName} </div>
        <div className="myNetworks__item_description">
        {item.headLine}
 
@@ -126,10 +128,11 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
        </div>
        </div>
        </div>
-       </div>
+       
        ))
+       
         }
-
+      </div>
        </DialogContent>
        <DialogActions>
        <Pagination

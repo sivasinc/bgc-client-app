@@ -97,6 +97,15 @@ const MyCommunities = ({
                   {item.name}
                 </Link>
               </p> */}
+              <p>
+                <Link
+                  to={`/communityHome/${item.communityId}`}
+                  onClick={() => communityClickHandler(item.communityId)}
+                >
+                  {item.name}
+                </Link>
+              </p>
+              
             </div>
           ))}
         </FlipMove>

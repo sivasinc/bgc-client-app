@@ -6,7 +6,7 @@
 
 .profile__header {
     display: flex;
-    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
+    box-shadow: 0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%) ;
     margin-top: 10px;
     width: 100%;
     border-radius: 10px;
@@ -105,10 +105,10 @@ margin: 5px;
     margin-bottom: 0;
 }
 .experience__description__p {
-    padding: 0 0 0 20px;
+    padding: 0 0 0 0px;
     margin: 3px 0 20px 0;
     font-family: Roboto;
-    
+   
     color: rgba(0,0,0,0.74);
         font-size: 16px;
         font-weight: 500;
@@ -116,10 +116,10 @@ margin: 5px;
         line-height: 24px;
 }
 .experience__subheader__p {
-    padding: 0 0 0 20px;
+    padding: 0 0 0px 0px;
     margin: 3px 0 0 0;
-  
-    color: rgba(18,18,18,0.74);
+ 
+    color: rgba(0,0,0,0.6);
         font-family: Roboto;
         font-size: 14px;
         font-weight: 500;
@@ -127,10 +127,10 @@ margin: 5px;
         line-height: 24px;
 }
 .experience__subheader {
-    padding: 0 0 0 20px;
+    padding: 0 0 0 0px;
     margin: 10px 0 0 0;
-    height: 24px;
-        
+    
+       
         color: rgba(0,0,0,0.87);
         font-family: Roboto;
         font-size: 16px;
@@ -152,27 +152,48 @@ margin: 5px;
 
 
 .education_Item > h3,h4 {
-    padding: 0 0 0 20px;
+    padding: 0 0 0 0px;
     margin-bottom: 0;
 }
 .education__description__p {
-    padding: 0 0 0 20px;
+    padding: 0 0 0 0px;
     margin: 3px 0 20px 0;
+   
+    color: rgba(0,0,0,0.74);
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 24px;
 }
 .education__subheader__p {
-    padding: 0 0 0 20px;
+    padding: 0 0 0px 0px;
     margin: 3px 0 0 0;
     color: gray;
+ 
+    color: rgba(0,0,0,0.6);
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.1px;
+        line-height: 24px;
 }
 .education__subheader {
-    padding: 0 0 0 20px;
+    padding: 0 0 0 0px;
     margin: 10px 0 0 0;
+   
+        color: rgba(0,0,0,0.87);
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.15px;
+        line-height: 24px;
 }
 .education_Item {
     padding-bottom: 20px;
 }
 .experience__add__icon {
     cursor: pointer;
+    color: #6200EE;
 }
 .experience__heading {
     display: flex;
@@ -198,11 +219,12 @@ margin: 5px;
 .experience__item {
     display: flex;
     justify-content: space-between;
-    padding: 0 20px 0 20px;
+    padding: 0 20px 20px 20px;
 }
 .experience__edit__icon {
     display: flex;
     cursor: pointer;
+    color: #6200EE;
     
 }
 .model__text_field {
@@ -221,6 +243,7 @@ margin: 5px;
 }
 .education_add__icon {
     cursor: pointer;
+    color: #6200EE;
 }
 
 .summary__heading {
@@ -234,10 +257,19 @@ margin: 5px;
 }
 .Summary_add__icon {
     cursor: pointer;
+    color: #6200EE;
 }
 .summary__subheader__p {
-    padding: 0 0 0 20px;
+   
+
+    padding: 0 0 20px 0px;
     margin: 3px 5px 0 0;
+     color: rgba(0,0,0,0.74);
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 24px
 }
 .MyNetworks__heading {
     display: flex;
@@ -265,7 +297,7 @@ margin: 5px;
     line-height: 24px;
 }
 .MyNetworks__subheader__p {
-    padding: 0 0 0 20px;
+    padding: 0 0 0 0px;
     margin: 3px 0 0 0;
 }
 .MyNetworks {
@@ -399,7 +431,7 @@ margin: 5px;
     margin-top: 0;
 }
 .MyCommunity__subheader__p {
-    padding: 0 0 0 20px;
+    padding: 0 0 0 0px;
     margin: 3px 0 0 0;
 }
 .MyCommunity__body {
@@ -411,7 +443,7 @@ margin: 5px;
     justify-content: center;
 }
 .MyCommunity__body > p {
-    margin: 0 0 20px 20px;
+    margin: 0 0 20px 0px;
     color: rgba(0,0,0,0.74);
     font-family: Roboto;
     font-size: 16px;
@@ -507,6 +539,18 @@ margin: 5px;
         margin-top: 10px;
         margin-bottom: 10px;
     }
+    .mySplit{
+        display: inline-flex;
+       
+    }
+   
+    .myNetworks__social__form_names{
+      display: flex;
+      flex-direction: column;
+      
+      
+      
+    }
       
       
   }
@@ -554,25 +598,37 @@ margin: 5px;
         flex-direction: column;
     }
     .myNetworks__social__form_names{
-        display: flex;
+        display: inline-block;
+        width: 50%;
        
     }
-    .myNetworks__social__form__page {
-        width: 50% !important;
-        padding: 0px 10px 0 0px !important;
-        margin: 10px;
+    .myNetworks__item_description {
+        margin-left: 15px;
+        color: rgba(0,0,0,0.74);
+        font-family: Roboto;
+        font-size: 16px;
+        
+        letter-spacing: 0.5px;
+        line-height: 24px;
     }
-    .myNetworks__item_description{
+    
+    .myNetworks__item_description_title{
         /* display: flex;
         flex-direction: column; */
           
             margin-left: 15px;
             /* margin-bottom: auto; */
+        color: #6200EE;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 24px;
             
             
             
         }
-        .myNetworks__item_description:hover{
+        .myNetworks__item_description_title:hover{
             cursor: pointer;
             text-decoration: underline;
 
@@ -583,9 +639,16 @@ margin: 5px;
         .summary_add{
             text-align: center;
             display: flex;
-            color: royalblue;
+            color: #6200EE;
         }
-    
+        .mynCon {
+            margin-left: 551px;
+        }
+        .mySplit{
+            display: block;
+           
+        }
+      
 
         
     
