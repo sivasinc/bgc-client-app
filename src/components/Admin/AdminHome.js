@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography'
 import { Card } from '@mui/material';
 import styled from 'styled-components'
+import AdminsPage from './Admins';
 
 const StyledTabs = styled(Tabs)`
 .MuiTabs-indicator {
@@ -71,7 +72,7 @@ export const AdminHome = () => {
           COMMUNITIES
         </TabPanel>
         <TabPanel value={value} index={3}>
-          ADMINS
+          <AdminsPage/>
         </TabPanel>
       </Box>
     </Box>
