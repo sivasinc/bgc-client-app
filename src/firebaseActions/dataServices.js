@@ -399,6 +399,51 @@ const getAllMembers = async (user) => {
     console.log(error);
   }
 }
+
+export const getAllAdmins = async (user) => {
+  try {
+    let users = [];
+    const { email } = user;
+    const userRef = collection(db, "users");
+    const q = query(userRef, orderBy("firstName", "asc"));
+    const usersSnapshot = await getDocs(q);
+    usersSnapshot.forEach((doc) => {
+      if (doc.data().email !== email) {
+        users.push({
+          memberId: doc.data().userId,
+          name: [doc.data().firstName, doc.data().lastName].join(' '),
+          email: doc.data().email,
+          createdAt: doc.data().createdAt,
+          lastLogin: doc.data().lastLogin,
+          status: doc.data().status,
+          userRole: doc.data().userRole,
+        });
+      }
+    });
+    return users.filter(
+      ({ userRole='' }) => userRole === "admin" || userRole === "admin-pending"
+    );
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const handleActivateDeactivateAdmin = async (selectedUser) => {
+  const { email, status } = selectedUser;
+  const newStatus = status === "active" ? "inactive" : "active";
+  const docRef = doc(db, "users", email);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const updateData = {
+      status: newStatus,
+    };
+    await updateDoc(docRef, updateData);
+    return { ...docSnap.data(), ...updateData };
+  }
+};
+
+
 const addMemberToMyNetwork = async (user, newMember) => {
   try {
     const { email, firstName, lastName, imageUrl, headLine } = newMember;

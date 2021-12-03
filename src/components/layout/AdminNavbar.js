@@ -15,10 +15,16 @@ import { getRoutes } from "../../util/constant";
 import "./Navigation.css";
 import { Box } from "@mui/system";
 import { Toolbar, IconButton, Menu, MenuItem } from "@mui/material";
-import MenuIcon from '@material-ui/icons/Menu'
+import MenuIcon from "@material-ui/icons/Menu";
 
-const AdminNavbar = ({ logoutUser, userInfo, authenticated, currentTabIndex, updateTabIndex }) => {
-  const { firstName, lastName } = userInfo
+const AdminNavbar = ({
+  logoutUser,
+  userInfo,
+  authenticated,
+  currentTabIndex,
+  updateTabIndex,
+}) => {
+  const { firstName, lastName } = userInfo;
 
   const a11yProps = (index) => {
     return {
@@ -27,11 +33,9 @@ const AdminNavbar = ({ logoutUser, userInfo, authenticated, currentTabIndex, upd
     };
   };
 
-
-
   return (
     <AppBar position="static" className="header__bar">
-      <Tabs variant='fullWidth' aria-label="menu bar">
+      <Tabs variant="fullWidth" aria-label="menu bar">
         <img
           className="header__img"
           src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/BGC-Logo.png?alt=media&token=ba7c24c2-d25e-467f-91fa-d57c69fe5c0b"
@@ -65,8 +69,9 @@ const AdminNavbar = ({ logoutUser, userInfo, authenticated, currentTabIndex, upd
           {...a11yProps(1)}
         />
         <Tab
-          label={`${firstName} ${lastName}`}
+          label="Logout"
           className="header__bar_item"
+          onClick={logoutUser}
           {...a11yProps(2)}
         />
       </Tabs>
@@ -78,7 +83,7 @@ const mapStateToProps = (state) => ({
   userInfo: state.user.userInfo,
   UI: state.UI,
   authenticated: state.user.authenticated,
-  currentTabIndex: state.UI.currentTabIndex
+  currentTabIndex: state.UI.currentTabIndex,
 });
 
 const mapDispatchToProps = { logoutUser, updateTabIndex };
