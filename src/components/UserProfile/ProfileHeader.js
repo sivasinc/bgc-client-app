@@ -20,18 +20,20 @@ import { uploadProfileImage } from '../../redux/actions/postActions';
 
 import "./BGCProfileHome.css";
 import { InputAdornment } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 
 
 
 const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUserDetails, uploadProfileImage, }) => {
    
-
+  
   const [openModel, setOpenModel] = useState(false);
   const [openSocialModel, setOpenSocialModel] = useState(false);
   const {socialLinks } = userInfo;
    console.log('userinfo',userInfo)
   const [profile, setProfile] = useState({ updatedSocialLinks:socialLinks
   });
+  const [profileVisibility,setProfileVisibility]=useState(false);
   // const [updatedSocialLinks, setpdatedSocialLinks] = useState({LinkedIn: '', Facebook: '',Twitter:''});
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
   const handleChange = (event) => {
@@ -78,6 +80,7 @@ const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUs
       location: updatedLocation !== undefined ? updatedLocation : location || '',
       headLine: updatedHeadLine !== undefined ? updatedHeadLine : headLine || '',
       email: updatedEmail !== undefined ? updatedEmail : email,
+
       profileVisibletoAlumnaeCommunity: updatedProfileVisibletoAlumnaeCommunity !== undefined ? updatedProfileVisibletoAlumnaeCommunity: profileVisibletoAlumnaeCommunity || '',
       socialLinks: updatedSocialLinks,
     };
@@ -85,6 +88,9 @@ const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUs
     console.log('profile header req',request)
     editUserDetails(request);
     setOpenModel(false);
+  }
+  const handleProfileVisibility= (event) =>{
+    console.log("the event is",event);
   }
 
  const handleImageUploadClick = (e) => {
@@ -139,25 +145,29 @@ if(readOnlyFlow) {
               type="file"
               onChange={handleImageUploadClick}
             />
-          
-            <label htmlFor="contained-button-file">
+           
+            
              
+            <div className="imgpos">
+
             <Avatar
                 alt="Remy Sharp"
                 className="profile__header__image"
                 src={info.imageUrl}
               />
-              <AddAPhotoIcon className="profileImage__addIcon " style= {{ marginLeft: '80px' }}/>  
+              <AddAPhotoIcon className="profileImage__addIcon " />  
+              </div>
               
-            </label> 
+              
          
-                        
+                    
               <div className="profile__user">
-              <h2>{`${info.firstName}  ${info.lastName}`}</h2>
-                {info.headLine === undefined ? <p>No Headline added</p>: <p>{info.headLine}</p>}
-                {info.location === undefined ? <p>No Location added</p>: <p>{`${info.location} , United States`}</p>}
+              <label className="user__label">{`${info.firstName}  ${info.lastName}`}</label>
+                {info.headLine === undefined ? <label className="user__role">No Headline added</label>: <label className="user__role">{info.headLine}</label>}
+                {info.location === undefined ? <label className="user__role">No Location added</label>: <label className="user__role">{`${info.location} , United States`}</label>}
                 
               </div>
+              
             </div>
             { !readOnlyFlow && <div className="profile__header__main__container">
               <div className="profile__user__edit" onClick={() => handleModelChange(true)}>
@@ -173,7 +183,7 @@ if(readOnlyFlow) {
               <p className="profile__user_bar_left__value">{info.email}</p>
             </div>
             <div className="profile__user_bar_right">
-              <p>Social :</p>{" "}
+              <p className="profile__user_bar_left">Social :</p>{" "}
               <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('LinkedIn')}>Linked In</p>{" "}
               <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('Twitter')}>Twitter</p>
               <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('Facebook')}>Facebook</p>
@@ -236,13 +246,14 @@ if(readOnlyFlow) {
               <div className="signUp__form__page modal">
               <label htmlFor="Profile Visibleto Alumnae Community" >
                    Profile Visibleto Alumnae Community
-                <Switch {...label} defaultChecked />
+                <Switch inputProps={{ 'aria-label': 'controlled' }}   onChange={handleProfileVisibility}/>
               </label>
                </div>
                </div>
-               <div className="modal">
+               <div className="signUp__form_names">
+                 <div className="signUp__form__page_location">
               <TextField
-                className="text_field_outline"
+                
                 name="updatedLocation"
                 id="outlined-required"
                 tpye="text"
@@ -253,6 +264,7 @@ if(readOnlyFlow) {
                 onChange={handleChange}
                 fullWidth
               />
+              </div>
               </div>
               <DialogTitle>Social Profile URLs</DialogTitle>
               <div className="social__form_names">
@@ -324,7 +336,7 @@ if(readOnlyFlow) {
             <Button onClick={() => setOpenModel(false)} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleSubmit} color="primary">
+            <Button  onClick={handleSubmit} color="primary" >
               Save
             </Button>
           </DialogActions>
@@ -343,5 +355,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = { editUserDetails, uploadProfileImage };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileHeader);
+
 
 

@@ -114,16 +114,21 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
             <h4 className="experience__subheader">{item.jobTtile}</h4>
             <p className="experience__subheader__p">{item.company}</p>
             <p className="experience__subheader__p">{item.department}</p>
-            <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth !== '' || item.endMonth !== 'month' ? item.endMonth + '' +  item.endYear : 'Present' }`}</p>
+            <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth !== '' || item.endMonth !== 'month' ? item.endMonth + ' ' +  item.endYear : 'Present' }`}</p>
             {item.description && <p className="experience__description__p">
               {item.description}
             </p>}
           </div>
-
+          {!readOnlyFlow && (
+          <div className="summary_add">
           <div className="experience__edit__icon">
-            <EditIcon color="primary" onClick={() => handleModelChange(true, item, index)} />
+            <EditIcon color="#6200EE" onClick={() => handleModelChange(true, item, index)} />
           </div>
+          EDIT
+          </div>
+          )}
         </div>
+        
       );
     });
   }
@@ -131,15 +136,20 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
     <div className="experience">
       <div className="experience__heading">
         <div className="experience__header">
-          <h3>Experience</h3>
+          <h3 className="subText">Experience</h3>
         </div>
+        {!readOnlyFlow && (
+        <div className="summary_add">
         <div className="experience__add__icon">
-          <AddIcon color="primary" onClick={() => handleAddModel(true)} />
+          <AddIcon color="#6200EE" onClick={() => handleAddModel(true)} />
         </div>
+        ADD
+        </div>
+        )}
       </div>
 
       {educationInfo}
-
+      
       <ModelWindow handleChange={handleChange} profile={profile} setOpenModel= {setOpenModel} openModel={openModel} 
       handleSubmit={handleSubmit} type ="workforce" />
     </div>
