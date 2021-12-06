@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography'
 import { Card } from '@mui/material';
 import styled from 'styled-components'
 import AdminsPage from './Admins';
+import MembersPage from "./MembersPage";
 
 const StyledTabs = styled(Tabs)`
 .MuiTabs-indicator {
@@ -66,7 +67,7 @@ export const AdminHome = () => {
           REPORTED CONTENT
         </TabPanel>
         <TabPanel value={value} index={1}>
-          MEMBERS
+          <MembersPage/>
         </TabPanel>
         <TabPanel value={value} index={2}>
           COMMUNITIES

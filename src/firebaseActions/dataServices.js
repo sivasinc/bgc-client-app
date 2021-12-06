@@ -472,16 +472,21 @@ const getAllMembers = async (user) => {
       if (doc.data().email !== email) {
         users.push({
           memberId: doc.data().userId,
+          name: [doc.data().firstName, doc.data().lastName].join(' '),
           firstName: doc.data().firstName,
           lastName: doc.data().lastName,
           email: doc.data().email,
           createdAt: doc.data().createdAt,
           imageUrl: doc.data().imageUrl,
           headLine: doc.data().headLine,
-        });
+          lastLogin: doc.data().lastLogin,
+          status: doc.data().status,
+          userRole: doc.data().userRole,
+        })
       }
     });
-    return users;
+    const members = users.filter(({userRole = ''})=> userRole === 'member')
+    return members;
   } catch (error) {
     console.log(error);
   }
@@ -516,7 +521,7 @@ export const getAllAdmins = async (user) => {
   }
 };
 
-export const handleActivateDeactivateAdmin = async (selectedUser) => {
+export const handleActivateDeactivateProfile = async (selectedUser) => {
   const { email, status } = selectedUser;
   const newStatus = status === "active" ? "inactive" : "active";
   const docRef = doc(db, "users", email);
