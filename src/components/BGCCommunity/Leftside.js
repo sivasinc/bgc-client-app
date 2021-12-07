@@ -19,7 +19,7 @@ const Leftside = ({ user: { userInfo },communityPosts : { community } = {},commu
     const generateActionLink = () => {
         if(members && Array.isArray(members) && members.filter((item) => item.email === userInfo.email).length > 0) {
             return (<React.Fragment>
-<CheckIcon onClick={() => communityActionHandler(email)} /> <span onClick={() => communityActionHandler(email)} className="community_action_footer__label">Joined</span>
+<CheckIcon onClick={() => communityActionHandler(email)} /> <span onClick={() => communityActionHandler(email)} className="community_action_footer__label">JOINED</span>
             </React.Fragment>);
         } else {
             return (<React.Fragment>
