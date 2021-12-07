@@ -65,7 +65,9 @@ function AdminsPage({ user }) {
         Header: "Actions",
         Cell: ({ row }) => {
           const newStatus =
-            row.original.status == "active" ? "Deactivate Admin" : "Activate Admin";
+            row.original.status == "active"
+              ? "Deactivate Admin"
+              : "Activate Admin";
           return (
             <ActionsMenu
               label={newStatus}
@@ -74,7 +76,7 @@ function AdminsPage({ user }) {
                 setShowDialog(true);
               }}
             >
-              <MoreVert/>
+              <MoreVert />
             </ActionsMenu>
           );
         },
@@ -87,15 +89,43 @@ function AdminsPage({ user }) {
     getAdmins();
   }, []);
 
+  const isActive = () => selectedUser && selectedUser.status === "active";
+  const getActivateStatus = () => {
+    return isActive() ? "Deactivate" : "Activate";
+  };
+
+  const getUsername = () => (
+    <strong>{selectedUser && selectedUser.name} 's</strong>
+  );
+
+  const getDialogBody = () => {
+    return (
+      <span>
+        You are about to {getActivateStatus().toLowerCase()} {getUsername()}{" "}
+        profile. This admin will {isActive() ? "not" : "be"} able to access
+        Alumnae Portal Admin with their registered email address.
+      </span>
+    );
+  };
+
   return (
     <div>
       <h2>Alumnae Portal Admins</h2>
-      <DataTable columns={columns} data={data} loading={loading} searchPlaceholder="Search Admins" />
+      <DataTable
+        columns={columns}
+        data={data}
+        loading={loading}
+        searchPlaceholder="Search Admins"
+      />
       <ActionsDialog
         open={showDialog}
         handleClose={handleClose}
         onAccept={handleActivateDeactivate}
         onReject={handleClose}
+        acceptButtonText={getActivateStatus()}
+        rejectButtonText="CANCEL"
+        dialogBody={getDialogBody()}
+        dialogTitle={`${getActivateStatus()} Admin`}
       />
     </div>
   );

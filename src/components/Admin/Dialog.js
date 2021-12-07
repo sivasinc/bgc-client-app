@@ -6,7 +6,16 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function AlertDialog({ open, handleClose, onAccept, onReject }) {
+export default function AlertDialog({
+  open,
+  handleClose,
+  onAccept,
+  onReject,
+  acceptButtonText,
+  rejectButtonText,
+  dialogBody,
+  dialogTitle,
+}) {
   return (
     <div>
       <Dialog
@@ -15,16 +24,14 @@ export default function AlertDialog({ open, handleClose, onAccept, onReject }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Confirm Action</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to continue?
-          </DialogContentText>
+            {dialogBody}
         </DialogContent>
         <DialogActions>
-          <Button onClick={onReject}>No</Button>
-          <Button onClick={onAccept} autoFocus>
-            Yes
+          <Button variant="outlined" onClick={onReject}>{rejectButtonText}</Button>
+          <Button variant="contained" onClick={onAccept} autoFocus>
+            {acceptButtonText}
           </Button>
         </DialogActions>
       </Dialog>
