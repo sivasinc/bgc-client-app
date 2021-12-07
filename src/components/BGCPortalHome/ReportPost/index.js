@@ -2,26 +2,19 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Button from "@mui/material/Button";
-import {
-  createCommunity,
-  setCurrentCommunityId,
-  addReportsPost,
-} from "../../../redux/actions/dataActions";
+import { addReportsPost } from "../../../redux/actions/dataActions";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ReportPostStep1 from "./ReportPostStep1";
 import ReportPostStep2 from "./ReportPostStep2";
-import { editUserDetails } from "../../../redux/actions/userActions";
+import { ButtonGroup, Button } from "@mui/material";
 
 const ReportPost = ({ email, article, addReports }) => {
   const [openModel, setOpenModel] = useState(false);
-  const [commnunityProfile, setCommunityProfile] = useState({});
   const [selectedReport, setSelectedReport] = useState("violence");
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -33,8 +26,10 @@ const ReportPost = ({ email, article, addReports }) => {
   const handleModelChange = (value) => {
     setOpenModel(value);
   };
- 
 
+  const handleDelete = (value) => {
+    setOpenModel(value);
+  };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -48,16 +43,14 @@ const ReportPost = ({ email, article, addReports }) => {
     setSelectedReport(event.target.value);
   };
 
-  
   const formButtonHandler = (currentStep) => {
     const currentReport = {
       type: selectedReport !== undefined ? selectedReport : "",
       userId: email !== undefined ? email : "",
     };
 
-     
     if (currentStep === 1) {
-        addReports(article.postId, currentReport);
+      addReports(article.postId, currentReport);
     }
 
     setCurrentStep(currentStep);
@@ -88,6 +81,7 @@ const ReportPost = ({ email, article, addReports }) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        onClick={handleClose}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
@@ -120,33 +114,33 @@ const ReportPost = ({ email, article, addReports }) => {
           )}
         </DialogContent>
 
-        <div className="__report__post__footer">
-          <div className="signUp__footer__PrevBtn">
-            {currentStep === 0 && (
-              <Button onClick={() => setOpenModel(false)} color="primary">
-                Cancel
+        <ButtonGroup
+          style={{ display: "flex", justifyContent: "flex-end", padding: 10 }}
+        >
+          <div className="__report__post__footer">
+            <div className="signUp__footer__PrevBtn">
+              {currentStep === 0 && (
+                <Button
+                  onClick={() => setOpenModel(false)}
+                  color="primary"
+                  style={{ margin: "0 10px" }}
+                  variant="outlined"
+                >
+                  CANCEL
+                </Button>
+              )}
+            </div>
+            <div className="signUp__footer__nextBtn">
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => formButtonHandler(currentStep + 1)}
+              >
+                {currentStep === 0 ? "SUBMIT" : "CLOSE"}
               </Button>
-            )}
+            </div>
           </div>
-          <div className="signUp__footer__nextBtn">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => formButtonHandler(currentStep + 1)}
-            >
-              {currentStep === 0 ? "Submit" : "Close"}
-            </Button>
-          </div>
-        </div>
-
-        {/* <DialogActions>
-          <Button onClick={() => setOpenModel(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            Create
-          </Button>
-        </DialogActions> */}
+        </ButtonGroup>
       </Dialog>
     </div>
   );
@@ -157,9 +151,8 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-
 const mapDispatchToProps = (dispatch) => ({
-    addReports: (postId, source) => dispatch(addReportsPost(postId,source))
-  });
+  addReports: (postId, source) => dispatch(addReportsPost(postId, source)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReportPost);
