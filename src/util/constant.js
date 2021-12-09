@@ -183,3 +183,24 @@ export const chapterValue = [
 
 // regex to capture links
 export const linkRegex = /((https?:\/\/)?[^\s.]+\.[\w][^\s]+)/g;
+
+export const getStatus = (status) => {
+  const mapping = {
+    active: "Active",
+    inactive: "Disabled",
+    pending: "Pending Approval",
+  };
+
+  return mapping[status] || "";
+};
+
+export const getStatusColor = (status) => {
+  const mapping = {
+    active: "#008767",
+    inactive: "#B42C01",
+    pending: "#EA700B",
+  };
+
+  return mapping[status] || "auto";
+};
+

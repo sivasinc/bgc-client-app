@@ -24,7 +24,7 @@ import {
 } from "react-table";
 import TablePaginationActions from "./TablePaginationActions";
 
-export function DataTable({ columns, data, loading }) {
+export function DataTable({ columns, data, loading, searchPlaceholder }) {
   const {
     getTableProps,
     headerGroups,
@@ -68,8 +68,8 @@ export function DataTable({ columns, data, loading }) {
     <div>
       <TextField
         sx={{ p: 3 }}
-        label="Search Members"
-        placeholder="Search Members"
+        label={searchPlaceholder}
+        placeholder={searchPlaceholder}
         id="outlined-start-adornment"
         className="search_community_searchBar"
         value={globalFilter}

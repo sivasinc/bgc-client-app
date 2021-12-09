@@ -4,7 +4,7 @@ import { Label, MoreVert } from "@mui/icons-material";
 import { connect } from "react-redux";
 
 import {
-  getAllAdmins,
+  getAllMembers,
   handleActivateDeactivateProfile,
 } from "../../firebaseActions/dataServices";
 import { DataTable } from "./Table";
@@ -12,15 +12,15 @@ import { ActionsMenu } from "./ActionsMenu";
 import ActionsDialog from "./Dialog";
 import { getStatus, getStatusColor } from "../../util/constant";
 
-function AdminsPage({ user }) {
+function MembersPage({ user }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const getAdmins = () => {
+  const getMembers = () => {
     setLoading(true);
-    getAllAdmins(user.userInfo)
+    getAllMembers(user.userInfo)
       .then(setData)
       .finally(() => setLoading(false));
   };
@@ -31,7 +31,7 @@ function AdminsPage({ user }) {
 
   const handleActivateDeactivate = async () => {
     await handleActivateDeactivateProfile(selectedUser);
-    await getAdmins();
+    await getMembers();
     handleClose();
   };
 
@@ -66,8 +66,8 @@ function AdminsPage({ user }) {
         Cell: ({ row }) => {
           const newStatus =
             row.original.status == "active"
-              ? "Deactivate Admin"
-              : "Activate Admin";
+              ? "Deactivate Profile"
+              : "Activate Profile";
           return (
             <ActionsMenu
               label={newStatus}
@@ -86,7 +86,7 @@ function AdminsPage({ user }) {
   );
 
   useEffect(() => {
-    getAdmins();
+    getMembers();
   }, []);
 
   const isActive = () => selectedUser && selectedUser.status === "active";
@@ -102,20 +102,20 @@ function AdminsPage({ user }) {
     return (
       <span>
         You are about to {getActivateStatus().toLowerCase()} {getUsername()}{" "}
-        profile. This admin will {isActive() ? "not" : "be"} able to access
-        Alumnae Portal Admin with their registered email address.
+        profile. This member will {isActive() ? "not" : "be"} able to access the
+        Alumnae Portal with their registered email address.
       </span>
     );
   };
 
   return (
     <div>
-      <h2>Alumnae Portal Admins</h2>
+      <h2>Alumnae Portal Members</h2>
       <DataTable
         columns={columns}
         data={data}
         loading={loading}
-        searchPlaceholder="Search Admins"
+        searchPlaceholder="Search Members"
       />
       <ActionsDialog
         open={showDialog}
@@ -125,7 +125,7 @@ function AdminsPage({ user }) {
         acceptButtonText={getActivateStatus()}
         rejectButtonText="CANCEL"
         dialogBody={getDialogBody()}
-        dialogTitle={`${getActivateStatus()} Admin`}
+        dialogTitle={`${getActivateStatus()} Profile`}
       />
     </div>
   );
@@ -137,4 +137,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(AdminsPage);
+export default connect(mapStateToProps)(MembersPage);
