@@ -32,6 +32,10 @@ import { visuallyHidden } from "@mui/utils";
 import Box from "@mui/material/Box";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import ArrowDropDown from "@material-ui/icons/ArrowDropDown";
+import styled from 'styled-components'
+import { Typography } from "@material-ui/core";
+
+
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -47,6 +51,49 @@ function getComparator(order, orderBy) {
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
+
+const ResponsiveTable = styled.div`
+@media (max-width: 768px) {
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+    height: auto !important;
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr{
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+	}
+	
+	tr { 
+    padding: 7px;
+    border-bottom: 1px solid #ccc;
+  }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+    text-align: left;
+		position: relative;
+		//padding-left: 50%; 
+	}
+	
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+}
+
+`
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
@@ -337,6 +384,7 @@ const CommunityTable = ({
             </div>
           </div>
           {/* <Box sx={{ margin: "0px 20px 20px 20px", display: "flex" }}> */}
+          <ResponsiveTable>
           <Paper className="__communitytable__container__">
             <Table
               stickyHeader
@@ -367,7 +415,7 @@ const CommunityTable = ({
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell component="th" scope="row">
+                        <TableCell component="td" scope="row">
                           <Avatar
                             aria-label="recipe"
                             alt="Remy Sharp"
@@ -376,12 +424,12 @@ const CommunityTable = ({
                           />
                         </TableCell>
                         <TableCell
-                          align="left"
-                          component="th"
+                          align="right"
+                          component="td"
                           id={labelId}
                           scope="row"
                         >
-                          <p>
+                          <Typography variant="button" color="primary" >
                             <Link
                               to={`/communityHome/${row.communityId}`}
                               onClick={() =>
@@ -390,13 +438,13 @@ const CommunityTable = ({
                             >
                               {row.name}
                             </Link>
-                          </p>
+                            </Typography>
                         </TableCell>
                         <TableCell align="left">{row.description}</TableCell>
                         <TableCell align="right">
                           {row.members && Array.isArray(row.members)
                             ? row.members.length
-                            : 0}
+                            : 0} Members
                         </TableCell>
                         <TableCell align="right">
                           {generateActionLink(row)}
@@ -428,6 +476,7 @@ const CommunityTable = ({
               />
             </div>
           </Paper>
+          </ResponsiveTable>
           {/* </Box> */}
         </div>
       )}
