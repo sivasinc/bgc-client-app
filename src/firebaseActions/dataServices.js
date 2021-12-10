@@ -542,15 +542,18 @@ const addMemberToMyNetwork = async (user, newMember) => {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       let myNetwork = [...docSnap.data().myNetworks];
-      myNetwork.push({
-        firstName,
-        lastName,
-        email,
-        imageUrl,
-        headLine,
-      });
-      const result = await updateDoc(docRef, { myNetworks: [...myNetwork] });
-      return result;
+      const existMember = myNetwork.filter((item) => item.email === email);
+      if (!existMember) {
+        myNetwork.push({
+          firstName,
+          lastName,
+          email,
+          imageUrl,
+          headLine,
+        });
+        const result = await updateDoc(docRef, { myNetworks: [...myNetwork] });
+        return result;
+      }
     }
   } catch (error) {
     console.log("error", error);

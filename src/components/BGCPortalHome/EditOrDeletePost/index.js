@@ -27,7 +27,7 @@ import "./EditOrDelete.css";
 const EditOrDeletePost = ({
   editUserCommunityPost,
   editUserCommunityPostwithDocument,
-  deleteUserCommunityPost, 
+  deleteUserCommunityPost,
   article,
 }) => {
   const [editorText, setEditorText] = useState("");
@@ -146,15 +146,14 @@ const EditOrDeletePost = ({
   };
 
   const deleteArticle = (currentStep) => {
- 
-      const payload = {
-        postPayload: {
-          postId: article.postId,
-      }
-    }; 
+    const payload = {
+      postPayload: {
+        postId: article.postId,
+      },
+    };
 
     if (currentStep === 1) {
-      deleteUserCommunityPost(payload); 
+      deleteUserCommunityPost(payload);
     }
 
     setCurrentStep(currentStep);
@@ -208,6 +207,7 @@ const EditOrDeletePost = ({
         <DialogTitle>Edit Post</DialogTitle>
         <DialogContent>
           <TextField
+            className="editpost__page"
             value={editorText}
             onChange={(e) => {
               const link = e.target.value.match(linkRegex);
@@ -318,7 +318,7 @@ const EditOrDeletePost = ({
         }}
       >
         <DialogTitle>Delete Post</DialogTitle>
-        <DialogContent >
+        <DialogContent>
           {currentStep === 0 && (
             <div className="__display-linebreak__">
               {
@@ -377,8 +377,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   editUserCommunityPost: (payload) => dispatch(editAPost(payload)),
-  editUserCommunityPostwithDocument: (payload) => dispatch(editAPostwithDocument(payload)),
-  deleteUserCommunityPost:(payload)=>dispatch(deleteAPost(payload)),
+  editUserCommunityPostwithDocument: (payload) =>
+    dispatch(editAPostwithDocument(payload)),
+  deleteUserCommunityPost: (payload) => dispatch(deleteAPost(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditOrDeletePost);

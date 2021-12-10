@@ -8,15 +8,35 @@ import { Link } from "react-router-dom";
 
 const Member = ({member : { imageUrl, firstName, lastName, headLine, email, memberId }, myNetworks , addMemberHandler, updateTabIndex }) => {
     const generateActionLink = () => {
-        if(myNetworks && Array.isArray(myNetworks) && myNetworks.filter((item) => item.email === email).length > 0) {
-            return (<React.Fragment>
-<CheckIcon onClick={() => addMemberHandler(email)} /> <span onClick={() => addMemberHandler(email)} className="member_add_action_label">ON MY NETWORK</span>
-            </React.Fragment>);
-        } else {
-            return (<React.Fragment>
-                <AddIcon onClick={() => addMemberHandler(email)} /> <span onClick={() => addMemberHandler(email)} className="member_add_action_label">ADD TO MY NETWORK</span>
-                            </React.Fragment>);
-        }
+      if (
+        myNetworks &&
+        Array.isArray(myNetworks) &&
+        myNetworks.filter((item) => item.email === email).length > 0
+      ) {
+        return (
+          <React.Fragment>
+            <CheckIcon onClick={() => addMemberHandler(email)} />{" "}
+            <span
+              onClick={() => addMemberHandler(email)}
+              className="member_add_action_label"
+            >
+              ON MY NETWORK
+            </span>
+          </React.Fragment>
+        );
+      } else {
+        return (
+          <React.Fragment>
+            <AddIcon onClick={() => addMemberHandler(email)} />{" "}
+            <span
+              onClick={() => addMemberHandler(email)}
+              className="member_add_action_label"
+            >
+              ADD TO MY NETWORK
+            </span>
+          </React.Fragment>
+        );
+      }
     }
 
     // const userClickHandler = (userId) => {
