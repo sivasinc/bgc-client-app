@@ -110,7 +110,9 @@ class login extends Component {
                     />
                   </Box>
                 </div>
-                {errors && <Typography className="alert_content">{errors}</Typography>}
+                {errors && (
+                  <Typography className="alert_content">{errors}</Typography>
+                )}
                 <Button
                   type="submit"
                   variant="contained"
@@ -123,7 +125,7 @@ class login extends Component {
                 </Button>
                 <br />
                 <p className="forgotPassword__link">
-                  <Link to="/recover">Forgot PASSWORD</Link>
+                  <Link to="/recover">Forgot Password</Link>
                 </p>
 
                 <p className="signup_link">

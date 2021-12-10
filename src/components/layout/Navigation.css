@@ -152,3 +152,22 @@
 /* .MuiTabs-flexContainer-38{
   margin-left: 85px !important;
 } */
+.paper_content{
+  background-color: #252525 !important;
+  color: white !important;
+  font-style: Roboto Regular !important;
+  text-transform: inherit !important;
+  
+  }
+  .dropDown_div{
+    color: white !important;
+    font-style: Roboto Regular !important;
+  text-transform: inherit !important;
+  
+  }
+  
+  .label_content{
+    display: flex !important;
+    align-items: center !important;
+  
+  }
