@@ -376,25 +376,27 @@ export const getAllMemberData = () => async (dispatch, getState) => {
 
 export const addMemberToNetwork = (email) => async (dispatch, getState) => {
   dispatch({ type: LOADING_DATA });
-   try {
-    const { user: { userInfo }, data: { members } } = getState();
-    const newMember = members.filter(item => item.email === email);
-    if(newMember.length > 0) {
+  try {
+    const {
+      user: { userInfo },
+      data: { members },
+    } = getState();
+    const newMember = members.filter((item) => item.email === email);
+    if (newMember.length > 0) {
       const result = await addMemberToMyNetwork(userInfo, newMember[0]);
       const userProfile = await getUserProfileInfo(userInfo.email);
       dispatch({ type: CLEAR_ERRORS });
       dispatch({
- type: SET_USER,
- payload: userProfile
- });
-    }
-   }
-    catch(error) {
-      dispatch({
-        type: SET_MEMBERS,
-        payload: null
+        type: SET_USER,
+        payload: userProfile,
       });
     }
+  } catch (error) {
+    dispatch({
+      type: SET_MEMBERS,
+      payload: null,
+    });
+  }
 };
 
 export const clearErrors = () => (dispatch) => {

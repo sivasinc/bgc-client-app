@@ -88,13 +88,7 @@ const CommunityHome = ({
     <Container>
       {enablePost && (
         <ShareBox>
-          {/* { imageUrl ?
-                            (<img src={ imageUrl} />)
-                            :
-                            (<img src="/images/user.svg" alt="" />)                          
-                        } */}
-          {/* <TextField id="outlined-basic" className="communityHome__postbox" label="Post Something..." onChange={handleClick} variant="outlined" disabled = { loading ? true : false } /> */}
-          <div className="__community__feed__">
+         <div className="__community__feed__">
             <h2>Community Feed</h2>
             <Button
               variant="contained"
@@ -105,22 +99,6 @@ const CommunityHome = ({
               POST SOMETHING
             </Button>
           </div>
-          {/* <div>
-                        <button>
-                            <ImageIcon className="post-icon" color="primary"/>
-                            <span>Add Image</span>
-                        </button>
-
-                        <button>
-                            <OndemandVideoIcon className="post-icon" color="primary"/>
-                            <span>Add Video</span>
-                        </button>
-
-                        <button>
-                            <AttachFileIcon className="post-icon" color="primary" />
-                            <span>Add File</span>
-                        </button>
-                    </div> */}
         </ShareBox>
       )}
 

@@ -115,7 +115,7 @@ const ReportPost = ({ email, article, addReports }) => {
         </DialogContent>
 
         <ButtonGroup
-          style={{ display: "flex", justifyContent: "flex-end", padding: 10 }}
+          style={{ display: "flex", justifyContent: "flex-end" }}
         >
           <div className="__report__post__footer">
             <div className="signUp__footer__PrevBtn">

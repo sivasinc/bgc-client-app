@@ -21,7 +21,7 @@ import {
   SET_CURRENT_PAGE,
 } from '../types';
 import axios from 'axios';
-import { getPostsOfCommunity } from './dataActions';
+import { getPostsOfCommunity ,getAllPostsOfUser} from './dataActions';
 import { addNewPost,updateEditPost,deletePost, getAPost, getUserProfileInfo, updateCommunityImage  } from '../../firebaseActions/dataServices';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
@@ -172,8 +172,9 @@ export const editAPost = (editPost) => async (dispatch) => {
   dispatch({ type: LOADING_UI });
   try {
     editPost.postPayload.sharedDocumentURL='';
+    editPost.postPayload.documentReset=true;
     const result = await updateEditPost(editPost.postPayload);
-      dispatch(getPostsOfCommunity);
+      dispatch(getAllPostsOfUser());
       return dispatch(clearErrors());
   } catch(err)  {
     console.log(err);
@@ -188,7 +189,7 @@ export const deleteAPost = (deletePostRec) => async (dispatch) => {
   dispatch({ type: LOADING_UI });
   try { 
     const result = await deletePost(deletePostRec.postPayload);
-      dispatch(getPostsOfCommunity);
+    dispatch(getAllPostsOfUser());
       return dispatch(clearErrors());
   } catch(err)  {
     console.log(err);
@@ -221,7 +222,7 @@ export const editAPostwithDocument = (newPost) => (dispatch) => {
       const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
       newPost.postPayload.sharedDocumentURL = downloadURL;
       await updateEditPost(newPost.postPayload);
-      dispatch(getPostsOfCommunity);
+      dispatch(getAllPostsOfUser());
       return dispatch(clearErrors());
     });
   }

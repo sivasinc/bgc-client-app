@@ -66,6 +66,8 @@ const CommunityHome = ({
       getAllPostOfUserMemberCommunity();
     }
   }, []);
+
+  
   // useEffect(() => {
   //     const { email } = credentials;
   //     if(email !== undefined) {
@@ -172,7 +174,7 @@ const Content = styled.div`
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.user.loading,
+    loading: state.UI.loading,
     user: state.user,
     usersPosts: state.data.usersPosts,
     isRefreshCommunity: state.data.isRefreshCommunity,

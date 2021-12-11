@@ -338,6 +338,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.UI.loading,
     user: state.user,
+    loadingUsersPosts: state.data.loadingUsersPosts
   };
 };
 
