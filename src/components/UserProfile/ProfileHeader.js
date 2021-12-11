@@ -322,7 +322,6 @@ const ProfileHeader = ({
                   value={updatedEmail}
                   onChange={handleChange}
                   fullWidth
-                  inputProps={{ readOnly: true }}
                 />
               </div>
               <div className="signUp__form__page modal">

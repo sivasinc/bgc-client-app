@@ -62,8 +62,11 @@ exports.validateStep5 = (data) => {
   if (!data.participatedChapter.trim()) {
     error1.participatedChapter = "Chapter must not be empty";
   }
-  if (data.participatedChapter === "other" && !data.state.trim())
-    error1.state = "Must not be empty";
+  if (data.participatedChapter === "Other") {
+    if (!data.state.trim()) {
+      error1.state = "Must not be empty";
+    }
+  }
   if (data.eventsAttended.length <= 2) {
     error1.eventsAttended = "Please select at least 3 events";
   }

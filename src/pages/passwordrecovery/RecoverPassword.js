@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
@@ -17,8 +17,9 @@ import {
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
+import { connect } from "react-redux";
 
-const RecoverPassword = (props) => {
+const RecoverPassword = ({ user, authenticated }) => {
   const [email, setEmail] = useState("");
   const [progress, setProgress] = useState(50);
   const [currentStep, setCurrentStep] = useState(0);
@@ -27,6 +28,13 @@ const RecoverPassword = (props) => {
   const [disableProceed, setDisableProceed] = useState(false);
   const [emailValidationMessage, setEmailValidationMessage] = useState("");
   const history = useHistory();
+  const { email: userEmail } = user.userInfo;
+
+  useEffect(() => {
+    if (authenticated) {
+      setEmail(userEmail);
+    }
+  });
 
   const recoveryHandler = async (newCount) => {
     if (newCount === 1) {
@@ -59,6 +67,7 @@ const RecoverPassword = (props) => {
       case 0:
         return (
           <Step1
+          email={authenticated ? userEmail : null}
             setEmail={setEmail}
             emailValidationMessage={emailValidationMessage}
           />
@@ -82,7 +91,7 @@ const RecoverPassword = (props) => {
           </div>
           <div className="recovery_header__right">
             <p>Alumnae Portal</p>
-            <p>Password Recovery</p>
+            <p>{authenticated ? "Change Password" : "Password Recovery"}</p>
           </div>
         </div>
       </Grid>
@@ -101,14 +110,14 @@ const RecoverPassword = (props) => {
             { currentStep !== 1 && (<div className="recovery_block__footer">
               <div>
                 {" "}
-                <Button
+                {!authenticated &&<Button
                   variant="outlined"
                   color="primary"
                   className="footer_back__button"
                   onClick={() => recoveryHandler(currentStep - 1)}
                 >
                   {currentStep === 2 ? 'Go Back' : 'Return to login'}
-                </Button>
+                </Button>}
               </div>
               <div>
                 <Button
@@ -130,6 +139,12 @@ const RecoverPassword = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  user: state.user,
+  authenticated: state.user.authenticated,
+});
+const mapDispatchToProps = {};
 RecoverPassword.propTypes = {};
 
-export default RecoverPassword;
+export default connect(mapStateToProps, mapDispatchToProps)(RecoverPassword);
+

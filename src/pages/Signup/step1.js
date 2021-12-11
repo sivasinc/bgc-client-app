@@ -46,9 +46,9 @@ const Step1 = ({ handleInputChange, userProfile }) => {
   return (
     <div className="step1">
       <h4>Create your account</h4>
-      <div className="signUp__form_names">
+      <div className="signUp__form_name">
         <TextField
-          className="signUp__form__page"
+          className="signUp__form__firstname"
           required
           error={!!errorMessage.firstName}
           name="firstName"
@@ -81,12 +81,11 @@ const Step1 = ({ handleInputChange, userProfile }) => {
                 <TextField
                   style={matches ? { width: "100%" } : { width: "96%" }}
                   className="signUp__form__password"
-                  required
                   fullWidth
                   error={!!errorMessage.email}
                   name="email"
                   id="outlined-required"
-                  label="Email Address"
+                  label="Email Address*"
                   value={email}
                   variant="outlined"
                   onChange={handleInputChange}
@@ -107,7 +106,7 @@ const Step1 = ({ handleInputChange, userProfile }) => {
                     error={!!errorMessage.password}
                     htmlFor="outlined-adornment-password"
                   >
-                    Password *
+                    Password*
                   </InputLabel>
                   <OutlinedInput
                     required
@@ -163,7 +162,7 @@ const Step1 = ({ handleInputChange, userProfile }) => {
                     error={!!errorMessage.confirmPassword}
                     htmlFor="outlined-password-input"
                   >
-                    Confirm Password *
+                    Confirm Password*
                   </InputLabel>
                   <OutlinedInput
                     // className="signUp__form__password"

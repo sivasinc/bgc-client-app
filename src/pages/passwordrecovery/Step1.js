@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import TextField from "@mui/material/TextField";
 
 
-const Step1 = ({ emailValidationMessage, setEmail }) => {
+const Step1 = ({ emailValidationMessage, setEmail,email }) => {
     return (
         <div>
             <TextField
@@ -13,6 +13,8 @@ const Step1 = ({ emailValidationMessage, setEmail }) => {
             className="directory__header_searchBar"
             onChange={(e) => setEmail(e.target.value)}
             helperText={emailValidationMessage}
+            value={email}
+            disabled={email? true:false}
           />
         </div>
     )

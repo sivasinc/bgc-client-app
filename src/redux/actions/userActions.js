@@ -44,6 +44,7 @@ export const loginUser = (userData, history) => (dispatch) => {
         throw Error("Admin approval pending, please contact super admin");
       }
       dispatch({ type: CLEAR_ERRORS });
+      console.log("user10",result)
       dispatch({
         type: SET_USER,
         payload: result,
