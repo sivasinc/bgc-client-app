@@ -537,13 +537,16 @@ export const handleActivateDeactivateProfile = async (selectedUser) => {
 
 const addMemberToMyNetwork = async (user, newMember) => {
   try {
-    const { email, firstName, lastName, imageUrl, headLine } = newMember;
+    var { email, firstName, lastName, imageUrl, headLine } = newMember;
+      headLine = headLine ? headLine : '';
+
     const docRef = doc(db, "users", user.email);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       let myNetwork = [...docSnap.data().myNetworks];
-      const existMember = myNetwork.filter((item) => item.email === email);
-      if (!existMember) {
+      const existingMember = myNetwork.filter((item) => item.email === email);
+      console.log(existingMember);
+      if (existingMember && existingMember.length ===0 ) {
         myNetwork.push({
           firstName,
           lastName,
@@ -559,6 +562,7 @@ const addMemberToMyNetwork = async (user, newMember) => {
     console.log("error", error);
   }
 };
+
 const getUserProfileInfo = async (email) => {
   const docRef = doc(db, "users", email);
   const docSnap = await getDoc(docRef);
