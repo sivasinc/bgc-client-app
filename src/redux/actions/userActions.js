@@ -20,6 +20,7 @@ import {
   LOADING_USER,
   MARK_NOTIFICATIONS_READ,
   SET_CURRENT_COMMUNITY_IMAGE,
+  SET_HEADER_ACTIVE
 } from "../types";
 import axios from "axios";
 
@@ -30,6 +31,9 @@ export const updatePage = (pageName) => (dispatch) => {
 export const updateTabIndex = (index) => (dispatch) => {
   dispatch({ type: SET_CURRENT_TAB_INDEX, payload: index });
 };
+export const setActiveHeader = (value)=>(dispatch) =>{
+  dispatch({ type: SET_HEADER_ACTIVE, payload: value });
+}
 
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });

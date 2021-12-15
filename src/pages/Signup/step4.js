@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@mui/material/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import Radio from '@mui/material/Radio';
+import Radio from "@mui/material/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
@@ -40,7 +40,7 @@ const Step4 = ({
   console.log("selectedProfileInfo", selectedProfileInfo);
   return (
     <div className="step4__section">
-      <h3>Please,tell us more</h3>
+      <h3>Please, tell us more</h3>
       {selectedProfileInfo[0].values.map((item, index) => (
         <TextField
           error={!!errorMessage[`${selectedProfileInfo[0].type}-${index}`]}
@@ -57,13 +57,12 @@ const Step4 = ({
       ))}
       {["college", "workforce"].includes(selectedProfileInfo[0].type) && (
         <React.Fragment>
-           
           <div className="endDateCheckBox">
             <FormGroup className="step4__section_checkBox">
               <InputLabel className="step4_inputLabel">Start Date</InputLabel>
             </FormGroup>
           </div>
-         
+
           <Grid container>
             <Grid item md={6} xs={6}>
               <TextField
@@ -108,64 +107,67 @@ const Step4 = ({
               </LocalizationProvider>
             </Grid>
           </Grid>
-
-          <div className="endDateCheckBox">
-            <FormGroup className="step4__section_checkBox">
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Expected Graduation Date"
-                name="endDateCheckBox"
-                size="small"
-                onChange={handleInputChange}
-              />
-            </FormGroup>
-          </div>
-          <Grid container>
-            <Grid item md={6} xs={6}>
-              <TextField
-                error={!!errorMessage.endMonth}
-                id="step4_startYear"
-                disabled={!userProfile.endDateCheckBox}
-                className="step4__section_Month"
-                select
-                name="endMonth"
-                value={endMonth}
-                onChange={handleInputChange}
-                variant="outlined"
-                label="Month"
-                fullWidth
-                InputLabelProps={{ shrink: endMonth ? true : false }}
-                helperText={errorMessage.endMonth}
-              >
-                {months.map((item) => (
-                  <MenuItem value={item.value}>{item.name}</MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item md={6} xs={6}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  views={["year"]}
-                  label="Year"
-                  disabled={!userProfile.endDateCheckBox}
-                  value={endYear ? endYear : null}
-                  onChange={handleEndYearChange}
-                  helperText={errorMessage.endYear}
-                  renderInput={(params) => (
-                    <TextField
-                      error={!!errorMessage.endYear}
-                      fullWidth
-                      variant="outlined"
-                      className="step4__section_Year"
-                      {...params}
-                      InputLabelProps={{ shrink: endYear ? true : false }}
+          {["college"].includes(selectedProfileInfo[0].type) && (
+            <div>
+              <div className="endDateCheckBox">
+                <FormGroup className="step4__section_checkBox">
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Expected Graduation Date"
+                    name="endDateCheckBox"
+                    size="small"
+                    onChange={handleInputChange}
+                  />
+                </FormGroup>
+              </div>
+              <Grid container>
+                <Grid item md={6} xs={6}>
+                  <TextField
+                    error={!!errorMessage.endMonth}
+                    id="step4_startYear"
+                    disabled={!userProfile.endDateCheckBox}
+                    className="step4__section_Month"
+                    select
+                    name="endMonth"
+                    value={endMonth}
+                    onChange={handleInputChange}
+                    variant="outlined"
+                    label="Month"
+                    fullWidth
+                    InputLabelProps={{ shrink: endMonth ? true : false }}
+                    helperText={errorMessage.endMonth}
+                  >
+                    {months.map((item) => (
+                      <MenuItem value={item.value}>{item.name}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item md={6} xs={6}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      views={["year"]}
+                      label="Year"
+                      disabled={!userProfile.endDateCheckBox}
+                      value={endYear ? endYear : null}
+                      onChange={handleEndYearChange}
                       helperText={errorMessage.endYear}
+                      renderInput={(params) => (
+                        <TextField
+                          error={!!errorMessage.endYear}
+                          fullWidth
+                          variant="outlined"
+                          className="step4__section_Year"
+                          {...params}
+                          InputLabelProps={{ shrink: endYear ? true : false }}
+                          helperText={errorMessage.endYear}
+                        />
+                      )}
                     />
-                  )}
-                />
-              </LocalizationProvider>
-            </Grid>
-          </Grid>
+                  </LocalizationProvider>
+                </Grid>
+              </Grid>
+            </div>
+          )}
         </React.Fragment>
       )}
       {selectedProfileInfo[0].type === "workforce" && (

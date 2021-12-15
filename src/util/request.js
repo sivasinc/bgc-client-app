@@ -77,8 +77,6 @@ export const generateRequest = (userProfile, selectedProfile) => {
               jobTtile: userProfile["workforce-2"],
               startMonth,
               startYear: stDate,
-              endMonth,
-              endYear: enDate,
             },
           ],
         },

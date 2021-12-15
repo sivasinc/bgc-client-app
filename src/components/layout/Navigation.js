@@ -8,7 +8,11 @@ import Tab from "@material-ui/core/Tab";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@material-ui/core/Typography";
 import BGCProfileHome from "../UserProfile/BGCProfileHome";
-import { logoutUser, updateTabIndex } from "../../redux/actions/userActions";
+import {
+  logoutUser,
+  updateTabIndex,
+  setActiveHeader,
+} from "../../redux/actions/userActions";
 import { getRoutes } from "../../util/constant";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
@@ -32,6 +36,8 @@ const Navigation = ({
   currentTabIndex,
   updateTabIndex,
   userRole,
+  headerTabActive,
+  setActiveHeader,
 }) => {
   const [value, setValue] = useState(3);
   const [openDrawer, setDrawer] = useState(false);
@@ -116,6 +122,7 @@ const Navigation = ({
 
   const handleMenuChange = (event, newValue) => {
     updateTabIndex(newValue);
+    setActiveHeader(true);
     console.log(newValue);
     setDrawer(false);
   };
@@ -135,7 +142,7 @@ const Navigation = ({
       />
       <Tabs
         className="menu_bar"
-        value={currentTabIndex}
+        value={headerTabActive ? currentTabIndex : headerTabActive}
         onChange={handleMenuChange}
         aria-label="menu bar"
         TabIndicatorProps={
@@ -175,7 +182,7 @@ const Navigation = ({
 
         <Tab
           name="userProfile"
-          className="header__bar_item"
+          className="right__tab"
           onClick={handleClick}
           label={
             <div className="label_content">
@@ -352,9 +359,10 @@ const mapStateToProps = (state) => ({
   authenticated: state.user.authenticated,
   currentTabIndex: state.UI.currentTabIndex,
   userRole: state.user.userInfo.userRole,
+  headerTabActive: state.UI.headerTabActive,
 });
 
-const mapDispatchToProps = { logoutUser, updateTabIndex };
+const mapDispatchToProps = { logoutUser, updateTabIndex, setActiveHeader };
 Navigation.propTypes = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

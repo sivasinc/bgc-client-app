@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import FlipMove from "react-flip-move";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { setCurrentCommunityId } from "../../redux/actions/dataActions";
-import { updateTabIndex } from "../../redux/actions/userActions";
+import { updateTabIndex, setActiveHeader } from "../../redux/actions/userActions";
 import DialogWindow from "./DialogWindow";
 
 
@@ -17,17 +17,22 @@ const MyCommunities = ({
   loadingMyCommunities,
   setCurrentCommunityId,
   updateTabIndex,
+  setActiveHeader,
 }) => {
   const history = useHistory();
   const [openModal, setOpenModal] = useState(false);
   const communityClickHandler = (communityId) => {
-    console.log("communityClickHandler");
+    setActiveHeader(false);
     history.push("/communityHome");
     setCurrentCommunityId(communityId);
   };
 
   const handleModal = () => {
-    setOpenModal((prevState)=>!prevState);
+    if (myCommunities.length > 0) {
+      setOpenModal((prevState) => !prevState);
+    } else {
+      updateTabIndex(2);
+    }
   };
   const windowModal = (
     <div>
@@ -144,6 +149,7 @@ const mapDispatchToProps = (dispatch) => ({
   setCurrentCommunityId: (communityId) =>
     dispatch(setCurrentCommunityId(communityId)),
   updateTabIndex: (tabIndex) => dispatch(updateTabIndex(tabIndex)),
+  setActiveHeader: (value) => dispatch(setActiveHeader(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyCommunities);
