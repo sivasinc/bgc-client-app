@@ -255,7 +255,6 @@ const commentOnAPost = async (newComment) => {
   try {
     const docRef = doc(db, "posts", newComment.postId);
     const docSnap = await getDoc(docRef);
-    docRef.delete();
     if (docSnap.exists()) {
       const result = await updateDoc(docRef, {
         commentCount: docSnap.data().commentCount + 1,
