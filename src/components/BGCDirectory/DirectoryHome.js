@@ -55,6 +55,7 @@ console.log('searchItems', searchItems);
             label="Search Directory"
             id="outlined-start-adornment"
             className="directory__header_searchBar"
+            fullWidth
             onChange={(e) => searchDirectoryHandler(e.target.value)}
             InputProps={{
               endAdornment: (
