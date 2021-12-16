@@ -11,6 +11,7 @@ import { editUserDetails } from '../../redux/actions/userActions';
 import ModelWindow from "./ModelWindow";
 import Pagination from '@mui/material/Pagination'
 import { Dialog, DialogContent, DialogTitle,DialogActions } from "@material-ui/core";
+import { updateTabIndex, setActiveHeader } from "../../redux/actions/userActions";
 
 
 
@@ -29,6 +30,7 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
   const myNetworkClickHandler = (email) => {
     const memberId=members.filter((x)=>x.email=== email).map((y)=>y.memberId)
     console.log(memberId);
+    setActiveHeader(false);
     history.push(`/userProfile/${memberId}`);
 
     
@@ -177,6 +179,8 @@ const mapStateToProps = (state) => ({
    const mapDispatchToProps = (dispatch) => ({
      editUserDetails,
    getMemberData: () => dispatch(getAllMemberData()),
+   updateTabIndex: (tabIndex) => dispatch(updateTabIndex(tabIndex)),
+   setActiveHeader: (value) => dispatch(setActiveHeader(value)),
   });
    export default connect(mapStateToProps, mapDispatchToProps) (MyNetworks);
 

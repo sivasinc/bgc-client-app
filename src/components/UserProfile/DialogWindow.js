@@ -20,7 +20,7 @@ const DialogWindow = ({
   noOfPages,
 }) => {
   const [page, setPage] = React.useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 4;
   // const [totalPages] = React.useState(
   //   noOfPages
   // );
@@ -46,6 +46,7 @@ const DialogWindow = ({
       </DialogTitle>
       <DialogContent>
         <Grid container>
+         
           {myCommunities
             .slice((page - 1) * itemsPerPage, page * itemsPerPage)
             .map((item) => (

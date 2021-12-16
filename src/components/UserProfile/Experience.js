@@ -126,7 +126,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
           <div className="experience__edit__icon">
             <EditIcon color="#6200EE" onClick={() => handleModelChange(true, item, index)} />
           </div>
-          EDIT
+         <span onClick={() => handleModelChange(true, item, index)}>EDIT </span>
           </div>
           )}
         </div>
@@ -145,7 +145,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
         <div className="experience__add__icon">
           <AddIcon color="#6200EE" onClick={() => handleAddModel(true)} />
         </div>
-        ADD
+        <span onClick={() => handleAddModel(true)}>ADD</span>
         </div>
         )}
       </div>

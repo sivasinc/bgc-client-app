@@ -5,49 +5,93 @@ import { connect } from "react-redux";
 import { AppBar, IconButton } from "@material-ui/core";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Button from "@material-ui/core/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@material-ui/core/Typography";
 import BGCProfileHome from "../UserProfile/BGCProfileHome";
-import { logoutUser, updateTabIndex } from "../../redux/actions/userActions";
+import {
+  logoutUser,
+  updateTabIndex,
+  setActiveHeader,
+} from "../../redux/actions/userActions";
 import { getRoutes } from "../../util/constant";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import AdminNavbar from "../layout/AdminNavbar";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Popper from "@mui/material/Popper";
+import Fade from "@mui/material/Fade";
+import Paper from "@mui/material/Paper";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 import "./Navigation.css";
 
 const Navigation = ({
+  user,
   logoutUser,
   authenticated,
   currentTabIndex,
   updateTabIndex,
   userRole,
+  headerTabActive,
+  setActiveHeader,
 }) => {
   const [value, setValue] = useState(3);
   const [openDrawer, setDrawer] = useState(false);
+  const [tabName, setTabName] = useState("Alumnae Portal Home");
   const history = useHistory();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
+  const { firstName, lastName } = user.userInfo;
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const open = Boolean(anchorEl);
+  const [open, setOpen] = useState(false);
+  const handleClick = (event) => {
+    if (anchorEl) {
+      setAnchorEl(null);
+      setOpen(!open);
+    } else {
+      setAnchorEl(event.currentTarget);
+      setOpen(!open);
+    }
+  };
+  const handleForgotPassword = () => {
+    setAnchorEl(null);
+    setOpen(false);
+    history.push("/recover");
+  };
+  const handleClickaway = () => {
+    setOpen(false);
+    setAnchorEl(null);
+  };
+
   console.log("currentTabIndex", currentTabIndex);
   useEffect(() => {
     if (authenticated) {
       switch (currentTabIndex) {
         case 0:
           history.push("/portalHome");
+          setTabName("Alumnae Portal Home");
           break;
         case 1:
           // Needs to change later
           history.push("/userprofile");
+          setTabName("My Profile");
           break;
         case 2:
           history.push("/communityHome");
+          setTabName("Communities");
           break;
         case 3:
           history.push("/directory");
+          setTabName("Directory");
           break;
-
+        case 4:
+          break;
         default:
           history.push("/login");
           setValue(2);
@@ -69,9 +113,16 @@ const Navigation = ({
       }
     }
   }, [currentTabIndex]);
+  const handleLogOut = () => {
+    setAnchorEl(null);
+    setOpen(false);
+    history.push("/login");
+    logoutUser();
+  };
 
   const handleMenuChange = (event, newValue) => {
     updateTabIndex(newValue);
+    setActiveHeader(true);
     console.log(newValue);
     setDrawer(false);
   };
@@ -91,10 +142,18 @@ const Navigation = ({
       />
       <Tabs
         className="menu_bar"
-        value={currentTabIndex}
+        value={headerTabActive ? currentTabIndex : headerTabActive}
         onChange={handleMenuChange}
         aria-label="menu bar"
-        TabIndicatorProps={{ style: { background: "white" } }}
+        TabIndicatorProps={
+          currentTabIndex !== 4
+            ? { style: { background: "white" } }
+            : {
+                style: {
+                  display: "none",
+                },
+              }
+        }
       >
         <Tab
           label="Alumnae Portal Home"
@@ -120,13 +179,42 @@ const Navigation = ({
           className="header__bar_item"
           // {...a11yProps(3)}
         />
+
         <Tab
-          label="Log Out"
-          name="logOut"
-          className="header__bar_item"
-          // {...a11yProps(4)}
-        />
+          name="userProfile"
+          className="right__tab"
+          onClick={handleClick}
+          label={
+            <div className="label_content">
+              {firstName} {lastName} <ArrowDropDownIcon />
+            </div>
+          }
+        ></Tab>
       </Tabs>
+      <div>
+        <Popper
+          id={open ? "simple-popper" : null}
+          open={open}
+          anchorEl={anchorEl}
+          placement="bottom-end"
+          transition
+        >
+          {({ TransitionProps }) => (
+            <ClickAwayListener onClickAway={handleClickaway}>
+              <Fade {...TransitionProps} timeout={350}>
+                <Paper className="paper_content">
+                  <MenuItem onClick={handleForgotPassword}>
+                    <Typography variant="p">Change Password</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogOut}>
+                    <Typography variant="p">Log Out</Typography>
+                  </MenuItem>
+                </Paper>
+              </Fade>
+            </ClickAwayListener>
+          )}
+        </Popper>
+      </div>
     </div>
   );
   const unAuthenticatedMenuItems = (
@@ -204,12 +292,14 @@ const Navigation = ({
             name="logout"
             value={4}
             className="header__item_sm"
+            onClick={handleForgotPassword}
           />
           <Tab
             label="Log out"
             name="logout"
             value={5}
             className="header__bar_item"
+            onClick={handleLogOut}
           />
         </Tabs>
       </div>
@@ -230,7 +320,7 @@ const Navigation = ({
           src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/BGC-Logo.png?alt=media&token=ba7c24c2-d25e-467f-91fa-d57c69fe5c0b"
           alt=""
         />
-        <h5 className="heading_sm">Alumnae Portal Home</h5>
+        <h5 className="heading_sm">{tabName}</h5>
 
         <IconButton
           className="header_right"
@@ -269,9 +359,10 @@ const mapStateToProps = (state) => ({
   authenticated: state.user.authenticated,
   currentTabIndex: state.UI.currentTabIndex,
   userRole: state.user.userInfo.userRole,
+  headerTabActive: state.UI.headerTabActive,
 });
 
-const mapDispatchToProps = { logoutUser, updateTabIndex };
+const mapDispatchToProps = { logoutUser, updateTabIndex, setActiveHeader };
 Navigation.propTypes = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

@@ -80,6 +80,7 @@
   width: 102px;
   border-radius: 4px;
   background-color: rgba(187, 134, 252, 0.1);
+  border: 1px solid #dad4e3;
 }
 
 .__community_join_button_action {

@@ -17,6 +17,7 @@ import {
   getPostsOfCommunity,
 } from "../../redux/actions/dataActions";
 import ReportPost from "./ReportPost";
+import EditOrDeletePost from "./EditOrDeletePost";
 
 const Post = ({
   key,
@@ -89,7 +90,7 @@ const Post = ({
 
     return null;
   };
- 
+
   console.log("article", article);
   return (
     <Article key={key}>
@@ -109,10 +110,12 @@ const Post = ({
                 <span className="sharedActor__userLabel_sub">posted</span>
               </span>
             )}
-
-            <div>
+            {article.userHandle && email !== article.userHandle && (
               <ReportPost article={article} email={email} />
-            </div>
+            )}
+            {article.userHandle && email === article.userHandle && (
+              <EditOrDeletePost article={article} email={email} />
+            )}
             <span>
               {dayjs(article.createdAt).format("MMMM DD YYYY, h:mm a")}
             </span>

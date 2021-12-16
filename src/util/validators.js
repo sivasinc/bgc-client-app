@@ -62,8 +62,11 @@ exports.validateStep5 = (data) => {
   if (!data.participatedChapter.trim()) {
     error1.participatedChapter = "Chapter must not be empty";
   }
-  if (data.participatedChapter === "other" && !data.state.trim())
-    error1.state = "Must not be empty";
+  if (data.participatedChapter === "Other") {
+    if (!data.state.trim()) {
+      error1.state = "Must not be empty";
+    }
+  }
   if (data.eventsAttended.length <= 2) {
     error1.eventsAttended = "Please select at least 3 events";
   }
@@ -122,17 +125,7 @@ exports.validateStep4 = (data, selectedProfile) => {
     if (!data.startMonth.trim()) {
       error1.startMonth = "Must not be empty";
     }
-    if (data.endDateCheckBox) {
-      if (!data.endMonth.trim()) {
-        error1.endMonth = "Must not be empty";
-      }
-      if (data.endYear === "") {
-        error1.endYear = "Must not be empty";
-      }
-      if (data.endYear < data.startYear) {
-        error1.endYear = "end year must be greater than start year";
-      }
-    }
+    
   }
   if (selectedProfile.trim() === "timeoff") {
     if (!data["timeoff-0"].trim()) {

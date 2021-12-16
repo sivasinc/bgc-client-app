@@ -1,7 +1,7 @@
 import React from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-const ReportPostStep2 = ({ userProfile: { email } = "" }) => {
+const ReportPostStep2 = () => {
   return (
     <div className="__reportstep2__section__">
       <CheckCircleIcon color="primary" className="step7_section__checkBar" />

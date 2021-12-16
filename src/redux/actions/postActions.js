@@ -21,8 +21,8 @@ import {
   SET_CURRENT_PAGE,
 } from '../types';
 import axios from 'axios';
-import { getPostsOfCommunity } from './dataActions';
-import { addNewPost, getAPost, getUserProfileInfo, updateCommunityImage  } from '../../firebaseActions/dataServices';
+import { getPostsOfCommunity ,getAllPostsOfUser} from './dataActions';
+import { addNewPost,updateEditPost,deletePost, getAPost, getUserProfileInfo, updateCommunityImage  } from '../../firebaseActions/dataServices';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
 import { editUserDetails } from '../actions/userActions';
@@ -167,6 +167,65 @@ export const addAPost = (newPost) => async (dispatch) => {
         });
       };
 };
+
+export const editAPost = (editPost) => async (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  try {
+    editPost.postPayload.sharedDocumentURL='';
+    editPost.postPayload.documentReset=true;
+    const result = await updateEditPost(editPost.postPayload);
+      dispatch(getAllPostsOfUser());
+      return dispatch(clearErrors());
+  } catch(err)  {
+    console.log(err);
+        // dispatch({
+        //   type: SET_ERRORS,
+        //   payload: err.response.data
+        // });
+      };
+};
+
+export const deleteAPost = (deletePostRec) => async (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  try { 
+    const result = await deletePost(deletePostRec.postPayload);
+    dispatch(getAllPostsOfUser());
+      return dispatch(clearErrors());
+  } catch(err)  {
+    console.log(err);
+        // dispatch({
+        //   type: SET_ERRORS,
+        //   payload: err.response.data
+        // });
+      };
+};
+
+export const editAPostwithDocument = (newPost) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  if (!newPost.sharedDocument) throw ('No document found!')
+  const storageRef = ref(storage, `documents/${newPost.sharedDocument.name}`);
+  const uploadTask = uploadBytesResumable(storageRef, newPost.sharedDocument);
+  uploadTask.on('state_changed',
+    (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+        case 'paused':
+          console.log('Upload is paused');
+          break;
+        case 'running':
+          console.log('Upload is running');
+          break;
+      }
+    }, error => console.log(error.code),
+    async () => {
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+      newPost.postPayload.sharedDocumentURL = downloadURL;
+      await updateEditPost(newPost.postPayload);
+      dispatch(getAllPostsOfUser());
+      return dispatch(clearErrors());
+    });
+  }
 
 export const getUserData = (userHandle) => (dispatch) => {
   dispatch({ type: LOADING_DATA });

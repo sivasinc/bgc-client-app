@@ -69,8 +69,7 @@ const Summary = ({ user: { userInfo, selectedMember },readOnlyFlow, editUserDeta
             
             <AddIcon color="#6200EE" onClick={() => setOpenModel(true)} />
             </div>
-            ADD
-           
+            <span onClick={() => setOpenModel(true)}> ADD </span>
           </div>
           
           }
