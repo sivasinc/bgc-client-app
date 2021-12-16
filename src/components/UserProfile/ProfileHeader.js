@@ -126,6 +126,7 @@ const ProfileHeader = ({
     const request = { ...userInfo, ...userDetails };
     console.log("profile header req", request);
     editUserDetails(request);
+     
     setOpenModel(false);
   };
   const handleProfileVisibility = (event) => {
@@ -192,12 +193,51 @@ const ProfileHeader = ({
     };
   }
 
-  return (
-    <div>
-      <div className="profile__header">
-        <div className="profile__header__main__container">
-          <div className="profile__header__main">
-            <input
+ const handleImageUploadClick = (e) => {
+  const image = e.target.files[0];
+
+  if (image === "" || image === undefined) {
+    alert(`not an image, the file is a ${typeof image}`);
+    return;
+  }
+  uploadProfileImage(image, userInfo);
+ }
+  const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine, updatedEmail,updatedProfileVisibletoAlumnaeCommunity,updatedSocialLinks={LINKEDIN:'',FACEBOOK:'',TWITTER:'',  } } = profile;
+  console.log('sllinks',updatedSocialLinks)
+   let info = {
+   }
+if(readOnlyFlow) {
+  const { firstName, lastName, email, headLine, location, imageUrl,profileVisibletoAlumnaeCommunity } = selectedMember;
+   info = {
+    firstName,
+    lastName,
+    email,
+    headLine,
+    location,
+    imageUrl,
+    profileVisibletoAlumnaeCommunity
+   }
+} else {
+  const {firstName, lastName, email, headLine, location, imageUrl,profileVisibletoAlumnaeCommunity } = userInfo;
+  info = {
+    firstName,
+    lastName,
+    email,
+    headLine,
+    location,
+    imageUrl,
+    profileVisibletoAlumnaeCommunity
+   }
+}
+  
+
+
+    return (
+        <div>
+             <div className="profile__header">
+          <div className="profile__header__main__container">
+            <div className="profile__header__main">
+          {!readOnlyFlow && (  <input
               accept="image/gif, image/jgp, image/png, image/jpeg"
               id="contained-button-file"
               style={{ display: "none" }}
@@ -205,16 +245,32 @@ const ProfileHeader = ({
               type="file"
               onChange={handleImageUploadClick}
             />
-
+            )}
+           
+            
+             
             <div className="imgpos">
-              <label htmlFor="contained-button-file">
-                <Avatar
-                  alt="Remy Sharp"
-                  className="profile__header__image"
-                  src={info.imageUrl}
-                />
-                <AddAPhotoIcon className="profileImage__addIcon " />
+             <label htmlFor="contained-button-file">
+            <Avatar
+                alt="Remy Sharp"
+                className="profile__header__image"
+                src={info.imageUrl}
+              />
+           {!readOnlyFlow && (    <AddAPhotoIcon className="profileImage__addIcon " /> )}
               </label>
+           
+              </div>
+              
+              
+         
+                    
+              <div className="profile__user">
+              <label className="user__label">{`${info.firstName}  ${info.lastName}`}</label>
+                {info.headLine === undefined ? <label className="user__role">No Headline added</label>: <label className="user__role">{info.headLine}</label>}
+                {info.location === undefined ? <label className="user__role">No Location added</label>: <label className="user__role">{info.location} </label>}
+                
+              </div>
+              
             </div>
 
             <div className="profile__user">
@@ -227,7 +283,7 @@ const ProfileHeader = ({
               {info.location === undefined ? (
                 <label className="user__role">No Location added</label>
               ) : (
-                <label className="user__role">{`${info.location} , United States`}</label>
+                <label className="user__role">{info.location} </label>
               )}
             </div>
           </div>
@@ -238,8 +294,8 @@ const ProfileHeader = ({
                 onClick={() => handleModelChange(true)}
               >
                 {" "}
-                <EditIcon color="primary" />
-                <p>EDIT PROFILE</p>
+                <EditIcon color="#6200EE"/>
+                <p>EDIT</p>
               </div>
             </div>
           )}
@@ -249,26 +305,20 @@ const ProfileHeader = ({
             <p>Email : </p>{" "}
             <p className="profile__user_bar_left__value">{info.email}</p>
           </div>
-          <div className="profile__user_bar_right">
-            <p className="profile__user_bar_left">Social :</p>{" "}
-            <p
-              className="profile__user_bar_left__value"
-              onClick={() => handleSocialModelClick("LinkedIn")}
-            >
-              Linked In
-            </p>{" "}
-            <p
-              className="profile__user_bar_left__value"
-              onClick={() => handleSocialModelClick("Twitter")}
-            >
-              Twitter
-            </p>
-            <p
-              className="profile__user_bar_left__value"
-              onClick={() => handleSocialModelClick("Facebook")}
-            >
-              Facebook
-            </p>
+          <div className="profile__user_bar">
+            
+            <div className="profile__user_bar_left">
+              <p>Email : </p>{" "}
+              <p className="profile__user_bar_left__value">{info.email}</p>
+            </div>
+            <div className="profile__user_bar_right">
+              <p className="profile__user_bar_left">Social :</p>{" "}
+              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('LINKEDIN')}>LINKEDIN</p>{" "}
+              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('FACEBOOK')}>FACEBOOK</p>
+              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('TWITTER')}>TWITTER</p>
+              
+              
+            </div>
           </div>
         </div>
       </div>
@@ -282,19 +332,22 @@ const ProfileHeader = ({
         <DialogContent>
           <form>
             <div className="signUp__form_names">
+              
               <div className="signUp__form__page">
-                <TextField
-                  className="text_field_outline"
-                  name="updatedFirstName"
-                  id="outlined-required"
-                  tpye="text"
-                  label="First Name"
-                  rows="3"
-                  variant="outlined"
-                  value={updatedFirstName}
-                  onChange={handleChange}
-                  fullWidth
-                />
+              <TextField
+               className="text_field_outline"
+                name="updatedFirstName"
+                id="outlined-required"
+                tpye="text"
+                label="First Name"
+                rows="3"
+                variant="outlined"
+                value={updatedFirstName}
+                onChange={handleChange}
+                
+                fullWidth
+              />
+              
               </div>
               <div className="signUp__form__page">
                 <TextField
@@ -352,23 +405,80 @@ const ProfileHeader = ({
             <DialogTitle>Social Profile URLs</DialogTitle>
             <div className="social__form_names">
               <div className="social__form__page">
-                <div className="modal">
-                  <TextField
-                    name="LinkedIn"
-                    id="outlined-required"
-                    tpye="text"
-                    label="LinkedIn"
-                    placeholder="Linkto"
-                    variant="outlined"
-                    value={updatedSocialLinks.LinkedIn}
-                    onChange={handleSocialModelChange}
-                    fullWidth
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <AddLinkIcon edge="end"></AddLinkIcon>
-                      </InputAdornment>
-                    }
-                  />
+              <div className="modal">
+              <TextField 
+                name="LINKEDIN"
+                id="outlined-required"
+                tpye="text"
+                label="LINKEDIN"
+                placeholder="Linkto"
+                variant="outlined"
+                value={updatedSocialLinks.LINKEDIN}
+                onChange={handleSocialModelChange}
+                fullWidth
+                endAdornment={
+                  <InputAdornment position="end">
+                    <AddLinkIcon
+                      edge="end"
+                    >
+                      
+                    </AddLinkIcon>
+                  </InputAdornment>
+                }
+              />
+              
+              </div>
+              </div>
+              <div className="social__form__page">
+              <TextField 
+             
+                name="FACEBOOK"
+                id="outlined-required"
+                tpye="text"
+                label="FACEBOOK"
+                placeholder="Linkto"
+                variant="outlined"
+                value={updatedSocialLinks.FACEBOOK}
+                onChange={handleSocialModelChange}
+                fullWidth
+                endAdornment={
+                  <InputAdornment position="end">
+                    <AddLinkIcon
+                      edge="end"
+                    >
+                      
+                    </AddLinkIcon>
+                  </InputAdornment>
+                }
+              />
+              </div>
+              <div className="social__form__page">
+              <TextField
+                name="TWITTER"
+                id="outlined-required"
+                tpye="text"
+                label="TWITTER"
+                placeholder="Linkto"
+                variant="outlined"
+                value={updatedSocialLinks.TWITTER}
+                onChange={handleSocialModelChange}
+                fullWidth
+              />
+              </div>
+             
+              </div>
+            </form>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenModel(false)} color="primary">
+              Cancel
+            </Button>
+            <Button  onClick={handleSubmit} color="primary" >
+              Save
+            </Button>
+          </DialogActions>
+
+        </Dialog>
                 </div>
               </div>
               <div className="social__form__page">

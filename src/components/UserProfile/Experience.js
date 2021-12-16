@@ -23,13 +23,14 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
     setProfile({})
   }
   const handleModelChange = (value, item, index) => {
-    const { jobTtile, company, department, startMonth, startYear, endMonth, endYear
+    const { jobTtile, company, description, department, startMonth, startYear, endMonth, endYear
     } = item;
 
     setProfile({
         updatedJobTtile: jobTtile, 
         updatedCompany: company, 
         updatedDepartment: department,
+        updatedDescription: description, 
         updatedStartMonth: startMonth, 
         updatedStartYear: startYear, 
         updatedEndMonth: endMonth, 
@@ -115,9 +116,10 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
             <p className="experience__subheader__p">{item.company}</p>
             <p className="experience__subheader__p">{item.department}</p>
             <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth !== '' || item.endMonth !== 'month' ? item.endMonth + ' ' +  item.endYear : 'Present' }`}</p>
-            {item.description && <p className="experience__description__p">
+           
+            {item.description && <div className="expwrap"><p className="experience__description__p">
               {item.description}
-            </p>}
+            </p> </div>}
           </div>
           {!readOnlyFlow && (
           <div className="summary_add">
