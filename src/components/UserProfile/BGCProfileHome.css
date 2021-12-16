@@ -6,12 +6,14 @@
 
 .profile__header {
     display: flex;
-    box-shadow: 0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%) ;
+    box-shadow:  0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%) ;
+   
     margin-top: 10px;
     width: 100%;
     border-radius: 10px;
     flex-direction: column;
     background-color: white;
+    margin-bottom: 20px;
     
 }
 .profile__header__main {
@@ -40,18 +42,31 @@ margin: 5px;
     background-color: #f5f5f5;
     flex-wrap: wrap;
 }
-.profile__user_bar_left{
+.profile__user_bar_left {
     display: flex;
+    text-align: center;
     padding-left: 20px;
+    color: rgba(0,0,0,0.74);
+    font-family: Roboto;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    line-height: 16px;
 }
 .profile__user_bar_left__value {
- display: flex;   
- color: blue;
+ color: #6200EE;
  padding: 0 10px 0 10px;
+ cursor: pointer;
+ font-family: Roboto;
+ font-size: 14px;
+ font-weight: 500;
+ letter-spacing: 1.25px;
+ line-height: 16px;
+ text-align: center;
 }
 
 .profile__user_bar_right{
     display: flex;
+    text-align: center;
     padding-right: 20px;
 }
 .profile__user__container {
@@ -66,6 +81,13 @@ margin: 5px;
     box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
     height: 40px;
     border-radius: 5px;
+    color: #6200EE;
+    cursor: pointer;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1.25px;
+    line-height: 16px;
 }
 .profile__header__main__container {
     display: flex;
@@ -77,8 +99,10 @@ margin: 5px;
 }
 .summary {
     display: flex;
+    
     box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
     margin-top: 10px;
+    margin-bottom: 20px;
     width: 100%;
     border-radius: 10px;
     flex-direction: column;
@@ -93,6 +117,7 @@ margin: 5px;
 }
 .experience {
     display: flex;
+    margin-bottom: 20px;  
     box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
     margin-top: 10px;
     width: 100%;
@@ -108,10 +133,10 @@ margin: 5px;
     padding: 0 0 0 0px;
     margin: 3px 0 20px 0;
     font-family: Roboto;
-   
-    color: rgba(0,0,0,0.74);
+    word-break: break-all;
+       color: rgba(0,0,0,0.74);
         font-size: 16px;
-        font-weight: 500;
+        
         letter-spacing: 0.5px;
         line-height: 24px;
 }
@@ -125,6 +150,8 @@ margin: 5px;
         font-weight: 500;
         letter-spacing: 0.1px;
         line-height: 24px;
+        word-break: break-all;
+       
 }
 .experience__subheader {
     padding: 0 0 0 0px;
@@ -144,6 +171,7 @@ margin: 5px;
     display: flex;
     box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
     margin-top: 10px;
+    margin-bottom: 20px;
     width: 100%;
     border-radius: 10px;
     flex-direction: column;
@@ -158,30 +186,28 @@ margin: 5px;
 .education__description__p {
     padding: 0 0 0 0px;
     margin: 3px 0 20px 0;
-   
-    color: rgba(0,0,0,0.74);
+    word-break: break-all;
+        color: rgba(0,0,0,0.74);
         font-size: 16px;
-        font-weight: 500;
+        
         letter-spacing: 0.5px;
         line-height: 24px;
 }
 .education__subheader__p {
     padding: 0 0 0px 0px;
-    margin: 3px 0 0 0;
-    color: gray;
- 
-    color: rgba(0,0,0,0.6);
+    margin: 3px 0 0 0; 
+         color: rgba(0,0,0,0.6);
         font-family: Roboto;
         font-size: 14px;
         font-weight: 500;
         letter-spacing: 0.1px;
         line-height: 24px;
+        word-break: break-all;
 }
 .education__subheader {
     padding: 0 0 0 0px;
     margin: 10px 0 0 0;
-   
-        color: rgba(0,0,0,0.87);
+           color: rgba(0,0,0,0.87);
         font-family: Roboto;
         font-size: 16px;
         font-weight: 500;
@@ -260,8 +286,8 @@ margin: 5px;
     color: #6200EE;
 }
 .summary__subheader__p {
-   
-
+    
+ 
     padding: 0 0 20px 0px;
     margin: 3px 5px 0 0;
      color: rgba(0,0,0,0.74);
@@ -269,7 +295,8 @@ margin: 5px;
         font-size: 16px;
        
         letter-spacing: 0.5px;
-        line-height: 24px
+        line-height: 24px;
+        word-break: break-all;
 }
 .MyNetworks__heading {
     display: flex;
@@ -389,6 +416,7 @@ margin: 5px;
 }
 .profile_header__image__midPanel {
     flex: 0.5;
+   
 
 }
 .profile_header__content__midPanel {
@@ -396,13 +424,14 @@ margin: 5px;
 }
 .bgc__profile_Container__body__midPanel {
     flex : 0.7;
-    margin-right: 10px;
+    margin-right: 20px;
+    
     
     
     }
 .bgc__profile_Container__body__rightPanel {
     flex: 0.3;
-    
+    ;
 }
 .spinnerDiv {
     text-align: 'center';
@@ -490,70 +519,14 @@ margin: 5px;
   }
   .imgpos{
       position: relative;
-      
+      cursor: pointer;
       top:0px;
       bottom: 0px;
       left: 0px;
       right: 0px;
       
   }
-  @media (max-width: 500px) {
-    .bgc__profile_Container__body {
-      flex-direction: column;
-    }
-    .bgc__profile_Container__body__midPanel{
-        margin-right: 0px;
-    }
-    .profile__header__main
-    {
-        flex-direction: column;
-        justify-content: center;
-    }
-    .profile__header{
-        justify-content: center;
-    }
-    .profile__header__main__container
-    {
-        flex-direction: column;
-    }
-    .imgpos{
-        justify-content: center;
-        margin-left: 25px;
-        
-    }
-    .profile__user_bar{
-        line-height: 0.5;
-    }
-    .profile__user__edit{
-        margin-left: 35px;
-    }
-    .signUp__form_names {
-        display: block;
-      }
-    .signUp__form__page {
-       width: 100% !important;
-       padding: 0px 10px 0 0px !important;
-       margin: 10px;
-    }
-    .profile__user__edit{
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-    .mySplit{
-        display: inline-flex;
-       
-    }
-   
-    .myNetworks__social__form_names{
-      display: flex;
-      flex-direction: column;
-      
-      
-      
-    }
-      
-      
-  }
+  
   .linkProfile:hover{
       
     text-decoration: underline;
@@ -649,6 +622,65 @@ margin: 5px;
            
         }
       
+      @media (max-width: 700px) {
+        .bgc__profile_Container__body {
+          flex-direction: column;
+        }
+        .bgc__profile_Container__body__midPanel{
+            margin-right: 0px;
+        }
+        .profile__header__main
+        {
+            flex-direction: column;
+            justify-content: center;
+        }
+        .profile__header{
+            justify-content: center;
+        }
+        .profile__header__main__container
+        {
+            flex-direction: column;
+        }
+        .imgpos{
+            justify-content: center;
+            margin-left: 25px;
+            
+        }
+        .profile__user_bar{
+            line-height: 0.5;
+        }
+        .profile__user__edit{
+            margin-left: 35px;
+        }
+        .signUp__form_names {
+            display: flex;
+          }
+        .signUp__form__page {
+           width: 100% !important;
+           padding: 0px 10px 0 0px !important;
+           margin: 10px;
+        }
+        .profile__user__edit{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .mySplit{
+            display: block;
+           
+        }
+       
+        .myNetworks__social__form_names{
+          display:  inline-block;
+          width: 100%;
+         
+          
+          
+          
+        }
+          
+          
+      }
+
 
         
     

@@ -42,7 +42,7 @@ const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUs
   const handleModelChange = (value) => {
     const {firstName, lastName, email, profileInfo, headLine, location,profileVisibletoAlumnaeCommunity } = userInfo;
     setProfile({
-      ...profile,updatedFirstName: firstName, updatedLastName: lastName, updatedHeadLine: headLine, updatedLocation: location, updatedEmail: email,updatedProfileVisibletoAlumnaeCommunity: profileVisibletoAlumnaeCommunity
+      ...profile,updatedFirstName: firstName, updatedLastName: lastName, updatedHeadLine: headLine, updatedLocation: location, updatedEmail: email, updatedProfileVisibletoAlumnaeCommunity: profileVisibletoAlumnaeCommunity
     
     })
     
@@ -75,11 +75,11 @@ const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUs
    
     const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine, updatedEmail,updatedProfileVisibletoAlumnaeCommunity,updatedSocialLinks} = profile;
     const userDetails = {
-      firstName: updatedFirstName !== undefined ? updatedFirstName : firstName,
-      lastName: updatedLastName !== undefined ? updatedLastName : lastName,
+      firstName: updatedFirstName !== undefined ? updatedFirstName : firstName || '',
+      lastName: updatedLastName !== undefined ? updatedLastName : lastName || '',
       location: updatedLocation !== undefined ? updatedLocation : location || '',
-      headLine: updatedHeadLine !== undefined ? updatedHeadLine : headLine || '',
-      email: updatedEmail !== undefined ? updatedEmail : email,
+      headLine: updatedHeadLine !== undefined ? updatedHeadLine : headLine  || '',
+      email: updatedEmail !== undefined ? updatedEmail : email || '',
 
       profileVisibletoAlumnaeCommunity: updatedProfileVisibletoAlumnaeCommunity !== undefined ? updatedProfileVisibletoAlumnaeCommunity: profileVisibletoAlumnaeCommunity || '',
       socialLinks: updatedSocialLinks,
@@ -87,6 +87,7 @@ const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUs
     const request = { ...userInfo, ...userDetails}
     console.log('profile header req',request)
     editUserDetails(request);
+     
     setOpenModel(false);
   }
   const handleProfileVisibility= (event) =>{
@@ -102,7 +103,7 @@ const ProfileHeader = ({user: { userInfo, selectedMember }, readOnlyFlow, editUs
   }
   uploadProfileImage(image, userInfo);
  }
-  const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine, updatedEmail,updatedProfileVisibletoAlumnaeCommunity,updatedSocialLinks={LinkedIn:'',Facebook:'',Twitter:''} } = profile;
+  const {updatedFirstName, updatedLastName, updatedLocation, updatedHeadLine, updatedEmail,updatedProfileVisibletoAlumnaeCommunity,updatedSocialLinks={LINKEDIN:'',FACEBOOK:'',TWITTER:'',  } } = profile;
   console.log('sllinks',updatedSocialLinks)
    let info = {
    }
@@ -137,7 +138,7 @@ if(readOnlyFlow) {
              <div className="profile__header">
           <div className="profile__header__main__container">
             <div className="profile__header__main">
-            <input
+          {!readOnlyFlow && (  <input
               accept="image/gif, image/jgp, image/png, image/jpeg"
               id="contained-button-file"
               style={{ display: "none" }}
@@ -145,17 +146,20 @@ if(readOnlyFlow) {
               type="file"
               onChange={handleImageUploadClick}
             />
+            )}
            
             
              
             <div className="imgpos">
-
+             <label htmlFor="contained-button-file">
             <Avatar
                 alt="Remy Sharp"
                 className="profile__header__image"
                 src={info.imageUrl}
               />
-              <AddAPhotoIcon className="profileImage__addIcon " />  
+           {!readOnlyFlow && (    <AddAPhotoIcon className="profileImage__addIcon " /> )}
+              </label>
+           
               </div>
               
               
@@ -164,7 +168,7 @@ if(readOnlyFlow) {
               <div className="profile__user">
               <label className="user__label">{`${info.firstName}  ${info.lastName}`}</label>
                 {info.headLine === undefined ? <label className="user__role">No Headline added</label>: <label className="user__role">{info.headLine}</label>}
-                {info.location === undefined ? <label className="user__role">No Location added</label>: <label className="user__role">{`${info.location} , United States`}</label>}
+                {info.location === undefined ? <label className="user__role">No Location added</label>: <label className="user__role">{info.location} </label>}
                 
               </div>
               
@@ -172,21 +176,24 @@ if(readOnlyFlow) {
             { !readOnlyFlow && <div className="profile__header__main__container">
               <div className="profile__user__edit" onClick={() => handleModelChange(true)}>
                 {" "}
-                <EditIcon color="primary"/>
-                <p>EDIT PROFILE</p>
+                <EditIcon color="#6200EE"/>
+                <p>EDIT</p>
               </div>
             </div> }
           </div>
           <div className="profile__user_bar">
+            
             <div className="profile__user_bar_left">
               <p>Email : </p>{" "}
               <p className="profile__user_bar_left__value">{info.email}</p>
             </div>
             <div className="profile__user_bar_right">
               <p className="profile__user_bar_left">Social :</p>{" "}
-              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('LinkedIn')}>Linked In</p>{" "}
-              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('Twitter')}>Twitter</p>
-              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('Facebook')}>Facebook</p>
+              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('LINKEDIN')}>LINKEDIN</p>{" "}
+              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('FACEBOOK')}>FACEBOOK</p>
+              <p className="profile__user_bar_left__value" onClick={() => handleSocialModelClick('TWITTER')}>TWITTER</p>
+              
+              
             </div>
           </div>
         </div>
@@ -200,6 +207,7 @@ if(readOnlyFlow) {
           <DialogContent>
             <form>
             <div className="signUp__form_names">
+              
               <div className="signUp__form__page">
               <TextField
                className="text_field_outline"
@@ -211,6 +219,7 @@ if(readOnlyFlow) {
                 variant="outlined"
                 value={updatedFirstName}
                 onChange={handleChange}
+                
                 fullWidth
               />
               
@@ -271,13 +280,13 @@ if(readOnlyFlow) {
               <div className="social__form__page">
               <div className="modal">
               <TextField 
-                name="LinkedIn"
+                name="LINKEDIN"
                 id="outlined-required"
                 tpye="text"
-                label="LinkedIn"
+                label="LINKEDIN"
                 placeholder="Linkto"
                 variant="outlined"
-                value={updatedSocialLinks.LinkedIn}
+                value={updatedSocialLinks.LINKEDIN}
                 onChange={handleSocialModelChange}
                 fullWidth
                 endAdornment={
@@ -296,13 +305,13 @@ if(readOnlyFlow) {
               <div className="social__form__page">
               <TextField 
              
-                name="Facebook"
+                name="FACEBOOK"
                 id="outlined-required"
                 tpye="text"
-                label="Facebook"
+                label="FACEBOOK"
                 placeholder="Linkto"
                 variant="outlined"
-                value={updatedSocialLinks.Facebook}
+                value={updatedSocialLinks.FACEBOOK}
                 onChange={handleSocialModelChange}
                 fullWidth
                 endAdornment={
@@ -318,17 +327,18 @@ if(readOnlyFlow) {
               </div>
               <div className="social__form__page">
               <TextField
-                name="Twitter"
+                name="TWITTER"
                 id="outlined-required"
                 tpye="text"
-                label="Twitter"
+                label="TWITTER"
                 placeholder="Linkto"
                 variant="outlined"
-                value={updatedSocialLinks.Twitter}
+                value={updatedSocialLinks.TWITTER}
                 onChange={handleSocialModelChange}
                 fullWidth
               />
               </div>
+             
               </div>
             </form>
           </DialogContent>

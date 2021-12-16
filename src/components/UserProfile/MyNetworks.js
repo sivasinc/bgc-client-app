@@ -36,7 +36,15 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
   }
   
   const handleMyNetwork=()=>{
-    setOpenModel(!openModel)
+    if(myNetworks.length>0){
+    setOpenModel(!openModel);
+  }
+  else{
+
+
+    history.push("/directory");
+  }
+
    
   }
   const handleChangePage = (e, value) => {

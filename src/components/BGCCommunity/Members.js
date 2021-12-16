@@ -11,6 +11,10 @@ import { editUserDetails } from '../../redux/actions/userActions';
 
 
 const Members = ({ communityPosts: { community: { members } = [] } = {} }) => {
+  let filteredList = [];
+  if(members && Array.isArray(members) && members.length > 0) {
+    filteredList = members.slice(0,4);
+  }
     return (
         <div className="MyNetworks">
         <div className="MyNetworks__heading">
@@ -18,11 +22,11 @@ const Members = ({ communityPosts: { community: { members } = [] } = {} }) => {
             <p>Members</p>
           </div>
           <div className="MyNetworks__header__right">
-          <span>{members && Array.isArray(members) && members.length} Members</span>
+          <span>{filteredList && Array.isArray(filteredList) && filteredList.length} Members</span>
           </div>
         </div>
         <div className="MyNetworks__body">
-          { members && Array.isArray(members) && members.map((item) => (
+          { filteredList && Array.isArray(filteredList) && filteredList.map((item) => (
               <div className="MyNetworks__body_item">
                 <Avatar
                 alt="Remy Sharp"
