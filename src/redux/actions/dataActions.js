@@ -89,21 +89,28 @@ export const getRecommendedCommunity = () => async (dispatch, getState) => {
   };
 
 
-export const joinCommunity = (newCommunity) => async (dispatch, getState) => {
-  dispatch({ type: LOADING_JOIN_COMMUNITY, payload: true });
-  try {
-    const { user: { userInfo } } = getState();
-    const result = await joinACommunity(userInfo, newCommunity);
-    await Promise.all([dispatch(getRecommendedCommunity(userInfo)), dispatch(getAllCommunityOfUser(userInfo)), dispatch(getAllPostsOfUser(userInfo))]);
-    return dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
-  } catch(error) {
-    dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
-    return dispatch({
+  export const joinCommunity = (newCommunity) => async (dispatch, getState) => {
+    dispatch({ type: LOADING_JOIN_COMMUNITY, payload: true });
+    try {
+      const {
+        user: { userInfo },
+      } = getState();
+      const result = await joinACommunity(userInfo, newCommunity);
+      await Promise.all([
+        dispatch(getRecommendedCommunity(userInfo)),
+        dispatch(getAllCommunityOfUser(userInfo)),
+        dispatch(getAllPostsOfUser(userInfo)),
+        dispatch(getAllUsersCommunity()),
+      ]);
+      return dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
+    } catch (error) {
+      dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
+      return dispatch({
         type: SET_ERRORS,
-        payload: error
+        payload: error,
       });
-  }
-};
+    }
+  };
 
 
 
