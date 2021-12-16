@@ -283,7 +283,7 @@ if(readOnlyFlow) {
               {info.location === undefined ? (
                 <label className="user__role">No Location added</label>
               ) : (
-                <label className="user__role">{`${info.location} , United States`}</label>
+                <label className="user__role">{info.location} </label>
               )}
             </div>
           </div>
