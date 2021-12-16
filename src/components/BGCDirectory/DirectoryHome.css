@@ -17,6 +17,7 @@
     font-weight: 500;
     letter-spacing: 0.15px;
     line-height: 24px;
+    padding-left: 20px;
 }
 .directory__header {
     display: flex;

@@ -545,8 +545,7 @@ const addMemberToMyNetwork = async (user, newMember) => {
     if (docSnap.exists()) {
       let myNetwork = [...docSnap.data().myNetworks];
       const existingMember = myNetwork.filter((item) => item.email === email);
-      console.log(existingMember);
-      if (existingMember && existingMember.length ===0 ) {
+      if (existingMember && existingMember.length === 0) {
         myNetwork.push({
           firstName,
           lastName,
