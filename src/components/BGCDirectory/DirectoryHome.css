@@ -7,7 +7,7 @@
     -webkit-flex-direction: column;
     flex-direction: column;
     background-color: white;
-    margin: 10px;
+    margin: 20px 0 20px 0;
     padding: 20px;
 }
 .directory_container h4 {
