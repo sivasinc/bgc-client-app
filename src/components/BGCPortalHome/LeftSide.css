@@ -19,7 +19,7 @@
 .portal__header__image {
     height: 110px !important;
     width: 110px !important;
-    margin: 20px 0 0 0;
+    margin: 20px 0 20px 0;
 }
 .user__label {
     font-family: Roboto;
@@ -28,7 +28,7 @@
     letter-spacing: 0.15px;
     line-height: 24px;
     text-align: center;
-    margin: 10px 0 0 0;
+    margin: 0 0 10px 0;
 }
 .user__role {
     color: rgba(0,0,0,0.87);
@@ -37,5 +37,5 @@
     letter-spacing: 0.15px;
     line-height: 24px;
     text-align: center;
-    margin: 10px 0 0 0;
+    margin: 0px;
 }
