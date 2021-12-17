@@ -4,10 +4,10 @@
 }
 .recommended__communityBox {
     display: flex;
-    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
-    margin: 10px 0 10px 0;
+    box-shadow: 0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%);
+    margin: 0 0 20px 0;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
     flex-direction: column;
     background-color: rgb(245, 245, 245);
 }
@@ -29,20 +29,19 @@
 }
 .recommended__communityBox_community {
     display: flex;
-    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
-    margin-top: 10px;
+    box-shadow: 0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%);
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
     flex-direction: column;
     align-items: center;
     background-color: white;
-    margin: 10px;
+    margin: 0 20px 20px 20px;
 }
 .recommended__communityBox_community > h3 {
     margin-bottom: 0;
 }
 .recommended__communityBox_community > p {
-   margin: 0 10px 10px 10px;
+   margin: 0 20px 10px 20px;
    color: rgba(0,0,0,0.74); font-family: Roboto; font-size: 14px; letter-spacing: 0.25px; line-height: 20px;
 }
 .recommended__communityBox_community button {
@@ -56,7 +55,7 @@
     display: flex;
     justify-content: flex-start;
     width: 100%;
-    margin-left: 20px;
+    padding-left: 20px;
 }
 .recommended__communityBox_community_header_text__name{
     margin-bottom: 0;
@@ -93,10 +92,10 @@
 
 .portalHome__no_postMessage {
     display: flex;
-    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
-    margin-top: 10px;
+    box-shadow: 0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%);
+    margin-top: 0px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
     flex-direction: column;
     align-items: center;
     background-color: white;
