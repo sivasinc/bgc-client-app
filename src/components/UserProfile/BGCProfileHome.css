@@ -6,11 +6,10 @@
 
 .profile__header {
     display: flex;
-    box-shadow:  0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%) ;
-   
+    box-shadow:  0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%);
     margin-top: 10px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
     flex-direction: column;
     background-color: white;
     margin-bottom: 20px;
@@ -18,8 +17,7 @@
 }
 .profile__header__main {
     display: flex !important;
-    margin: 20px 0 0 20px !important;
-   
+    margin: 20px 0 20px 20px !important;
     justify-content: center !important;
   
     
@@ -27,7 +25,7 @@
 .profile__user {
     display: flex;
     flex-direction: column;
-    padding-left: 10px;
+    padding-left: 20px;
     flex-wrap: wrap;
 }
 .profile__user > h2 {
@@ -41,6 +39,7 @@ margin: 5px;
     justify-content: space-between;
     background-color: #f5f5f5;
     flex-wrap: wrap;
+    border-radius: 0 0 5px 5px;
 }
 .profile__user_bar_left {
     display: flex;
@@ -99,12 +98,11 @@ margin: 5px;
 }
 .summary {
     display: flex;
-    
-    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
-    margin-top: 10px;
+    box-shadow:  0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%);
+    margin-top: 0px;
     margin-bottom: 20px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
     flex-direction: column;
     background-color: white;
 }
@@ -118,10 +116,10 @@ margin: 5px;
 .experience {
     display: flex;
     margin-bottom: 20px;  
-    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
+    box-shadow:  0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%);
     margin-top: 10px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
     flex-direction: column;
     background-color: white;
 }
@@ -169,11 +167,11 @@ margin: 5px;
 
 .education {
     display: flex;
-    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%);
+    box-shadow:  0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%);
     margin-top: 10px;
     margin-bottom: 20px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
     flex-direction: column;
     background-color: white;
 }
@@ -345,12 +343,12 @@ margin: 5px;
     display: flex;
     flex-direction: column;
     border: none;
-    box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
-    margin: 10px 0 20px 0;
+    box-shadow:  0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%);
+    margin: 0 0 20px 0;
 }
 .MyCommunity {
     display: flex;
-    box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+    box-shadow:  0px 1px 1px 0px rgb(6 6 6 / 8%), 0px 1px 3px 1px rgb(6 6 6 / 16%);
     margin-top: 10px;
     width: 100%;
     border-radius: 5px;
