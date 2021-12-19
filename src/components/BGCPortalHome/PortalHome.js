@@ -111,7 +111,7 @@ const CommunityHome = ({
         recommendedCommunities.length > 0 && (
           <div className="recommended__communityBox">
             <div className="recommended__communityBox__header">
-              <h2>Your recommened communites</h2>
+              <h2>Your Recommended Communites</h2>
               <CloseIcon color="primary" />
             </div>
             <div className="recommended__communityBox_communities">
