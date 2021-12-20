@@ -1,8 +1,11 @@
 import React from "react";
+import {  sendEmailVerification} from "firebase/auth";
+import { auth } from "../../firebase";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Button } from "@mui/material";
 
 const Step7 = ({ userProfile: { email } = "", error, loading }) => {
   console.log(error);
@@ -11,6 +14,16 @@ const Step7 = ({ userProfile: { email } = "", error, loading }) => {
       <CircularProgress size={100} thickness={2} />
     </div>
   );
+  const handleResend = ()=>{
+    console.log(auth.currentUser)
+    debugger
+    sendEmailVerification(auth.currentUser, {
+      url: "https://bgc-functions.web.app/login",
+    }).then(()=>{
+      alert('Email sent!')
+
+    })
+  }
 
   return (
     <Grid container>
@@ -24,7 +37,7 @@ const Step7 = ({ userProfile: { email } = "", error, loading }) => {
               {error != null ? (
                 <p>Error : {error} </p>
               ) : (
-                <div>
+                <div style={{textAlign: 'center'}}>
                   <div className="box_header">
                     <CheckCircleIcon
                       color="primary"
@@ -44,6 +57,9 @@ const Step7 = ({ userProfile: { email } = "", error, loading }) => {
                   </p>
                 </div>
               )}
+            <Button variant='contained' onClick={handleResend}>
+              RESEND VERIFICATION LINK
+            </Button>
             </div>
           )}
         </div>
