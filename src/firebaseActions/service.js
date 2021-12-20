@@ -27,7 +27,8 @@ const signIn = async (user) => {
           throw Error('User does not enough privillege to login, contact Admin')
         }
         const updateData = {
-          lastLogin: format(new Date(), 'MMM dd, yyyy hh:mm a ')
+          lastLogin: format(new Date(), 'MMM dd, yyyy hh:mm a '),
+          emailVerified: true
         }
         await updateDoc(docRef, updateData)
         return {...docSnap.data(), ...updateData}
@@ -71,7 +72,9 @@ const signUpUserWithEmail = async (newUser) => {
         imageUrl: `https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/${noImg}?alt=media`,
         userId: uid,
         myNetworks: [],
-        userRole: newUser.userRole
+        userRole: newUser.userRole,
+        emailVerified: false,
+        status: 'active'
       };
       const results = await setDoc(doc(db, "users", email), userCredentials);
       return results;
