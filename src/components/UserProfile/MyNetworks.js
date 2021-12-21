@@ -108,11 +108,13 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
         <Dialog  open={openModel}
           onClose={() => setOpenModel(false)}
           fullWidth
-          maxWidth="md">
+          maxWidth="md"
+          >
+            
            
-           <DialogTitle>My Networks 
+           <DialogTitle>My Network 
              
-            <span className="mynCon">{myNetworks.length }Connections</span>
+            <span className="mynCon">{myNetworks.length } Connections</span>
           </DialogTitle>
 
        <DialogContent>
@@ -162,7 +164,7 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
             
           </DialogActions>
         </Dialog>
-
+        
       </div>
       
       </div>);

@@ -21,6 +21,8 @@ import { uploadProfileImage } from "../../redux/actions/postActions";
 import "./BGCProfileHome.css";
 import { InputAdornment } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
+import { statuss } from "../../util/constant";
+import { MenuItem } from "@mui/material";
 
 const ProfileHeader = ({
   user: { userInfo, selectedMember },
@@ -30,9 +32,10 @@ const ProfileHeader = ({
 }) => {
   const [openModel, setOpenModel] = useState(false);
   const [openSocialModel, setOpenSocialModel] = useState(false);
-  const { socialLinks } = userInfo;
+  const { socialLinks, profileStatus } = userInfo;
+  
   console.log("userinfo", userInfo);
-  const [profile, setProfile] = useState({ updatedSocialLinks: socialLinks });
+  const [profile, setProfile] = useState({ updatedSocialLinks: socialLinks, updatedProfileStatus: profileStatus });
   const [profileVisibility, setProfileVisibility] = useState(false);
   // const [updatedSocialLinks, setpdatedSocialLinks] = useState({LinkedIn: '', Facebook: '',Twitter:''});
   const label = { inputProps: { "aria-label": "Switch demo" } };
@@ -79,6 +82,7 @@ const ProfileHeader = ({
         ...profile.updatedSocialLinks,
         [event.target.name]: event.target.value,
       },
+      
     });
   };
   // const handleSocialSubmit=()=>{
@@ -107,6 +111,7 @@ const ProfileHeader = ({
       updatedEmail,
       updatedProfileVisibletoAlumnaeCommunity,
       updatedSocialLinks,
+      updatedProfileStatus,
     } = profile;
     const userDetails = {
       firstName: updatedFirstName !== undefined ? updatedFirstName : firstName,
@@ -122,6 +127,7 @@ const ProfileHeader = ({
           ? updatedProfileVisibletoAlumnaeCommunity
           : profileVisibletoAlumnaeCommunity || "",
       socialLinks: updatedSocialLinks,
+      profileStatus: updatedProfileStatus,
     };
     const request = { ...userInfo, ...userDetails };
     console.log("profile header req", request);
@@ -148,9 +154,11 @@ const ProfileHeader = ({
     updatedHeadLine,
     updatedEmail,
     updatedProfileVisibletoAlumnaeCommunity,
-    updatedSocialLinks = { LinkedIn: "", Facebook: "", Twitter: "" },
+    updatedSocialLinks = { LINKEDIN: "", FACEBOOK: "", TWITTER: "" },
+    updatedProfileStatus,
   } = profile;
   console.log("sllinks", updatedSocialLinks);
+  console.log('profillestatus',profileStatus);
   let info = {};
   if (readOnlyFlow) {
     const {
@@ -226,11 +234,19 @@ const ProfileHeader = ({
               ) : (
                 <label className="user__role">{info.headLine}</label>
               )}
-              {info.location === undefined ? (
+              
+               
+                {info.location === undefined ? (
                 <label className="user__role">No Location added</label>
               ) : (
                 <label className="user__role">{info.location}</label>
               )}
+              
+              {/* {info.location === undefined ? (
+                <label className="user__role">No Location added</label>
+              ) : (
+                <label className="user__role">{info.location}</label>
+              )} */}
             </div>
           </div>
           {!readOnlyFlow && (
@@ -241,7 +257,7 @@ const ProfileHeader = ({
               >
                 {" "}
                 <EditIcon color="#6200EE" />
-                <p>EDIT PROFILE</p>
+                <p>EDIT</p>
               </div>
             </div>
           )}
@@ -249,27 +265,27 @@ const ProfileHeader = ({
         <div className="profile__user_bar">
           <div className="profile__user_bar_left">
             <p>Email : </p>{" "}
-            <p className="profile__user_bar_left__value">{info.email}</p>
+            <p className="profile__user_bar_left__value_mail">{info.email}</p>
           </div>
           <div className="profile__user_bar_right">
             <p className="profile__user_bar_left">Social :</p>{" "}
             <p
               className="profile__user_bar_left__value"
-              onClick={() => handleSocialModelClick("LinkedIn")}
+              onClick={() => handleSocialModelClick("LINKEDIN")}
             >
-              Linked In
+              LINKEDIN
             </p>{" "}
             <p
               className="profile__user_bar_left__value"
-              onClick={() => handleSocialModelClick("Twitter")}
+              onClick={() => handleSocialModelClick("TWITTER")}
             >
-              Twitter
+              TWITTER
             </p>
             <p
               className="profile__user_bar_left__value"
-              onClick={() => handleSocialModelClick("Facebook")}
+              onClick={() => handleSocialModelClick("FACEBOOK")}
             >
-              Facebook
+              FACEBOOK
             </p>
           </div>
         </div>
@@ -280,7 +296,7 @@ const ProfileHeader = ({
         fullWidth
         maxWidth="md"
       >
-        <DialogTitle>Edit Basic details</DialogTitle>
+        <DialogTitle>Edit Basic Details</DialogTitle>
         <DialogContent>
           <form>
             <div className="signUp__form_names">
@@ -316,19 +332,24 @@ const ProfileHeader = ({
               <div className="signUp__form__page">
                 <TextField
                   className="text_field_outline"
-                  name="updatedEmail"
                   id="outlined-required"
-                  tpye="text"
-                  label="Email"
-                  variant="outlined"
-                  value={updatedEmail}
-                  onChange={handleChange}
                   fullWidth
-                />
+                  select
+                  name="updatedProfileStatus"
+                  value={updatedProfileStatus}
+                  onChange={handleChange}
+                  label="Status"
+                  variant="outlined"
+                  InputLabelProps={{ shrink: statuss ? true : false }}
+                >
+                  {statuss.map((info) => (
+                <MenuItem value={info.value}>{info.name}</MenuItem>
+              ))}
+                  </TextField>
               </div>
               <div className="signUp__form__page modal">
                 <label htmlFor="Profile Visibleto Alumnae Community">
-                  Profile Visibleto Alumnae Community
+                  Profile Visible to Alumnae Community
                   <Switch
                     inputProps={{ "aria-label": "controlled" }}
                     onChange={handleProfileVisibility}
@@ -339,13 +360,13 @@ const ProfileHeader = ({
             <div className="signUp__form_names">
               <div className="signUp__form__page_location">
                 <TextField
-                  name="updatedLocation"
+                  name="updatedEmail"
                   id="outlined-required"
                   tpye="text"
-                  label="Location"
+                  label="Email Address"
                   placeholder="Where you live"
                   variant="outlined"
-                  value={updatedLocation}
+                  value={updatedEmail}
                   onChange={handleChange}
                   fullWidth
                 />
@@ -356,13 +377,13 @@ const ProfileHeader = ({
               <div className="social__form__page">
                 <div className="modal">
                   <TextField
-                    name="LinkedIn"
+                    name="LINKEDIN"
                     id="outlined-required"
                     tpye="text"
-                    label="LinkedIn"
+                    label="LINKEDIN"
                     placeholder="Linkto"
                     variant="outlined"
-                    value={updatedSocialLinks.LinkedIn}
+                    value={updatedSocialLinks.LINKEDIN}
                     onChange={handleSocialModelChange}
                     fullWidth
                     endAdornment={
@@ -375,13 +396,13 @@ const ProfileHeader = ({
               </div>
               <div className="social__form__page">
                 <TextField
-                  name="Facebook"
+                  name="FACEBOOK"
                   id="outlined-required"
                   tpye="text"
-                  label="Facebook"
+                  label="FACEBOOK"
                   placeholder="Linkto"
                   variant="outlined"
-                  value={updatedSocialLinks.Facebook}
+                  value={updatedSocialLinks.FACEBOOK}
                   onChange={handleSocialModelChange}
                   fullWidth
                   endAdornment={
@@ -393,13 +414,13 @@ const ProfileHeader = ({
               </div>
               <div className="social__form__page">
                 <TextField
-                  name="Twitter"
+                  name="TWITTER"
                   id="outlined-required"
                   tpye="text"
-                  label="Twitter"
+                  label="TWITTER"
                   placeholder="Linkto"
                   variant="outlined"
-                  value={updatedSocialLinks.Twitter}
+                  value={updatedSocialLinks.TWITTER}
                   onChange={handleSocialModelChange}
                   fullWidth
                 />

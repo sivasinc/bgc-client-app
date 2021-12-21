@@ -9,10 +9,18 @@ import Fuse from 'fuse.js';
 import Member from './Member';
 import {getAllMemberData, addMemberToNetwork } from '../../redux/actions/dataActions';
 import Navigation from "../layout/Navigation";
+import Pagination from '@mui/material/Pagination'
+import { Dialog, DialogContent, DialogTitle,DialogActions } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { updateTabIndex, setActiveHeader } from "../../redux/actions/userActions";
+import { useHistory } from "react-router-dom";
+import Avatar from "@material-ui/core/Avatar";
+import Button from '@material-ui/core/Button';
 
-
-const DirectoryHome = ({members, getMemberData, addMemberToMyNetwork, user: { userInfo }, loadingMembers}) => {
+const DirectoryHome = ({members, getMemberData, addMemberToMyNetwork,  user: { userInfo }, loadingMembers}) => {
   const [searchItems, setSearchItem] = useState(members && Array.isArray(members) ? members : []);
+  const [openModel, setOpenModel] = useState(false);
+  const history= useHistory();
     useEffect(() => {
         getMemberData();
     }, [])
@@ -27,6 +35,34 @@ const DirectoryHome = ({members, getMemberData, addMemberToMyNetwork, user: { us
         addMemberToMyNetwork(email);
     }
     const { myNetworks } = userInfo;
+    const [pageNumber, setPageNumber] = useState(1);
+     const limit=20;
+    const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
+    
+    let filteredList = [];
+  if(myNetworks && Array.isArray(myNetworks) && myNetworks.length > 0) {
+    filteredList = myNetworks.slice(0,4);
+  }
+  const myNetworkClickHandler = (email) => {
+    const memberId=members.filter((x)=>x.email=== email).map((y)=>y.memberId)
+    console.log(memberId);
+    setActiveHeader(false);
+    history.push(`/userProfile/${memberId}`);
+
+    
+    
+  }
+
+  const handleMyNetwork=()=>{
+    if(myNetworks.length>0) {
+       setOpenModel(!openModel);
+      }
+  }
+  const handleChangePage = (e, value) => {
+    setPageNumber(value);
+    
+  };
+  
 
 const searchDirectoryHandler = (query) => {
   const fuse = new Fuse(members, { 
@@ -67,10 +103,67 @@ console.log('searchItems', searchItems);
           />
         </div>
         <div className="directory__header_right">
-          <span className="directory__header_MyNetworkLabel">
+          <span className="directory__header_MyNetworkLabel"  component={Link} onClick={handleMyNetwork}>
             View My Network
           </span>
           <span>{myNetworks && Array.isArray(myNetworks) ? myNetworks.length : 0 } Connections</span>
+          <Dialog  open={openModel}
+          onClose={() => setOpenModel(false)}
+          fullWidth
+          maxWidth="md">
+           
+           <DialogTitle><span className="mynnet"> My Network </span> 
+             
+            <span className="mynCon">{myNetworks.length }Connections</span>
+          </DialogTitle>
+
+       <DialogContent>
+       <div className="mySplit">
+       {myNetworks.slice((pageNumber-1)*limit,limit*pageNumber).map((item)=>(
+          
+              <div className="myNetworks__social__form_names">
+              
+       <div className="MyCommunity__body_item" onClick={()=> myNetworkClickHandler(item.email)}>
+       <Avatar
+                alt="Remy Sharp"
+                className="myNetwork__dailogue_img"
+                src={item.imageUrl}
+              />
+              
+            <div className="mynModal">
+       <div className="myNetworks__item_description_title" onClick={()=> myNetworkClickHandler(item.email)}>{item.firstName} {item.lastName} </div>
+       <div className="myNetworks__item_description">
+       {item.headLine}
+
+         </div>
+      
+       </div>
+       </div>
+       </div>
+       
+       ))
+       
+        }
+      </div>
+       </DialogContent>
+       <DialogActions>
+       <Pagination
+          rowsPerPageOptions={[]}
+          component="div"
+          count={pagesPerPage}
+          rowsPerPage={limit}
+          page={pageNumber}
+          onChange={handleChangePage}
+
+          // onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+
+            <Button onClick={()=>setOpenModel(!openModel)} color="primary">
+              Cancel
+            </Button>
+            
+          </DialogActions>
+        </Dialog>
         </div>
       </div>
         <div className="directory_body">

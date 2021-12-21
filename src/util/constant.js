@@ -181,6 +181,12 @@ export const chapterValue = [
   { name: "Other", value: "16" },
 ];
 
+export const statuss=[
+  { name: "employed", value:"employed"},
+  { name: "unemployed", value: "unemployed"}
+];
+
+
 // regex to capture links
 export const linkRegex = /((https?:\/\/)?[^\s.]+\.[\w][^\s]+)/g;
 

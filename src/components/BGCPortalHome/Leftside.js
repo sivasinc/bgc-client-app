@@ -5,6 +5,9 @@ import './LeftSide.css';
 import Avatar from "@material-ui/core/Avatar";
 import MyNetworks from '../UserProfile/MyNetworks';
 import MyCommunities from '../UserProfile/MyCommunities';
+import { Link } from 'react-router-dom';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import Typography from '@mui/material/Typography';
 
 
 const Leftside = ({ user: {userInfo} }) => {
@@ -22,6 +25,43 @@ const Leftside = ({ user: {userInfo} }) => {
             </div>
             <MyNetworks />
            <MyCommunities />
+           <div className="static__block">
+
+               <div className="static__block_left">
+
+               <div className="signup_header__left">
+
+                <img
+
+                  className="signup_header__logo" style={{width:"60px",height:"60px"}}
+
+                  src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/bgc-logo.svg?alt=media&token=0f61a406-04b2-42a7-98ee-43f4d2183524"
+
+                />
+
+              </div>
+
+               </div>
+
+               <div className="static__block_right">
+
+                   <div className="staticnav">
+
+                   <div className="static_link"><Link className="static_link_content" to={{pathname:"https://www.blackgirlscode.com/volunteer/"}} > Volunteer </Link><ArrowRightIcon/></div>
+
+                   <div className="static_link"><Link className="static_link_content" to={{pathname:"https://www.blackgirlscode.com/donate/" }}>Donate</Link> <ArrowRightIcon/></div>
+
+                   <div className="static_link"><Link className="static_link_content" to={{pathname:"https://www.blackgirlscode.com/careers/"}} >BGC Careers </Link><ArrowRightIcon/></div>
+
+                   <div className="static_link"><Link className="static_link_content" to={{pathname:"https://blackgirlscode.us4.list-manage.com/subscribe/post?u=acf512bf416c8569237ffaf93&id=88a4e53921"}} >Join Mailing List</Link><ArrowRightIcon/></div>
+
+                   </div>
+
+               </div>
+
+                
+
+           </div>
         </div>
     );
 };
@@ -58,12 +98,12 @@ const Photo = styled.div`
     border-radius: 50%;
 `;
 
-const Link = styled.div`
-    font-size: 16px;
-    line-height: 16px;
-    color: rgba(0,0,0,0.9);
-    font-weight: 600;
-`;
+// const Link = styled.div`
+//     font-size: 16px;
+//     line-height: 16px;
+//     color: rgba(0,0,0,0.9);
+//     font-weight: 600;
+// `;
 
 const AddPhotoText = styled.div`
     color: #0a66c2;
