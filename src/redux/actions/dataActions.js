@@ -33,10 +33,24 @@ import {
 } from '../types';
 import axios from 'axios';
 import { getPostDetails } from './postActions';
-import { getAllRecommenededCommunities, getAllUserMemberCommunityPost, 
-  myCommunity, joinACommunity, getAllCommunityPosts, commentOnAPost,addAReportToPost,
-getAPost, likeAPost, disLikeAPost, getAllMembers, addMemberToMyNetwork, getUserProfileInfo, 
-getAllCommunities, addNewCommunity } from '../../firebaseActions/dataServices';
+import {
+  getAllRecommenededCommunities,
+  getAllUserMemberCommunityPost,
+  myCommunity,
+  joinACommunity,
+  leaveMemberFromCommunity,
+  getAllCommunityPosts,
+  commentOnAPost,
+  addAReportToPost,
+  getAPost,
+  likeAPost,
+  disLikeAPost,
+  getAllMembers,
+  addMemberToMyNetwork,
+  getUserProfileInfo,
+  getAllCommunities,
+  addNewCommunity,
+} from "../../firebaseActions/dataServices";
 
 export const createCommunity = (newCommunity, history) => async (dispatch) => {
   dispatch({ type: LOADING_UI });
@@ -101,6 +115,7 @@ export const getRecommendedCommunity = () => async (dispatch, getState) => {
         dispatch(getAllCommunityOfUser(userInfo)),
         dispatch(getAllPostsOfUser(userInfo)),
         dispatch(getAllUsersCommunity()),
+        dispatch(getPostsOfCommunity(newCommunity)),
       ]);
       return dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
     } catch (error) {
@@ -112,6 +127,48 @@ export const getRecommendedCommunity = () => async (dispatch, getState) => {
     }
   };
 
+// Join Community From Community Details
+  export const joinCommunityFromDetails = (newCommunity) => async (dispatch, getState) => {
+    dispatch({ type: LOADING_JOIN_COMMUNITY, payload: true });
+    try {
+      const {
+        user: { userInfo },
+      } = getState();
+      const result = await joinACommunity(userInfo, newCommunity);
+      await Promise.all([
+        dispatch(getPostsOfCommunity(newCommunity)),
+      ]);
+      return dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
+    } catch (error) {
+      dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
+      return dispatch({
+        type: SET_ERRORS,
+        payload: error,
+      });
+    }
+  };
+
+
+  // Join Community From Community Details
+  export const leaveCommunityFromDetails = (newCommunity) => async (dispatch, getState) => {
+    dispatch({ type: LOADING_JOIN_COMMUNITY, payload: true });
+    try {
+      const {
+        user: { userInfo },
+      } = getState();
+      const result = await leaveMemberFromCommunity(userInfo, newCommunity);
+      await Promise.all([
+        dispatch(getPostsOfCommunity(newCommunity)),
+      ]);
+      return dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
+    } catch (error) {
+      dispatch({ type: LOADING_JOIN_COMMUNITY, payload: false });
+      return dispatch({
+        type: SET_ERRORS,
+        payload: error,
+      });
+    }
+  };
 
 
 // Get all screams

@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PostModal from "./PostModal";
-import ReactPlayer from "react-player";
 import { connect } from "react-redux";
-import ImageIcon from "@mui/icons-material/Image";
-import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { getPostsOfCommunity } from "../../redux/actions/dataActions";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import CommentIcon from "@mui/icons-material/Comment";
-import Comments from "../BGCComments/Comments";
+import CircularProgress from "@mui/material/CircularProgress";
 import { getPostDetails } from "../../redux/actions/postActions";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import Post from "../BGCPortalHome/Post";
 import FlipMove from "react-flip-move";
 import { updateTabIndex } from "../../redux/actions/userActions";
@@ -86,10 +79,10 @@ const CommunityHome = ({
       : false;
   return (
     <Container>
-      {enablePost && (
-        <ShareBox>
-         <div className="__community__feed__">
-            <h2>Community Feed</h2>
+      <ShareBox>
+        <div className="__community__feed__">
+          <h2>Community Feed</h2>
+          {enablePost && (
             <Button
               variant="contained"
               onClick={handleClick}
@@ -98,10 +91,9 @@ const CommunityHome = ({
             >
               POST SOMETHING
             </Button>
-          </div>
-        </ShareBox>
-      )}
-
+          )}
+        </div>
+      </ShareBox>
       <Content>
         <FlipMove>
           {loading && <CircularProgress size={30} thickness={2} />}
@@ -160,8 +152,7 @@ const ShareBox = styled(CommonCard)`
       align-items: center;
       padding: 4px 16px;
       text-align: left;
-      justify-content: "space-between"
-       img {
+      justify-content: "space-between" img {
         width: 48px;
         margin-right: 8px;
         border-radius: 50%;
