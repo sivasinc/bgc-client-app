@@ -1,5 +1,7 @@
 import React, { useState, Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
+import { collection, query, onSnapshot, orderBy, where, doc } from "@firebase/firestore";
+import { db } from "../../firebase";
 import withStyles from "@material-ui/core/styles/withStyles";
 import MyButton from "../../util/MyButton";
 import dayjs from "dayjs";
@@ -55,11 +57,40 @@ const styles = (theme) => ({
   },
 });
 
-const Comments = ({openDialog, updatedComment, postId, refreshFunction, submitComment,getPostDetails, post, setOpenDialog, user: { userInfo }}) => {
+const Comments = ({openDialog, updatedComment, postId, refreshFunction, submitComment,getPostDetails, setOpenDialog, user: { userInfo }}) => {
+  const [currentPost, setCurrentPost] = useState({});
 
- useEffect(() => {
-  getPostDetails(postId);
- }, []) 
+  useEffect(() => {
+    const unsubPost = onSnapshot(doc(db, "posts", postId) , (docSnap) => {
+      let postData = {};
+      if (docSnap.exists()) {
+        postData = docSnap.data();
+        postData.postId = docSnap.id;
+        const commentsRef = query(collection(db, "comments"), 
+        where("postId", "==", postId),
+        orderBy("createdAt", "desc"));
+        const unsubCommentSnap = onSnapshot(commentsRef, (commentSnapshot) => {
+          postData.comments = [];
+          commentSnapshot.forEach((doc) => {
+            postData.comments.push({
+              commentId: doc.id,
+              postId: doc.data().postId,
+              body: doc.data().body,
+              createdAt: doc.data().createdAt,
+              userHandle: doc.data().userHandle,
+              userName: doc.data().userName,
+              responseTo: doc.data().responseTo,
+              userImage: doc.data().userImage,
+            });
+          });
+          setCurrentPost({...postData});
+        });
+        return () => unsubCommentSnap()
+      }
+    });
+    return () =>  unsubPost()
+   },[])
+
 const [comment, setComment] = useState("");
   const handleClose = () => {
     setOpenDialog(false);
@@ -83,8 +114,7 @@ const [comment, setComment] = useState("");
     // setOpenDialog(false);
     setComment("");
   };
-  console.log('post', post);
-  const { comments } = post;
+  const { comments } = currentPost;
     return (
       <Fragment>
             <div>

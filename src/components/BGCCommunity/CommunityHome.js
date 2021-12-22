@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { collection, query, onSnapshot, orderBy, where, doc } from "@firebase/firestore";
+import { db } from "../../firebase";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  getStorage,
+} from "firebase/storage";
 import PostModal from "./PostModal";
 import { connect } from "react-redux";
 import { getPostsOfCommunity } from "../../redux/actions/dataActions";
@@ -18,7 +26,6 @@ import dayjs from "dayjs";
 const CommunityHome = ({
   user: { userInfo },
   loading,
-  communityPosts,
   getAllPostOfACommunity,
   getCommentOfAPost,
   currentCommunityId,
@@ -27,18 +34,56 @@ const CommunityHome = ({
   const [commentLists, setCommentsList] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [currentSelectedPost, setCurrentSelectedPost] = useState("");
-  useEffect(() => {
-    if (currentCommunityId !== null) {
-      getAllPostOfACommunity(currentCommunityId);
-    }
+  const [currentCommunityPosts, setCurrentCommunityPosts] = useState({});
 
-    // updateTabIndex(3);
-  }, []);
   useEffect(() => {
-    if (currentCommunityId !== null) {
-      getAllPostOfACommunity(currentCommunityId);
+    const firebaseStorage = getStorage();
+    const unsubCommSnap = onSnapshot(doc(db, "community", currentCommunityId) , (docSnap) => {
+      let communityData = {};
+      if (docSnap.exists()) {
+        communityData.community = { ...docSnap.data(), communityId: currentCommunityId };
+            const postRef = query(collection(db, "posts"), 
+      where("communityId", "==", currentCommunityId),
+      orderBy("createdAt", "desc"));
+        const unsubPostSnap = onSnapshot(postRef, (postsSnapshot) => {
+          communityData.posts = [];
+          postsSnapshot.forEach((doc) => {
+            var fileName = "";
+            if (doc.data().sharedDocumentURL) {
+              const httpsReference = ref(
+                firebaseStorage,
+                doc.data().sharedDocumentURL
+              );
+              fileName = httpsReference.name;
+            }
+            if (doc.data().status && doc.data().status !== "inactive") {
+              communityData.posts.push({
+                body: doc.data().body,
+                createdAt: doc.data().createdAt,
+                userHandle: doc.data().userHandle,
+                userImage: doc.data().userImage,
+                userName: doc.data().userName,
+                sharedImg: doc.data().sharedImg,
+                docType: doc.data().docType,
+                sharedDocumentURL: doc.data().sharedDocumentURL,
+                sharedDocumentName: fileName,
+                status: doc.data().status,
+                sharedVideo: doc.data().sharedVideo,
+                likeCount: doc.data().likeCount,
+                commentCount: doc.data().commentCount,
+                postId: doc.id,
+                communityId: doc.data().communityId,
+                usersLiked: doc.data().usersLiked,
+              });
+            }
+        });
+        setCurrentCommunityPosts({...communityData});
+      });
+      return () => unsubPostSnap()
     }
-  }, [loading]);
+  });
+  return () => unsubCommSnap()
+  }, []);
 
   const handleClick = (e) => {
     // e.preventDefault();
@@ -70,10 +115,10 @@ const CommunityHome = ({
   };
   const { imageUrl, email } = userInfo;
   let enablePost =
-    communityPosts &&
-    communityPosts.community &&
-    Array.isArray(communityPosts.community.members) &&
-    communityPosts.community.members.filter((item) => item.email === email)
+  currentCommunityPosts &&
+  currentCommunityPosts.community &&
+    Array.isArray(currentCommunityPosts.community.members) &&
+    currentCommunityPosts.community.members.filter((item) => item.email === email)
       .length > 0
       ? true
       : false;
@@ -97,10 +142,10 @@ const CommunityHome = ({
       <Content>
         <FlipMove>
           {loading && <CircularProgress size={30} thickness={2} />}
-          {communityPosts &&
-            Array.isArray(communityPosts.posts) &&
-            communityPosts.posts.length != 0 &&
-            communityPosts.posts.map((article, key) => (
+          {currentCommunityPosts &&
+            Array.isArray(currentCommunityPosts.posts) &&
+            currentCommunityPosts.posts.length != 0 &&
+            currentCommunityPosts.posts.map((article, key) => (
               <Post key={key} article={article} source="community" />
             ))}
         </FlipMove>

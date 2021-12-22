@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { collection, query, onSnapshot, orderBy, where } from "@firebase/firestore";
+import {
+  ref,
+  getStorage,
+} from "firebase/storage";
+import { db, storage } from "../../firebase";
 import PostModal from "./PostModal";
 import ReactPlayer from "react-player";
 import { connect } from "react-redux";
@@ -36,7 +42,6 @@ import dayjs from "dayjs";
 const CommunityHome = ({
   user: {userInfo},
   loading,
-  usersPosts,
   getAllPostOfUserMemberCommunity,
   joinACommunity,
   getAllRecommendedCommunities,
@@ -52,30 +57,81 @@ const CommunityHome = ({
   const [likeActionState, setLikeActionState] = useState("action");
   const [openDialog, setOpenDialog] = useState(false);
   const [currentSelectedPost, setCurrentSelectedPost] = useState("");
+  const [usersPosts, setUsersPosts] = useState([]);
+
   useEffect(() => {
     const { email } = userInfo;
     if (email !== undefined) {
       getAllRecommendedCommunities();
-      getAllPostOfUserMemberCommunity();
       getAllUserCommunities();
     }
   }, []);
+
   useEffect(() => {
     const { email } = userInfo;
-    if (email !== undefined) {
-      getAllPostOfUserMemberCommunity();
-    }
+    const firebaseStorage = getStorage();
+    const q = query(collection(db, "community"), orderBy("createdAt", "desc"));
+    const unsubCommunitySnap = onSnapshot(q, (querySnapshot) => {
+      let communityData = [];
+      let selectedCommunityIds = [];
+      querySnapshot.forEach((doc) => {
+        if (
+          doc.data().members &&
+          doc.data().members.filter((item) => item.email === email).length > 0
+        ) {
+          communityData.push({ ...doc.data(), communityId: doc.id, posts: [] });
+          selectedCommunityIds.push(doc.id);
+        }
+      });
+      if (selectedCommunityIds.length > 0) {
+        const postRef = query(collection(db, "posts"), 
+        where("communityId", "in", selectedCommunityIds),
+          orderBy("createdAt", "desc"));
+          const unsubPostSnap = onSnapshot(postRef, (postSnapshot) => {
+            let usersPost = [];
+            postSnapshot.forEach((item) => {
+              const index = communityData.findIndex(
+                (dataItem) => dataItem.communityId === item.data().communityId
+              );
+              if (index >= 0) {
+                var fileName = "";
+                if (item.data().sharedDocumentURL) {
+                  const httpsReference = ref(
+                    firebaseStorage,
+                    item.data().sharedDocumentURL
+                  );
+                  fileName = httpsReference.name;
+                }
+                if (item.data().status && item.data().status !== "inactive") {
+                  usersPost.push({
+                    body: item.data().body,
+                    createdAt: item.data().createdAt,
+                    userHandle: item.data().userHandle,
+                    userImage: item.data().userImage,
+                    userName: item.data().userName,
+                    sharedImg: item.data().sharedImg,
+                    sharedVideo: item.data().sharedVideo,
+                    likeCount: item.data().likeCount,
+                    commentCount: item.data().commentCount,
+                    status: item.data().status,
+                    sharedDocumentURL: item.data().sharedDocumentURL,
+                    sharedDocumentName: fileName,
+                    docType: item.data().docType,
+                    postId: item.id,
+                    communityId: item.data().communityId,
+                    communityName: communityData[index].name,
+                    usersLiked: item.data().usersLiked,
+                  });
+                }
+              }
+            });
+            setUsersPosts(usersPost);
+          });
+          return () => unsubPostSnap()
+      }
+  });
+  return () => unsubCommunitySnap()
   }, []);
-
-  
-  // useEffect(() => {
-  //     const { email } = credentials;
-  //     if(email !== undefined) {
-  //         getAllRecommendedCommunities(email);
-  //         getAllPostOfUserMemberCommunity(email);
-  //         getAllUserCommunities();
-  //     }
-  // }, [joinCommunityLoading]);
 
   const handleClick = (e) => {
     e.preventDefault();
