@@ -4,9 +4,11 @@ import Avatar from "@material-ui/core/Avatar";
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import { Link } from "react-router-dom";
+import { setActiveHeader } from '../../redux/actions/userActions';
+import { connect } from 'react-redux';
 
 
-const Member = ({member : { imageUrl, firstName, lastName, headLine, email, memberId }, myNetworks , addMemberHandler, updateTabIndex }) => {
+const Member = ({member : { imageUrl, firstName, lastName, headLine, email, memberId }, myNetworks , setActiveHeader,addMemberHandler, updateTabIndex }) => {
     const generateActionLink = () => {
       if (
         myNetworks &&
@@ -32,7 +34,7 @@ const Member = ({member : { imageUrl, firstName, lastName, headLine, email, memb
               onClick={() => addMemberHandler(email)}
               className="member_add_action_label"
             >
-              ADD TO MY NETWORK
+              ADD TO MY NETWORK*
             </span>
           </React.Fragment>
         );
@@ -52,7 +54,7 @@ const Member = ({member : { imageUrl, firstName, lastName, headLine, email, memb
               />
               <span className="member_block_name"><Link
                       to={`/userProfile/${memberId}`}
-                    //   onClick={() => userClickHandler(userId)}
+                    onClick={() => setActiveHeader(false)}
                     > {firstName} {lastName}</Link></span>
               <span className="member_block_role">{headLine}</span>
               <div className="member_add_action">
@@ -66,5 +68,8 @@ const Member = ({member : { imageUrl, firstName, lastName, headLine, email, memb
 Member.propTypes = {
 
 }
+const mapDispatchToProps = (dispatch) => ({
+  setActiveHeader: (value) => dispatch(setActiveHeader(value)),
+})
 
-export default Member
+export default connect( null,mapDispatchToProps) (Member);

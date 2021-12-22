@@ -100,7 +100,7 @@ exports.validateStep4 = (data, selectedProfile) => {
       if (!data.endMonth.trim()) {
         error1.endMonth = "Must not be empty";
       }
-      if (!data.endYear === "") {
+      if (data.endYear === "") {
         error1.endYear = "Must not be empty";
       }
       if (data.endYear < data.startYear) {
@@ -125,7 +125,6 @@ exports.validateStep4 = (data, selectedProfile) => {
     if (!data.startMonth.trim()) {
       error1.startMonth = "Must not be empty";
     }
-    
   }
   if (selectedProfile.trim() === "timeoff") {
     if (!data["timeoff-0"].trim()) {
@@ -136,6 +135,18 @@ exports.validateStep4 = (data, selectedProfile) => {
     if (!data["figureout-0"].trim()) {
       error1["figureout-0"] = "Must not be empty";
     }
+  }
+
+  return {
+    error1,
+    valid: Object.keys(error1).length === 0 ? true : false,
+  };
+};
+exports.validateStep6 = (data) => {
+  let error1 = {};
+
+  if (!data.visibility.trim()) {
+    error1.visibility = "Please select an option";
   }
 
   return {

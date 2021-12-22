@@ -14,7 +14,10 @@ import {
   getAllCommunityOfUser,
   getAllPostsOfUser,
 } from "../../../redux/actions/dataActions";
-import { updateTabIndex } from "../../../redux/actions/userActions";
+import {
+  updateTabIndex,
+  setActiveHeader,
+} from "../../../redux/actions/userActions";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -32,9 +35,8 @@ import { visuallyHidden } from "@mui/utils";
 import Box from "@mui/material/Box";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import ArrowDropDown from "@material-ui/icons/ArrowDropDown";
-import styled from 'styled-components'
+import styled from "styled-components";
 import { Typography } from "@material-ui/core";
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -53,47 +55,50 @@ function getComparator(order, orderBy) {
 }
 
 const ResponsiveTable = styled.div`
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
+    /* Force table to not be like tables anymore */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+      height: auto !important;
+      display: block;
+    }
 
-	/* Force table to not be like tables anymore */
-	table, thead, tbody, th, td, tr { 
-    height: auto !important;
-		display: block; 
-	}
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	thead tr{
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-	}
-	
-	tr { 
-    padding: 7px;
-    border-bottom: 1px solid #ccc;
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    tr {
+      padding: 7px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    td {
+      /* Behave  like a "row" */
+      border: none;
+      text-align: left;
+      position: relative;
+      //padding-left: 50%;
+    }
+
+    td:before {
+      /* Now like a table header */
+      position: absolute;
+      /* Top/left values mimic padding */
+      top: 6px;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+    }
   }
-	
-	td { 
-		/* Behave  like a "row" */
-		border: none;
-    text-align: left;
-		position: relative;
-		//padding-left: 50%; 
-	}
-	
-	td:before { 
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		top: 6px;
-		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
-		white-space: nowrap;
-	}
-}
-
-`
+`;
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
@@ -218,6 +223,7 @@ const CommunityTable = ({
   recommendedCommunityLoading,
   joinCommunityLoading,
   loadingUsersPosts,
+  setActiveHeader,
 }) => {
   const history = useHistory();
 
@@ -247,7 +253,7 @@ const CommunityTable = ({
   const [updateCommunityId, setUpdatedCommunityId] = useState("");
 
   const communityClickHandler = (communityId) => {
-    console.log("communityClickHandler");
+    setActiveHeader(false);
     history.push("/communityHome");
     setCurrentCommunityId(communityId);
     // updateTabIndex(3);
@@ -385,97 +391,98 @@ const CommunityTable = ({
           </div>
           {/* <Box sx={{ margin: "0px 20px 20px 20px", display: "flex" }}> */}
           <ResponsiveTable>
-          <Paper className="__communitytable__container__">
-            <Table
-              stickyHeader
-              aria-label="sticky table"
-              aria-labelledby="tableTitle"
-              size={dense ? "small" : "medium"}
-            >
-              <CommunityTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={searchItems.length}
-              />
+            <Paper className="__communitytable__container__">
+              <Table
+                stickyHeader
+                aria-label="sticky table"
+                aria-labelledby="tableTitle"
+                size={dense ? "small" : "medium"}
+              >
+                <CommunityTableHead
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                  rowCount={searchItems.length}
+                />
 
-              <TableBody>
-                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                <TableBody>
+                  {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-                {stableSort(searchItems, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    const labelId = `enhanced-table-checkbox-${index}`;
+                  {stableSort(searchItems, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      const labelId = `enhanced-table-checkbox-${index}`;
 
-                    return (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="td" scope="row">
-                          <Avatar
-                            aria-label="recipe"
-                            alt="Remy Sharp"
-                            className="MyCommunity__body_item__image"
-                            src={row.image}
-                          />
-                        </TableCell>
-                        <TableCell
-                          align="right"
-                          component="td"
-                          id={labelId}
-                          scope="row"
+                      return (
+                        <TableRow
+                          key={row.name}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
                         >
-                          <Typography variant="button" color="primary" >
-                            <Link
-                              to={`/communityHome/${row.communityId}`}
-                              onClick={() =>
-                                communityClickHandler(row.communityId)
-                              }
-                            >
-                              {row.name}
-                            </Link>
+                          <TableCell component="td" scope="row">
+                            <Avatar
+                              aria-label="recipe"
+                              alt="Remy Sharp"
+                              className="MyCommunity__body_item__image"
+                              src={row.image}
+                            />
+                          </TableCell>
+                          <TableCell
+                            align="right"
+                            component="td"
+                            id={labelId}
+                            scope="row"
+                          >
+                            <Typography variant="button" color="primary">
+                              <Link
+                                to={`/communityHome/${row.communityId}`}
+                                onClick={() =>
+                                  communityClickHandler(row.communityId)
+                                }
+                              >
+                                {row.name}
+                              </Link>
                             </Typography>
-                        </TableCell>
-                        <TableCell align="left">{row.description}</TableCell>
-                        <TableCell align="right">
-                          {row.members && Array.isArray(row.members)
-                            ? row.members.length
-                            : 0} Members
-                        </TableCell>
-                        <TableCell align="right">
-                          {generateActionLink(row)}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: (dense ? 33 : 53) * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-            <div className="__communitytable__pagination__">
-              <TablePagination
-                rowsPerPageOptions={[]}
-                component="div"
-                count={searchItems.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                labelRowsPerPage=""
-              />
-            </div>
-          </Paper>
+                          </TableCell>
+                          <TableCell align="left">{row.description}</TableCell>
+                          <TableCell align="right">
+                            {row.members && Array.isArray(row.members)
+                              ? row.members.length
+                              : 0}{" "}
+                            Members
+                          </TableCell>
+                          <TableCell align="right">
+                            {generateActionLink(row)}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height: (dense ? 33 : 53) * emptyRows,
+                      }}
+                    >
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+              <div className="__communitytable__pagination__">
+                <TablePagination
+                  rowsPerPageOptions={[]}
+                  component="div"
+                  count={searchItems.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  labelRowsPerPage=""
+                />
+              </div>
+            </Paper>
           </ResponsiveTable>
           {/* </Box> */}
         </div>
@@ -512,6 +519,7 @@ const mapDispatchToProps = (dispatch) => ({
   setCurrentCommunityId: (communityId) =>
     dispatch(setCurrentCommunityId(communityId)),
   updateTabIndex: (tabIndex) => dispatch(updateTabIndex(tabIndex)),
+  setActiveHeader: (value) => dispatch(setActiveHeader(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommunityTable);

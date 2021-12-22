@@ -17,7 +17,7 @@ import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
 
-const DirectoryHome = ({members, getMemberData, addMemberToMyNetwork,  user: { userInfo }, loadingMembers}) => {
+const DirectoryHome = ({members, getMemberData, addMemberToMyNetwork,setActiveHeader,  user: { userInfo }, loadingMembers}) => {
   const [searchItems, setSearchItem] = useState(members && Array.isArray(members) ? members : []);
   const [openModel, setOpenModel] = useState(false);
   const history= useHistory();
@@ -44,9 +44,9 @@ const DirectoryHome = ({members, getMemberData, addMemberToMyNetwork,  user: { u
     filteredList = myNetworks.slice(0,4);
   }
   const myNetworkClickHandler = (email) => {
-    const memberId=members.filter((x)=>x.email=== email).map((y)=>y.memberId)
-    console.log(memberId);
     setActiveHeader(false);
+    const memberId=members.filter((x)=>x.email=== email).map((y)=>y.memberId)
+    console.log("memeberid",memberId);
     history.push(`/userProfile/${memberId}`);
 
     
@@ -189,5 +189,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     getMemberData: () => dispatch(getAllMemberData()),
     addMemberToMyNetwork: (email) => dispatch(addMemberToNetwork(email)),
+    setActiveHeader: (value) => dispatch(setActiveHeader(value)),
 })
 export default connect(mapStateToProps, mapDispatchToProps) (DirectoryHome);
