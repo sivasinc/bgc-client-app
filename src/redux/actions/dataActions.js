@@ -36,7 +36,7 @@ import { getPostDetails } from './postActions';
 import { getAllRecommenededCommunities, getAllUserMemberCommunityPost, 
   myCommunity, joinACommunity, getAllCommunityPosts, commentOnAPost,addAReportToPost,
 getAPost, likeAPost, disLikeAPost, getAllMembers, addMemberToMyNetwork, getUserProfileInfo, 
-getAllCommunities, addNewCommunity } from '../../firebaseActions/dataServices';
+getAllCommunities, addNewCommunity, likeAComment, dislikeAComment } from '../../firebaseActions/dataServices';
 
 export const createCommunity = (newCommunity, history) => async (dispatch) => {
   dispatch({ type: LOADING_UI });
@@ -290,6 +290,42 @@ export const likePost = (postId, source) => async (dispatch, getState) => {
       const { currentCommunityId } = data;
       dispatch(getPostsOfCommunity(currentCommunityId));
     }
+    dispatch(clearErrors());
+  } catch(error) {
+    dispatch({
+      type: SET_ERRORS,
+      payload: error
+    });
+  }
+};
+
+export const likeComment = (commentId, postId) => async (dispatch, getState) => {
+  const { user: { userInfo } } = getState();
+  try {
+    const { email } = userInfo;
+    await likeAComment({
+      commentId,
+      email
+    });
+    dispatch(getPostDetails(postId))
+    dispatch(clearErrors());
+  } catch(error) {
+    dispatch({
+      type: SET_ERRORS,
+      payload: error
+    });
+  }
+};
+
+export const dislikeComment = (commentId, postId) => async (dispatch, getState) => {
+  const { user: { userInfo } } = getState();
+  try {
+    const { email } = userInfo;
+    await dislikeAComment({
+      commentId,
+      email
+    });
+    dispatch(getPostDetails(postId))
     dispatch(clearErrors());
   } catch(error) {
     dispatch({

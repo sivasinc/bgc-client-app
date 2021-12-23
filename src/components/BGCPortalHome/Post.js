@@ -388,7 +388,7 @@ const SocialCounts = styled.ul`
   }
 `;
 
-const SocialActions = styled.div`
+export const SocialActions = styled.div`
   align-items: center;
   display: flex;
   justify-content: flex-start;
@@ -403,7 +403,6 @@ const SocialActions = styled.div`
     color: #6200ee;
     border: none;
     cursor: pointer;
-    background-color: #fff;
 
     @media (min-width: 768px) {
       span {

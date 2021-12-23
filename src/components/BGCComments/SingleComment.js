@@ -8,14 +8,15 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { submitComment } from "../../redux/actions/dataActions";
+import { likeComment, dislikeComment, submitComment } from "../../redux/actions/dataActions";
 import LikeDislikes from "./LikeDislikes";
-import ReplyIcon from "@material-ui/icons/Reply";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
 import dayjs from "dayjs";
 import { borderRadius } from "@mui/system";
 import Linkify from "react-linkify";
+import { SocialActions } from "../BGCPortalHome/Post";
 
 const styles = (theme) => ({
   ...theme,
@@ -47,16 +48,16 @@ const styles = (theme) => ({
   }
 });
 
-function SingleComment({ comment, classes, submitComment, postId, user: { userInfo }, refreshFunction }) {
+function SingleComment({ comment, classes, submitComment, postId, user: { userInfo }, refreshFunction, likeAComment, dislikeAComment, source }) {
   const [OpenReply, setOpenReply] = useState(false);
   const [CommentValue, setCommentValue] = useState("");
+  const {  firstName, lastName, email, imageUrl } = userInfo;
 
   const openReply = () => {
     setOpenReply(!OpenReply);
   };
   const onSubmit = (e) => {
     const { commentId } = comment;
-    const {  firstName, lastName, email, imageUrl } = userInfo;
     e.preventDefault();
     submitComment(postId, { 
       body: CommentValue, 
@@ -81,7 +82,17 @@ function SingleComment({ comment, classes, submitComment, postId, user: { userIn
     </span>,
   ];
 
-  const { body, createdAt, userImage, userHandle, userName } = comment;
+  const { body, createdAt, userImage, userHandle, userName, likeCount=0, usersLiked=[], commentId } = comment;
+
+  const liked = usersLiked.includes(email)
+
+  const likeHandler = ()=>{
+    if(!liked){
+    return likeAComment(commentId, postId)
+    }
+    return dislikeAComment(commentId, postId)
+  }
+
   return (
     <div key={createdAt} className="comment_section">
        <div className="comment_section__box">
@@ -108,16 +119,21 @@ function SingleComment({ comment, classes, submitComment, postId, user: { userIn
                 </Linkify>
               </Typography>
               </div>
-                <div className="comment_section__footer">
+                <SocialActions>
+                {liked && <FavoriteIcon style={{color: '#6200ee'}} />}
                 <Typography
                 variant="button"
                 color="primary"
-              >LIKE</Typography>
+                onClick={likeHandler}
+              >{ liked ? "LIKED" : "LIKE"}</Typography>
                 <Typography
                 variant="button"
                 onClick={openReply}
                 color="primary"
               >REPLY</Typography>
+              <p>
+                {likeCount} Likes
+              </p>
               {/* <ReplyIcon
                 onClick={openReply}
                 key="comment-basic-reply-to"
@@ -125,7 +141,7 @@ function SingleComment({ comment, classes, submitComment, postId, user: { userIn
               >
                 Reply to{" "}
               </ReplyIcon> */}
-                </div>
+                </SocialActions>
               
          </div>
          
@@ -136,6 +152,9 @@ function SingleComment({ comment, classes, submitComment, postId, user: { userIn
           <TextField
             name="singleComment"
             type="text"
+            multiline
+            rows={2}
+            maxRows={4}
             variant="outlined"
             placeholder="Add your reply to comment here ..."
             className={classes.textField}
@@ -160,6 +179,12 @@ const mapStateToProps = (state) => ({
   user : state.user
 });
 
-export default connect(mapStateToProps, { submitComment })(
+const mapDispatchToProps = (dispatch) => ({
+  likeAComment: (commentId, postId) => dispatch(likeComment(commentId, postId)),
+  dislikeAComment: (commentId, postId) => dispatch(dislikeComment(commentId, postId)),
+  submitComment: submitComment,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(
   withStyles(styles)(SingleComment)
 );
