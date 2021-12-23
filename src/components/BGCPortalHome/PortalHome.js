@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PostModal from "./PostModal";
-import ReactPlayer from "react-player";
 import { connect } from "react-redux";
 import ImageIcon from "@mui/icons-material/Image";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";

@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import "./Post.css";
 import dayjs from "dayjs";
 import ReactPlayer from "react-player";
+import Linkify from "react-linkify";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentsSection from "../BGCComments/CommentsSection";
@@ -126,15 +127,15 @@ const Post = ({
                                         <img src="images/ellipsis.png" alt="" />
                                     </button> */}
       </SharedActor>
-      <Description>{article.body}</Description>
+      <Description><Linkify>{article.body}</Linkify></Description>
       {showDocument()}
-      {article.sharedVideo && (
+      {ReactPlayer.canPlay(article.sharedVideo) ? (
         <ReactPlayer
           style={{ padding: "0 16px" }}
           width={"100%"}
           url={article.sharedVideo}
         />
-      )}
+      ): null}
       <SocialActions>
         {article.usersLiked.includes(email) && <FavoriteIcon color="primary" />}
         <Typography
