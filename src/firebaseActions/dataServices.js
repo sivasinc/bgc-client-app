@@ -201,28 +201,6 @@ const joinACommunity = async (user, communityId) => {
     console.log("No such document!");
   }
 };
-
-
-const leaveMemberFromCommunity = async (user, communityId) => {
-  const { email, firstName, imageUrl } = user;
-  let membersArray = [];
-  const docRef = doc(db, "community", communityId);
-  const postRef = collection(db, "posts");
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    membersArray = [...docSnap.data().members];
-    const index = membersArray.findIndex((item) => item.email === email);
-    membersArray.splice(index, 1);
-    const result = await updateDoc(docRef, { members: [...membersArray] });
-    return result;
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-  }
-};
- 
-
 const getAllCommunityPosts = async (communityId) => {
   let communityData = {};
   const docRef = doc(db, "community", communityId);
@@ -660,7 +638,6 @@ export {
   getAllUserMemberCommunityPost,
   myCommunity,
   joinACommunity,
-  leaveMemberFromCommunity,
   getAllCommunityPosts,
   commentOnAPost,
   getAPost,

@@ -57,9 +57,7 @@ const Leftside = ({ user: {userInfo} }) => {
 
                    </div>
 
-               </div>
-
-                
+               </div>                
 
            </div>
         </div>

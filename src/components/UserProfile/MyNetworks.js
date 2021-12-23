@@ -24,7 +24,7 @@ const MyNetworks = ({ user: { userInfo : { myNetworks, setCurrentMyNetworkId } }
     getMemberData();
 }, [])
 const [pageNumber, setPageNumber] = useState(1);
-const limit=20;
+const limit=18;
 const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
 
   const myNetworkClickHandler = (email) => {
@@ -107,11 +107,11 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
         <Dialog  open={openModel}
           onClose={() => setOpenModel(false)}
           fullWidth
-          maxWidth="md"
+          maxWidth="md"          
           >
             
            
-           <DialogTitle>My Network 
+           <DialogTitle><span className="myn" >My Network </span>
              
             <span className="mynCon">{myNetworks.length } Connections</span>
           </DialogTitle>

@@ -198,7 +198,8 @@ const ProfileHeader = ({
       profileVisibletoAlumnaeCommunity,
     };
   }
-
+  
+  
   return (
     <div>
       <div className="profile__header">
@@ -266,27 +267,33 @@ const ProfileHeader = ({
             <p>Email : </p>{" "}
             <p className="profile__user_bar_left__value_mail">{info.email}</p>
           </div>
+          {(updatedSocialLinks['LINKEDIN'] || updatedSocialLinks['TWITTER'] || updatedSocialLinks['FACEBOOK']) && (
           <div className="profile__user_bar_right">
             <p className="profile__user_bar_left">Social :</p>{" "}
+            {updatedSocialLinks['LINKEDIN'] && (
             <p
               className="profile__user_bar_left__value"
               onClick={() => handleSocialModelClick("LINKEDIN")}
             >
-              LINKEDIN
-            </p>{" "}
-            <p
+              LINKEDIN 
+            </p>
+            )}{" "}
+            {updatedSocialLinks['TWITTER'] && (<p
               className="profile__user_bar_left__value"
               onClick={() => handleSocialModelClick("TWITTER")}
             >
               TWITTER
             </p>
-            <p
+            )}
+            {updatedSocialLinks['FACEBOOK'] && (<p
               className="profile__user_bar_left__value"
               onClick={() => handleSocialModelClick("FACEBOOK")}
             >
               FACEBOOK
             </p>
+            )}
           </div>
+          )}
         </div>
       </div>
       <Dialog
@@ -367,10 +374,12 @@ const ProfileHeader = ({
                   variant="outlined"
                   value={updatedEmail}
                   onChange={handleChange}
+                  disabled={true}
                   fullWidth
                 />
-              </div>
+              </div>                            
             </div>
+            <p className="ems">This is used as your login username and cannot be modified.</p>
             <DialogTitle>Social Profile URLs</DialogTitle>
             <div className="social__form_names">
               <div className="social__form__page">
