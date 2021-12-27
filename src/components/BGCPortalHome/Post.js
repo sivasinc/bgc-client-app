@@ -18,6 +18,7 @@ import {
 } from "../../redux/actions/dataActions";
 import ReportPost from "./ReportPost";
 import EditOrDeletePost from "./EditOrDeletePost";
+import Linkify from "react-linkify";
 
 const Post = ({
   key,
@@ -126,15 +127,15 @@ const Post = ({
                                         <img src="images/ellipsis.png" alt="" />
                                     </button> */}
       </SharedActor>
-      <Description>{article.body}</Description>
+      <Description><Linkify>{article.body}</Linkify></Description>
       {showDocument()}
-      {article.sharedVideo && (
+      {ReactPlayer.canPlay(article.sharedVideo) ? (
         <ReactPlayer
           style={{ padding: "0 16px" }}
           width={"100%"}
           url={article.sharedVideo}
         />
-      )}
+      ): null}
       <SocialActions>
         {article.usersLiked.includes(email) && <FavoriteIcon color="primary" />}
         <Typography

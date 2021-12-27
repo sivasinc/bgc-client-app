@@ -15,6 +15,7 @@ import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
 import dayjs from "dayjs";
 import { borderRadius } from "@mui/system";
+import Linkify from "react-linkify";
 
 const styles = (theme) => ({
   ...theme,
@@ -28,6 +29,7 @@ const styles = (theme) => ({
     marginLeft: 20,
   },
   bodyPadding: {
+    lineBreak: 'anywhere',
     padding: 5,
   },
   iconSpacing: {
@@ -101,7 +103,9 @@ function SingleComment({ comment, classes, submitComment, postId, user: { userIn
               </div>
               <div className="comment_section__body">
               <Typography variabnt="body1" className={classes.bodyPadding}>
+                <Linkify>
                 {body}
+                </Linkify>
               </Typography>
               </div>
                 <div className="comment_section__footer">

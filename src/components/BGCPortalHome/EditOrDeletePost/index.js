@@ -220,7 +220,7 @@ const EditOrDeletePost = ({
             fullWidth
             rows={4}
           />
-          {videoLink && <ReactPlayer width={"100%"} url={videoLink} />}
+          {ReactPlayer.canPlay(videoLink) ? <ReactPlayer width={"100%"} url={videoLink} /> : null}
 
           <div style={{ padding: "0 16px" }}>
             {sharedDocument ? (

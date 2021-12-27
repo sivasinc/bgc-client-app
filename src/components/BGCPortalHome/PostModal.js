@@ -141,9 +141,9 @@ const PostModal = ({ user: { userInfo }, showModal, addACommunityPost, addACommu
                         value={videoLink}
                         onChange={(e) => setVideoLink(e.target.value)}
                       />
-                      {videoLink && (
+                      {ReactPlayer.canPlay(videoLink)?(
                         <ReactPlayer width={"100%"} url={videoLink} />
-                      )}
+                      ): null}
                     </>
                   )
                 )}
