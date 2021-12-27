@@ -122,7 +122,7 @@ const PostModal = ({ user: {userInfo}, showModal, addACommunityPost, addACommuni
                 
 
 
-              {videoLink && <ReactPlayer width={"100%"} url={videoLink} />}
+              {ReactPlayer.canPlay(videoLink)?  <ReactPlayer width={"100%"} url={videoLink} />: null}
             </SharedContent>
             <div style={{padding: '0 16px'}}>
               {sharedDocument ? (
