@@ -8,9 +8,11 @@ import { Link } from "react-router-dom";
 import FlipMove from "react-flip-move";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { setCurrentCommunityId } from "../../redux/actions/dataActions";
-import { updateTabIndex, setActiveHeader } from "../../redux/actions/userActions";
+import {
+  updateTabIndex,
+  setActiveHeader,
+} from "../../redux/actions/userActions";
 import DialogWindow from "./DialogWindow";
-
 
 const MyCommunities = ({
   myCommunities,
@@ -22,6 +24,7 @@ const MyCommunities = ({
   const history = useHistory();
   const [openModal, setOpenModal] = useState(false);
   const communityClickHandler = (communityId) => {
+    updateTabIndex(4);
     setActiveHeader(false);
     history.push("/communityHome");
     setCurrentCommunityId(communityId);
@@ -36,7 +39,13 @@ const MyCommunities = ({
   };
   const windowModal = (
     <div>
-      <DialogWindow myCommunities={myCommunities} communityClickHandler={communityClickHandler} openModal={openModal}  handleModal={handleModal} noOfPages={Math.ceil(myCommunities.length / 4)}/>
+      <DialogWindow
+        myCommunities={myCommunities}
+        communityClickHandler={communityClickHandler}
+        openModal={openModal}
+        handleModal={handleModal}
+        noOfPages={Math.ceil(myCommunities.length / 4)}
+      />
     </div>
   );
 
@@ -59,7 +68,7 @@ const MyCommunities = ({
         </div>
         {filteredList &&
           Array.isArray(filteredList) &&
-          filteredList.length > 0 &&(
+          filteredList.length > 0 && (
             <div className="MyNetworks__header__right">
               <span>{myCommunities.length} Communities</span>
             </div>
@@ -78,16 +87,12 @@ const MyCommunities = ({
           {filteredList.map((item) => (
             <div className="MyCommunity__body_item">
               <div className="mycPic">
-              <Avatar
-                alt="Remy Sharp"
-                className="MyCommunity__body_item__image"
-                src={item.image}
-              />
+                <Avatar
+                  alt="Remy Sharp"
+                  className="MyCommunity__body_item__image"
+                  src={item.image}
+                />
               </div>
-
-              
-
-
 
               {/* <Typography
               <Typography
@@ -115,7 +120,6 @@ const MyCommunities = ({
                   {item.name}
                 </Link>
               </p>
-              
             </div>
           ))}
         </FlipMove>

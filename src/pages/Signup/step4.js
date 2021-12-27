@@ -91,7 +91,6 @@ const Step4 = ({
                   label="Year"
                   value={startYear ? startYear : null}
                   onChange={handleStartYearChange}
-                  helperText={errorMessage.startYear}
                   renderInput={(params) => (
                     <TextField
                       error={!!errorMessage.startYear}
@@ -101,6 +100,13 @@ const Step4 = ({
                       {...params}
                       InputLabelProps={{ shrink: startYear ? true : false }}
                       helperText={errorMessage.startYear}
+                      sx={
+                        !!errorMessage.startYear
+                          ? {
+                              svg: { color: "#d32f2f" },
+                            }
+                          : {}
+                      }
                     />
                   )}
                 />
@@ -150,16 +156,22 @@ const Step4 = ({
                       disabled={!userProfile.endDateCheckBox}
                       value={endYear ? endYear : null}
                       onChange={handleEndYearChange}
-                      helperText={errorMessage.endYear}
                       renderInput={(params) => (
                         <TextField
-                          error={!!errorMessage.endYear}
+                         
                           fullWidth
                           variant="outlined"
                           className="step4__section_Year"
                           {...params}
                           InputLabelProps={{ shrink: endYear ? true : false }}
                           helperText={errorMessage.endYear}
+                          sx={
+                            !!errorMessage.endYear
+                              ? {
+                                  svg: { color: "#d32f2f" },
+                                }
+                              : {}
+                          }
                         />
                       )}
                     />

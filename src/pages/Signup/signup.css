@@ -47,7 +47,7 @@
   height: 100px;
   width: 100px;
 }
-.signup_header__left {
+.signupheader__left {
   width: 30%;
   display: flex;
   justify-content: center;
@@ -141,11 +141,32 @@
 
 .box_header {
   display: flex !important;
-  flex-direction: row !important;
+  flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
+  text-align: center;
 }
-.headerh4{
+.headerh4 {
   margin-top: 0;
   padding-left: 0;
+}
+.content__box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center !important;
+}
+
+.box_content {
+  padding: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+
+  justify-content: center !important;
+}
+
+.last_section{
+  display: flex;
+  /* justify-content: center; */
+  flex-direction: column;
 }

@@ -5,9 +5,11 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import FormHelperText from "@mui/material/FormHelperText";
 import "./signup.css";
 
-const Step6 = ({ handleRadioChange, value }) => {
+const Step6 = ({ handleRadioChange, value,userProfile }) => {
+  const { errorMessage } = userProfile;
   return (
     <div className="step6__section">
       <h4>One last thing </h4>
@@ -33,6 +35,9 @@ const Step6 = ({ handleRadioChange, value }) => {
             label="No"
           />
         </RadioGroup>
+        <FormHelperText error={!!errorMessage.visibility}>
+          {errorMessage.visibility}
+        </FormHelperText>
       </FormControl>
     </div>
   );
