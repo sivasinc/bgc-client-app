@@ -16,7 +16,6 @@ const Step7 = ({ userProfile: { email } = "", error, loading }) => {
   );
   const handleResend = ()=>{
     console.log(auth.currentUser)
-    debugger
     sendEmailVerification(auth.currentUser, {
       url: "https://bgc-functions.web.app/login",
     }).then(()=>{

@@ -318,6 +318,8 @@ const getAPost = async (postId) => {
         userName: doc.data().userName,
         responseTo: doc.data().responseTo,
         userImage: doc.data().userImage,
+        usersLiked: doc.data().usersLiked,
+        likeCount: doc.data().likeCount
       });
     });
     return postData;
@@ -421,6 +423,42 @@ const likeAPost = async (payload) => {
     return result;
   } else {
     console.log("No such post!");
+  }
+};
+
+const likeAComment = async (payload) => {
+  const docRef = doc(db, "comments", payload.commentId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const {usersLiked = [], likeCount = 0} = docSnap.data()
+    let usersArray = [...usersLiked, payload.email];
+    const result = await updateDoc(docRef, {
+      likeCount: likeCount + 1,
+      usersLiked: usersArray,
+    });
+    return result;
+  } else {
+    console.log("No such comment!");
+  }
+};
+
+const dislikeAComment = async (payload) => {
+  try {
+    const docRef = doc(db, "comments", payload.commentId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const {usersLiked = [], likeCount} = docSnap.data()
+      const usersArray = usersLiked.filter(userEmail => userEmail !== payload.email)
+      const result = await updateDoc(docRef, {
+        likeCount: likeCount - 1,
+        usersLiked: usersArray
+      });
+      return result;
+    } else {
+      console.log("No such comment!");
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -669,6 +707,8 @@ export {
   deletePost,
   addPostWithImageUpload,
   likeAPost,
+  likeAComment,
+  dislikeAComment,
   disLikeAPost,
   addAReportToPost,
   getAllMembers,

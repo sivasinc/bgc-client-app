@@ -81,6 +81,8 @@ const Comments = ({openDialog, updatedComment, postId, refreshFunction, submitCo
               userName: doc.data().userName,
               responseTo: doc.data().responseTo,
               userImage: doc.data().userImage,
+              likeCount: doc.data().likeCount,
+              usersLiked: doc.data().usersLiked
             });
           });
           setCurrentPost({...postData});
@@ -109,7 +111,9 @@ const [comment, setComment] = useState("");
       createdAt: new Date().toISOString(),
       postId: postId,
       userHandle: email,
-      userImage: imageUrl
+      userImage: imageUrl,
+      likeCount: 0,
+      usersLiked: []
     });
     // setOpenDialog(false);
     setComment("");
@@ -124,6 +128,8 @@ const [comment, setComment] = useState("");
             name="singleComment"
             type="text"
             variant="outlined"
+            multiline
+            rows={2}
             placeholder="Add your comments here ..."
             // className={classes.textField}
             value={comment}
