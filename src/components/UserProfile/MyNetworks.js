@@ -17,7 +17,7 @@ import { updateTabIndex, setActiveHeader } from "../../redux/actions/userActions
 
   
 
-const MyNetworks = ({ user: { userInfo : { myNetworks, setCurrentMyNetworkId } },members,getMemberData  }) => {
+const MyNetworks = ({ user: { userInfo : { myNetworks, setCurrentMyNetworkId } },members,getMemberData,setActiveHeader  }) => {
   const [openModel, setOpenModel] = useState(false);
   const history= useHistory();
   useEffect(() => {
@@ -29,7 +29,7 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
 
   const myNetworkClickHandler = (email) => {
     const memberId=members.filter((x)=>x.email=== email).map((y)=>y.memberId)
-    console.log(memberId);
+    updateTabIndex(4);
     setActiveHeader(false);
     history.push(`/userProfile/${memberId}`);
 

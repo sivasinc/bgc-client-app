@@ -19,7 +19,11 @@ import Step4 from "./step4";
 import Step5 from "./Step5";
 import Step6 from "./Step6";
 import Step7 from "./Step7";
-import { validateStep4, validateStep5 } from "../../util/validators";
+import {
+  validateStep4,
+  validateStep5,
+  validateStep6,
+} from "../../util/validators";
 import { generateRequest } from "../../util/request";
 import { validateInfo } from "./Validate";
 import { doc, getDoc } from "firebase/firestore";
@@ -44,16 +48,17 @@ const signup = ({ signupUser, history, UI }) => {
     interestField: [],
     "college-0": "",
     "college-1": "",
-    "workforce-0":"",
-    "workforce-1":"",
-    "workforce-2":"",
-    "timeoff-0":"",
-    "figureout-0":"",
+    "workforce-0": "",
+    "workforce-1": "",
+    "workforce-2": "",
+    "timeoff-0": "",
+    "figureout-0": "",
     startYear: "",
     startMonth: "",
     endMonth: "",
     endYear: "",
     endDateCheckBox: false,
+    visibility: "",
   });
 
   const [progress, setProgress] = useState(0);
@@ -99,7 +104,12 @@ const signup = ({ signupUser, history, UI }) => {
         setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
       }
     }
-
+    if (currentStep === 4) {
+      ({ error1, valid } = validateStep4(userProfile, selectedProfile));
+      if (!valid) {
+        setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
+      }
+    }
     if (currentStep === 5) {
       let connectionArray;
       let likeToLearnArray;
@@ -120,8 +130,8 @@ const signup = ({ signupUser, history, UI }) => {
         setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
       }
     }
-    if (currentStep === 4) {
-      ({ error1, valid } = validateStep4(userProfile, selectedProfile));
+    if (currentStep === 6) {
+      ({ error1, valid } = validateStep6(userProfile));
       if (!valid) {
         setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
       }
@@ -248,7 +258,7 @@ const signup = ({ signupUser, history, UI }) => {
         ) : (
           <div className="signUp">
             <div className="signup_header">
-              <div className="signup_header__left">
+              <div className="signupheader__left">
                 <img
                   className="signup_header__logo"
                   src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/bgc-logo.svg?alt=media&token=0f61a406-04b2-42a7-98ee-43f4d2183524"

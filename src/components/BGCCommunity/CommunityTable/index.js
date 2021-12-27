@@ -14,7 +14,6 @@ import {
   getAllCommunityOfUser,
   getAllPostsOfUser,
 } from "../../../redux/actions/dataActions";
-import { updateTabIndex } from "../../../redux/actions/userActions";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -34,7 +33,10 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import ArrowDropDown from "@material-ui/icons/ArrowDropDown";
 import styled from 'styled-components'
 import { Typography } from "@material-ui/core";
-
+import {
+  updateTabIndex,
+  setActiveHeader,
+} from "../../../redux/actions/userActions";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -247,7 +249,7 @@ const CommunityTable = ({
   const [updateCommunityId, setUpdatedCommunityId] = useState("");
 
   const communityClickHandler = (communityId) => {
-    console.log("communityClickHandler");
+    setActiveHeader(false);
     history.push("/communityHome");
     setCurrentCommunityId(communityId);
     // updateTabIndex(3);
@@ -512,6 +514,7 @@ const mapDispatchToProps = (dispatch) => ({
   setCurrentCommunityId: (communityId) =>
     dispatch(setCurrentCommunityId(communityId)),
   updateTabIndex: (tabIndex) => dispatch(updateTabIndex(tabIndex)),
+  setActiveHeader: (value) => dispatch(setActiveHeader(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommunityTable);
