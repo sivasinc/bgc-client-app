@@ -31,9 +31,8 @@ const ProfileHeader = ({
 }) => {
   const [openModel, setOpenModel] = useState(false);
   const [openSocialModel, setOpenSocialModel] = useState(false);
-  const { socialLinks, profileStatus } = userInfo;
+  const { socialLinks, profileStatus } = userInfo;  
   
-  console.log("userinfo", userInfo);
   const [profile, setProfile] = useState({ updatedSocialLinks: socialLinks, updatedProfileStatus: profileStatus });
   const [profileVisibility, setProfileVisibility] = useState(false);
   // const [updatedSocialLinks, setpdatedSocialLinks] = useState({LinkedIn: '', Facebook: '',Twitter:''});
@@ -129,12 +128,12 @@ const ProfileHeader = ({
       profileStatus: updatedProfileStatus,
     };
     const request = { ...userInfo, ...userDetails };
-    console.log("profile header req", request);
+    
     editUserDetails(request);
     setOpenModel(false);
   };
   const handleProfileVisibility = (event) => {
-    console.log("the event is", event);
+    
   };
 
   const handleImageUploadClick = (e) => {
@@ -156,8 +155,7 @@ const ProfileHeader = ({
     updatedSocialLinks = { LINKEDIN: "", FACEBOOK: "", TWITTER: "" },
     updatedProfileStatus,
   } = profile;
-  console.log("sllinks", updatedSocialLinks);
-  console.log('profillestatus',profileStatus);
+ 
   let info = {};
   if (readOnlyFlow) {
     const {
@@ -198,7 +196,8 @@ const ProfileHeader = ({
       profileVisibletoAlumnaeCommunity,
     };
   }
-
+  
+  
   return (
     <div>
       <div className="profile__header">
@@ -266,27 +265,33 @@ const ProfileHeader = ({
             <p>Email : </p>{" "}
             <p className="profile__user_bar_left__value_mail">{info.email}</p>
           </div>
+          {(updatedSocialLinks['LINKEDIN'] || updatedSocialLinks['TWITTER'] || updatedSocialLinks['FACEBOOK']) && (
           <div className="profile__user_bar_right">
             <p className="profile__user_bar_left">Social :</p>{" "}
+            {updatedSocialLinks['LINKEDIN'] && (
             <p
               className="profile__user_bar_left__value"
               onClick={() => handleSocialModelClick("LINKEDIN")}
             >
-              LINKEDIN
-            </p>{" "}
-            <p
+              LINKEDIN 
+            </p>
+            )}{" "}
+            {updatedSocialLinks['TWITTER'] && (<p
               className="profile__user_bar_left__value"
               onClick={() => handleSocialModelClick("TWITTER")}
             >
               TWITTER
             </p>
-            <p
+            )}
+            {updatedSocialLinks['FACEBOOK'] && (<p
               className="profile__user_bar_left__value"
               onClick={() => handleSocialModelClick("FACEBOOK")}
             >
               FACEBOOK
             </p>
+            )}
           </div>
+          )}
         </div>
       </div>
       <Dialog
@@ -367,10 +372,12 @@ const ProfileHeader = ({
                   variant="outlined"
                   value={updatedEmail}
                   onChange={handleChange}
+                  disabled={true}
                   fullWidth
                 />
-              </div>
+              </div>                            
             </div>
+            <p className="ems">This is used as your login username and cannot be modified.</p>
             <DialogTitle>Social Profile URLs</DialogTitle>
             <div className="social__form_names">
               <div className="social__form__page">

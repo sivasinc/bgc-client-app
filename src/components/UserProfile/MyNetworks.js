@@ -17,19 +17,18 @@ import { updateTabIndex, setActiveHeader } from "../../redux/actions/userActions
 
   
 
-const MyNetworks = ({ user: { userInfo : { myNetworks, setCurrentMyNetworkId } },members,getMemberData,setActiveHeader  }) => {
+const MyNetworks = ({ user: { userInfo : { myNetworks, setCurrentMyNetworkId } },members,getMemberData ,setActiveHeader }) => {
   const [openModel, setOpenModel] = useState(false);
   const history= useHistory();
   useEffect(() => {
     getMemberData();
 }, [])
 const [pageNumber, setPageNumber] = useState(1);
-const limit=20;
+const limit=18;
 const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
 
   const myNetworkClickHandler = (email) => {
     const memberId=members.filter((x)=>x.email=== email).map((y)=>y.memberId)
-    updateTabIndex(4);
     setActiveHeader(false);
     history.push(`/userProfile/${memberId}`);
 
@@ -54,7 +53,7 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
     
   };
 
-  console.log('info users mynetwork',myNetworks);
+  
   let filteredList = [];
   if(myNetworks && Array.isArray(myNetworks) && myNetworks.length > 0) {
     filteredList = myNetworks.slice(0,4);
@@ -108,11 +107,11 @@ const [pagesPerPage]= React.useState(Math.ceil(myNetworks.length/limit));
         <Dialog  open={openModel}
           onClose={() => setOpenModel(false)}
           fullWidth
-          maxWidth="md"
+          maxWidth="md"          
           >
             
            
-           <DialogTitle>My Network 
+           <DialogTitle><span className="myn" >My Network </span>
              
             <span className="mynCon">{myNetworks.length } Connections</span>
           </DialogTitle>
