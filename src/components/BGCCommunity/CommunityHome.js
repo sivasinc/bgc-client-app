@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
 import styled from "styled-components";
 import { collection, query, onSnapshot, orderBy, where, doc } from "@firebase/firestore";
+import { SET_COMMUNITY_POSTS } from '../../redux/types';
 import { db } from "../../firebase";
 import {
   ref,
@@ -35,54 +37,61 @@ const CommunityHome = ({
   const [openDialog, setOpenDialog] = useState(false);
   const [currentSelectedPost, setCurrentSelectedPost] = useState("");
   const [currentCommunityPosts, setCurrentCommunityPosts] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const firebaseStorage = getStorage();
-    const unsubCommSnap = onSnapshot(doc(db, "community", currentCommunityId) , (docSnap) => {
-      let communityData = {};
-      if (docSnap.exists()) {
-        communityData.community = { ...docSnap.data(), communityId: currentCommunityId };
-            const postRef = query(collection(db, "posts"), 
-      where("communityId", "==", currentCommunityId),
-      orderBy("createdAt", "desc"));
-        const unsubPostSnap = onSnapshot(postRef, (postsSnapshot) => {
-          communityData.posts = [];
-          postsSnapshot.forEach((doc) => {
-            var fileName = "";
-            if (doc.data().sharedDocumentURL) {
-              const httpsReference = ref(
-                firebaseStorage,
-                doc.data().sharedDocumentURL
-              );
-              fileName = httpsReference.name;
-            }
-            if (doc.data().status && doc.data().status !== "inactive") {
-              communityData.posts.push({
-                body: doc.data().body,
-                createdAt: doc.data().createdAt,
-                userHandle: doc.data().userHandle,
-                userImage: doc.data().userImage,
-                userName: doc.data().userName,
-                sharedImg: doc.data().sharedImg,
-                docType: doc.data().docType,
-                sharedDocumentURL: doc.data().sharedDocumentURL,
-                sharedDocumentName: fileName,
-                status: doc.data().status,
-                sharedVideo: doc.data().sharedVideo,
-                likeCount: doc.data().likeCount,
-                commentCount: doc.data().commentCount,
-                postId: doc.id,
-                communityId: doc.data().communityId,
-                usersLiked: doc.data().usersLiked,
-              });
-            }
-        });
-        setCurrentCommunityPosts({...communityData});
+    if (currentCommunityId !== null) {
+      const firebaseStorage = getStorage();
+      const unsubCommSnap = onSnapshot(doc(db, "community", currentCommunityId), (docSnap) => {
+        let communityData = {};
+        if (docSnap.exists()) {
+          communityData.community = { ...docSnap.data(), communityId: currentCommunityId };
+          const postRef = query(collection(db, "posts"),
+            where("communityId", "==", currentCommunityId),
+            orderBy("createdAt", "desc"));
+          const unsubPostSnap = onSnapshot(postRef, (postsSnapshot) => {
+            communityData.posts = [];
+            postsSnapshot.forEach((doc) => {
+              var fileName = "";
+              if (doc.data().sharedDocumentURL) {
+                const httpsReference = ref(
+                  firebaseStorage,
+                  doc.data().sharedDocumentURL
+                );
+                fileName = httpsReference.name;
+              }
+              if (doc.data().status && doc.data().status !== "inactive") {
+                communityData.posts.push({
+                  body: doc.data().body,
+                  createdAt: doc.data().createdAt,
+                  userHandle: doc.data().userHandle,
+                  userImage: doc.data().userImage,
+                  userName: doc.data().userName,
+                  sharedImg: doc.data().sharedImg,
+                  docType: doc.data().docType,
+                  sharedDocumentURL: doc.data().sharedDocumentURL,
+                  sharedDocumentName: fileName,
+                  status: doc.data().status,
+                  sharedVideo: doc.data().sharedVideo,
+                  likeCount: doc.data().likeCount,
+                  commentCount: doc.data().commentCount,
+                  postId: doc.id,
+                  communityId: doc.data().communityId,
+                  usersLiked: doc.data().usersLiked,
+                });
+              }
+            });
+            dispatch({
+              type: SET_COMMUNITY_POSTS,
+              payload: communityData
+            });
+            setCurrentCommunityPosts({ ...communityData });
+          });
+          return () => unsubPostSnap()
+        }
       });
-      return () => unsubPostSnap()
+      return () => unsubCommSnap()
     }
-  });
-  return () => unsubCommSnap()
   }, []);
 
   const handleClick = (e) => {
@@ -115,11 +124,11 @@ const CommunityHome = ({
   };
   const { imageUrl, email } = userInfo;
   let enablePost =
-  currentCommunityPosts &&
-  currentCommunityPosts.community &&
-    Array.isArray(currentCommunityPosts.community.members) &&
-    currentCommunityPosts.community.members.filter((item) => item.email === email)
-      .length > 0
+    currentCommunityPosts &&
+      currentCommunityPosts.community &&
+      Array.isArray(currentCommunityPosts.community.members) &&
+      currentCommunityPosts.community.members.filter((item) => item.email === email)
+        .length > 0
       ? true
       : false;
   return (
