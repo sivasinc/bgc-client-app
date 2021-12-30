@@ -661,6 +661,37 @@ margin: 5px;
             font-size: 12px;
             letter-spacing: 0.4px;
             line-height: 16px;
+            justify-content: center;
+        }
+        .user_label {
+            font-family: Roboto;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 0.15px;
+            line-height: 24px;            
+            margin: 0 0 0px 0;
+        }
+        .user_role {
+            color: rgba(0,0,0,0.87);
+            font-family: Roboto;
+            font-size: 16px;
+            letter-spacing: 0.15px;
+            line-height: 24px;            
+            margin: 0px;
+        }
+        .sts{
+            height: 32px;
+            width: 88px;
+            border-radius: 16px;
+        }
+        .user_status {
+            color: rgba(0,0,0,0.87);
+            font-family: Roboto;
+            font-size: 14px;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+            text-align: center;
+            margin: 20px 0 0 0;
         }
       
       @media (max-width: 700px) {
@@ -693,6 +724,25 @@ margin: 5px;
         .profile__user__edit{
             margin-left: 35px;
         }
+        .user_label {
+            font-family: Roboto;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 0.15px;
+            line-height: 24px;
+            text-align: center;            
+            margin: 0 0 0px 0;
+        }
+        .user_role {
+            color: rgba(0,0,0,0.87);
+            font-family: Roboto;
+            font-size: 16px;
+            letter-spacing: 0.15px;
+            line-height: 24px;
+            text-align: center;            
+            margin: 0px;
+        }
+
         .signUp__form_names {
             display: flex;
           }
@@ -719,7 +769,3 @@ margin: 5px;
           
           
       }
-
-
-        
-    

@@ -22,6 +22,7 @@ import { InputAdornment } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { statuss } from "../../util/constant";
 import { MenuItem } from "@mui/material";
+import Chip from '@mui/material/Chip';
 
 const ProfileHeader = ({
   user: { userInfo, selectedMember },
@@ -226,20 +227,19 @@ const ProfileHeader = ({
             </div>
 
             <div className="profile__user">
-              <label className="user__label">{`${info.firstName}  ${info.lastName}`}</label>
+              <label className="user_label">{`${info.firstName}  ${info.lastName}`}</label>
               {info.headLine === undefined ? (
-                <label className="user__role">No Headline added</label>
+                <label className="user_role">No Headline added</label>
               ) : (
-                <label className="user__role">{info.headLine}</label>
+                <label className="user_role">{info.headLine}</label>
               )}
+              
+              <Chip className="user_status"
+        label={updatedProfileStatus}
+        
+      />
               
                
-                {info.location === undefined ? (
-                <label className="user__role">No Location added</label>
-              ) : (
-                <label className="user__role">{info.location}</label>
-              )}
-              
               {/* {info.location === undefined ? (
                 <label className="user__role">No Location added</label>
               ) : (
@@ -300,9 +300,10 @@ const ProfileHeader = ({
         fullWidth
         maxWidth="md"
       >
+        <form>
         <DialogTitle>Edit Basic Details</DialogTitle>
         <DialogContent>
-          <form>
+        
             <div className="signUp__form_names">
               <div className="signUp__form__page">
                 <TextField
@@ -331,6 +332,20 @@ const ProfileHeader = ({
                   fullWidth
                 />
               </div>
+            </div>
+            <div className="signUp__form_names">
+              <div className="signUp__form__page_location">
+                <TextField
+                  name="updatedHeadLine"
+                  id="outlined-required"
+                  tpye="text"
+                  label="Role"
+                  variant="outlined"
+                  value={updatedHeadLine}
+                  onChange={handleChange}
+                  fullWidth
+                />
+              </div>                            
             </div>
             <div className="signUp__form_names">
               <div className="signUp__form__page">
@@ -377,8 +392,12 @@ const ProfileHeader = ({
                 />
               </div>                            
             </div>
-            <p className="ems">This is used as your login username and cannot be modified.</p>
+            <div className="ems">This is used as your login username and cannot be modified.</div>
+            </DialogContent>
+        
             <DialogTitle>Social Profile URLs</DialogTitle>
+            
+            <DialogContent>
             <div className="social__form_names">
               <div className="social__form__page">
                 <div className="modal">
@@ -432,8 +451,11 @@ const ProfileHeader = ({
                 />
               </div>
             </div>
-          </form>
-        </DialogContent>
+           
+            </DialogContent>
+            
+            </form>
+        
         <DialogActions>
           <Button onClick={() => setOpenModel(false)} color="primary">
             Cancel
