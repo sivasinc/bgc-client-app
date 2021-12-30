@@ -46,10 +46,10 @@ const Leftside = ({ user: {userInfo} }) => {
                <div className="static__block_right">
 
                    <div className="staticnav">
-                   <div className="static_link"><Link className="static_link_content" to={{pathname:"https://www.blackgirlscode.com/volunteer/"}} > Volunteer </Link><ArrowRightIcon/></div>
-                   <div className="static_link"><Link className="static_link_content" to={{pathname:"https://www.blackgirlscode.com/donate/" }}>Donate</Link> <ArrowRightIcon/></div>
-                   <div className="static_link"><Link className="static_link_content" to={{pathname:"https://www.blackgirlscode.com/careers/"}} >BGC Careers </Link><ArrowRightIcon/></div>
-                   <div className="static_link"><Link className="static_link_content" to={{pathname:"https://blackgirlscode.us4.list-manage.com/subscribe/post?u=acf512bf416c8569237ffaf93&id=88a4e53921"}} >Join Mailing List</Link><ArrowRightIcon/></div>
+                   <div className="static_link"><a className="static_link_content" href="https://www.blackgirlscode.com/volunteer/" target="_blank"> Volunteer </a><ArrowRightIcon/></div>
+                   <div className="static_link"><a className="static_link_content" href="https://www.blackgirlscode.com/donate/" target="_blank">Donate</a> <ArrowRightIcon/></div>
+                   <div className="static_link"><a className="static_link_content" href="https://www.blackgirlscode.com/careers/" target="_blank" >BGC Careers </a><ArrowRightIcon /></div>
+                   <div className="static_link"><a className="static_link_content" href="https://blackgirlscode.us4.list-manage.com/subscribe/post?u=acf512bf416c8569237ffaf93&id=88a4e53921" target="_blank" >Join Mailing List</a><ArrowRightIcon/></div>
 
                    </div>
                </div>             

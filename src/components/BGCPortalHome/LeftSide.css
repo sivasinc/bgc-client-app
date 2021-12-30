@@ -81,19 +81,20 @@
 
     padding-top: 10px;
     object-fit: cover;
-    margin-left: 30px;
+    
     margin-top: 10px;  
 
   }
 
   .staticnav {
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
 
   }
 
   .static_link{
-    padding-top: 20px;
+   margin-bottom: 5px;
     text-align: center;
     display: flex;
     justify-content: start;
