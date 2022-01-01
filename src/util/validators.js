@@ -154,3 +154,11 @@ exports.validateStep6 = (data) => {
     valid: Object.keys(error1).length === 0 ? true : false,
   };
 };
+exports.IsEmailExist = (IsValid) => {
+  let error1 = {};
+  if (!IsValid) {
+    error1.email = "Email already exist.";
+  }
+
+  return error1.email;
+};

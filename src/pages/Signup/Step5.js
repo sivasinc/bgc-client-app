@@ -1,4 +1,4 @@
-import { TextField } from "@material-ui/core";
+import TextField from "@mui/material/TextField";
 import React from "react";
 import "./step5.css";
 import { MenuItem } from "@mui/material";
@@ -59,7 +59,6 @@ const Step5 = ({
           variant="outlined"
           label="Select participated chapter?"
           name="participatedChapter"
-          size="small"
           helperText={errorMessage.participatedChapter}
         >
           {chapterValue.map((item) => (
@@ -139,7 +138,7 @@ const Step5 = ({
             sx={{ color: "red", fontSize: ".75em", marginLeft: "10px" }}
             variant="p"
           >
-          { errorMessage.interestField }
+            {errorMessage.interestField}
           </Typography>
         )}
       </div>
