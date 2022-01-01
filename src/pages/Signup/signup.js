@@ -23,6 +23,7 @@ import {
   validateStep4,
   validateStep5,
   validateStep6,
+  IsEmailExist,
 } from "../../util/validators";
 import { generateRequest } from "../../util/request";
 import { validateInfo } from "./Validate";
@@ -98,8 +99,14 @@ const signup = ({ signupUser, history, UI }) => {
     let valid;
     if (currentStep === 1) {
       error1 = validateInfo(userProfile, currentStep);
-
-      // console.log("error", error1);
+      if (typeof error1.email === "undefined") {
+        const docRef = doc(db, "users", userProfile.email);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          console.log("Email Exist");
+          error1.email = IsEmailExist();
+        }
+      }
       if (Object.keys(error1).length > 0) {
         setUserProfile({ ...userProfile, error: true, errorMessage: error1 });
       }
