@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import LinearProgress from "@mui/material/LinearProgress";
-import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import EditIcon from "@material-ui/icons/Edit";
 import Dialog from "@mui/material/Dialog";
@@ -11,7 +8,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import AddLinkIcon from "@mui/icons-material/AddLink";
-import IconButton from "@mui/material/IconButton";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 import Switch from "@mui/material/Switch";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -19,16 +17,21 @@ import { editUserDetails } from "../../redux/actions/userActions";
 import { uploadProfileImage } from "../../redux/actions/postActions";
 import "./BGCProfileHome.css";
 import { InputAdornment } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
 import { statuss } from "../../util/constant";
 import { MenuItem } from "@mui/material";
 import Chip from '@mui/material/Chip';
+import {
+  addMemberToNetwork,
+  removeMemberToNetwork,
+} from "../../redux/actions/dataActions";
 
 const ProfileHeader = ({
   user: { userInfo, selectedMember },
   readOnlyFlow,
   editUserDetails,
   uploadProfileImage,
+  addMemberToNetwork,
+  removeMemberToNetwork,
 }) => {
   const [openModel, setOpenModel] = useState(false);
   const [openSocialModel, setOpenSocialModel] = useState(false);
@@ -41,6 +44,15 @@ const ProfileHeader = ({
   const handleChange = (event) => {
     setProfile({ ...profile, [event.target.name]: event.target.value });
   };
+
+  
+  const addMemberHandler = (selectedEmail) => {
+    addMemberToNetwork(selectedEmail);
+  };
+  const removeMemberHandler = (selectedEmail) => {
+    removeMemberToNetwork(selectedEmail);
+  };
+
   const handleModelChange = (value) => {
     const {
       firstName,
@@ -158,6 +170,9 @@ const ProfileHeader = ({
   } = profile;
  
   let info = {};
+  let addedToMyNetwork = false;
+
+  let myNetworks = [];
   if (readOnlyFlow) {
     const {
       firstName,
@@ -177,6 +192,15 @@ const ProfileHeader = ({
       imageUrl,
       profileVisibletoAlumnaeCommunity,
     };
+
+    if (userInfo && userInfo.myNetworks) {
+      myNetworks = userInfo.myNetworks;
+      if (Array.isArray(myNetworks) && myNetworks.length > 0) {
+        addedToMyNetwork =
+          myNetworks.filter((item) => item.email === info.email).length > 0;
+      }
+    }
+
   } else {
     const {
       firstName,
@@ -247,13 +271,34 @@ const ProfileHeader = ({
               )} */}
             </div>
           </div>
+          {readOnlyFlow &&
+            (addedToMyNetwork ? (
+              <div className="member_add_remove_network">
+                <RemoveIcon onClick={() => removeMemberHandler(info.email)} />
+                <span
+                  onClick={() => removeMemberHandler(info.email)}
+                  className="member_add_action_label"
+                >
+                  REMOVE FROM MY NETWORK
+                </span>
+              </div>
+            ) : (
+              <div className="member_add_remove_network">
+                <AddIcon onClick={() => addMemberHandler(info.email)} />
+                <span
+                  onClick={() => addMemberHandler(info.email)}
+                  className="member_add_action_label"
+                   >
+                  ADD TO MY NETWORK
+                </span>
+              </div>
+            ))}
           {!readOnlyFlow && (
             <div className="profile__header__main__container">
               <div
                 className="profile__user__edit"
                 onClick={() => handleModelChange(true)}
               >
-                {" "}
                 <EditIcon color="#6200EE" />
                 <p>EDIT</p>
               </div>
@@ -473,6 +518,11 @@ ProfileHeader.propTypes = {};
 const mapStateToProps = (state) => ({
   user: state.user,
 });
-const mapDispatchToProps = { editUserDetails, uploadProfileImage };
+const mapDispatchToProps = {
+  editUserDetails,
+  uploadProfileImage,
+  addMemberToNetwork,
+  removeMemberToNetwork,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileHeader);
