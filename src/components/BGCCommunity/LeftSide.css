@@ -49,11 +49,10 @@
 .community_action_footer {
     display: flex;
     align-items: center;
-    margin: 0 0 10px 0;
+    margin: 10px 0 10px 0;
     color: #6200EE;
     cursor: pointer;
     border: 1px solid #dad4e3;
-    cursor: pointer;
     height: 36px;
     border-radius: 4px;
     background-color: rgba(187, 134, 252, 0.1);

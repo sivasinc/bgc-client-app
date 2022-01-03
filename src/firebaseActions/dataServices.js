@@ -621,6 +621,23 @@ const addMemberToMyNetwork = async (user, newMember) => {
   }
 };
 
+
+const removeMemberToMyNetwork = async (user, existEmail) => {
+  try {
+    const docRef = doc(db, "users", user.email);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      let myNetwork = [...docSnap.data().myNetworks];
+      const index = myNetwork.findIndex((item) => item.email === existEmail);
+      myNetwork.splice(index, 1);
+      const result = await updateDoc(docRef, { myNetworks: [...myNetwork] });
+      return result;
+    }
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
 const getUserProfileInfo = async (email) => {
   const docRef = doc(db, "users", email);
   const docSnap = await getDoc(docRef);
@@ -713,6 +730,7 @@ export {
   addAReportToPost,
   getAllMembers,
   addMemberToMyNetwork,
+  removeMemberToMyNetwork,
   getUserProfileInfo,
   updateUserDetails,
   getAllCommunities,

@@ -47,6 +47,7 @@ import {
   disLikeAPost,
   getAllMembers,
   addMemberToMyNetwork,
+  removeMemberToMyNetwork,
   getUserProfileInfo,
   getAllCommunities,
   addNewCommunity,
@@ -492,6 +493,28 @@ export const addMemberToNetwork = (email) => async (dispatch, getState) => {
         payload: userProfile,
       });
     }
+  } catch (error) {
+    dispatch({
+      type: SET_MEMBERS,
+      payload: null,
+    });
+  }
+};
+
+export const removeMemberToNetwork = (email) => async (dispatch, getState) => {
+  dispatch({ type: LOADING_DATA });
+  try {
+    const {
+      user: { userInfo },
+      data: { members },
+    } = getState();
+    const result = await removeMemberToMyNetwork(userInfo, email);
+    const userProfile = await getUserProfileInfo(userInfo.email);
+    dispatch({ type: CLEAR_ERRORS });
+    dispatch({
+      type: SET_USER,
+      payload: userProfile,
+    });
   } catch (error) {
     dispatch({
       type: SET_MEMBERS,
