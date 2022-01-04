@@ -594,6 +594,21 @@ export const handleActivateDeactivateProfile = async (selectedUser) => {
   }
 };
 
+export const inviteAdmin = async (email)=>{
+  const docRef = doc(db, 'users',email)
+  const docSnap = await getDoc(docRef)
+  if(!docSnap.exists()){
+    // handle new user
+    throw Error("user does not exist")
+  }
+  const data = docSnap.data()
+  if(data.userRole === 'admin') throw Error('Someone is already using that email address')
+
+
+  // handle member invite
+
+}
+
 const addMemberToMyNetwork = async (user, newMember) => {
   try {
     var { email, firstName, lastName, imageUrl, headLine } = newMember;

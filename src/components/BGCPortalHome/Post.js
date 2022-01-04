@@ -20,6 +20,12 @@ import ReportPost from "./ReportPost";
 import EditOrDeletePost from "./EditOrDeletePost";
 import Linkify from "react-linkify";
 
+const componentDecorator= (decoratedHref, decoratedText, key) => (
+  <a target="_blank" style={{color: '#6200ee', cursor: 'pointer'}} href={decoratedHref} key={key}>
+{decoratedText}
+</a>
+)
+
 const Post = ({
   key,
   article,
@@ -127,7 +133,11 @@ const Post = ({
                                         <img src="images/ellipsis.png" alt="" />
                                     </button> */}
       </SharedActor>
-      <Description><Linkify>{article.body}</Linkify></Description>
+      <Description>
+        <Linkify componentDecorator={componentDecorator} >
+      {article.body}
+      </Linkify>
+      </Description>
       {showDocument()}
       {ReactPlayer.canPlay(article.sharedVideo) ? (
         <ReactPlayer
@@ -334,6 +344,7 @@ const SharedActor = styled.div`
 `;
 
 const Description = styled.div`
+  line-break: anywhere;
   padding: 0 16px;
   overflow: hidden;
   color: rgba(0, 0, 0, 0.9);
