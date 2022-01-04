@@ -42,6 +42,7 @@ const CommunityCreateDailog = ({
       imageUrl: `https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/${noImg}?alt=media`,
       members: [{ email, firstName, imageUrl }],
       createdAt: new Date().toISOString(),
+      createdMember:email,
     };
     createCommunity(newCommunity, history);
     setOpenModel(false);

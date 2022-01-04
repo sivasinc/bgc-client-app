@@ -45,6 +45,7 @@ const getAllRecommenededCommunities = async (user) => {
           members: item.data().members,
           image: item.data().imageUrl,
           tags: item.data().tags,
+          createdMember:item.data().createdMember,
         });
       }
     });
@@ -175,6 +176,7 @@ const myCommunity = async (user) => {
         description: doc.data().description,
         members: doc.data().members,
         image: doc.data().imageUrl,
+        createdMember:doc.data().createdMember,
       });
     }
   });
@@ -672,6 +674,7 @@ const getAllCommunities = async (user) => {
       description: doc.data().description,
       members: doc.data().members,
       image: doc.data().imageUrl,
+      createdMember:doc.data().createdMember,
     });
   });
   return communties;
