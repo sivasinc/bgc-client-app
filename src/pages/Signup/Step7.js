@@ -56,9 +56,9 @@ const Step7 = ({ userProfile: { email } = "", error, loading }) => {
                   </p>
                 </div>
               )}
-            <Button variant='contained' onClick={handleResend}>
+           {error!=null?<></>: <Button variant='contained' onClick={handleResend}>
               RESEND VERIFICATION LINK
-            </Button>
+            </Button>} 
             </div>
           )}
         </div>

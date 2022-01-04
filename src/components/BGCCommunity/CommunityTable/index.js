@@ -253,6 +253,7 @@ const CommunityTable = ({
   const [updateCommunityId, setUpdatedCommunityId] = useState("");
 
   const communityClickHandler = (communityId) => {
+    updateTabIndex(4);
     setActiveHeader(false);
     history.push("/communityHome");
     setCurrentCommunityId(communityId);
