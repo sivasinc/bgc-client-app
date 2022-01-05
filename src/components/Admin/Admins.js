@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Card, Button } from "@mui/material";
+import { Card, Button, TextField } from "@mui/material";
 import { Label, MoreVert } from "@mui/icons-material";
 import { connect } from "react-redux";
 
 import {
   getAllAdmins,
+  inviteAdmin,
   handleActivateDeactivateProfile,
 } from "../../firebaseActions/dataServices";
 import { DataTable } from "./Table";
@@ -17,6 +18,9 @@ function AdminsPage({ user }) {
   const [loading, setLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showInviteAdminModal, setShowInviteAdminModal] = useState(false);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [helperText, setHelperText] = useState("");
 
   const getAdmins = () => {
     setLoading(true);
@@ -27,6 +31,12 @@ function AdminsPage({ user }) {
   const handleClose = () => {
     setSelectedUser(null);
     setShowDialog(false);
+  };
+
+  const handleAdminDialogClose = () => {
+    setShowInviteAdminModal(false);
+    setHelperText('')
+    setAdminEmail('')
   };
 
   const handleActivateDeactivate = async () => {
@@ -108,6 +118,36 @@ function AdminsPage({ user }) {
     );
   };
 
+  const inviteAdminDialog = (
+    <div style={{ padding: 5 }}>
+      <TextField
+        sx={{width: 340}}
+        type="email"
+        variant="outlined"
+        label="Email address"
+        value={adminEmail}
+        onChange={(e) => setAdminEmail(e.target.value)}
+        fullWidth
+        error={helperText.length}
+        helperText={helperText}
+      />
+    </div>
+  );
+
+  const onInviteAdmin = async () => {
+    try {
+      if (!adminEmail) {
+        return setHelperText("Email address required");
+      }
+      if (!/\S+@\S+\.\S+/.test(adminEmail)) {
+        return setHelperText("Email address is invalid");
+      }
+      await inviteAdmin(adminEmail);
+    } catch (error) {
+      setHelperText(error.message);
+    }
+  };
+
   return (
     <div>
       <h2>Alumnae Portal Admins</h2>
@@ -116,6 +156,24 @@ function AdminsPage({ user }) {
         data={data}
         loading={loading}
         searchPlaceholder="Search Admins"
+        TextFieldFlexComponent={
+          <Button
+            variant="contained"
+            onClick={() => setShowInviteAdminModal(true)}
+          >
+            INVITE NEW ADMIN
+          </Button>
+        }
+      />
+      <ActionsDialog
+        open={showInviteAdminModal}
+        handleClose={handleAdminDialogClose}
+        onAccept={onInviteAdmin}
+        onReject={handleAdminDialogClose}
+        acceptButtonText="SEND"
+        rejectButtonText="CANCEL"
+        dialogBody={inviteAdminDialog}
+        dialogTitle="Invite New Admin User"
       />
       <ActionsDialog
         open={showDialog}

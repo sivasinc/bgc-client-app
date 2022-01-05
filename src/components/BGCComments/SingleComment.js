@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import withStyles from "@material-ui/core/styles/withStyles";
+import styled from 'styled-components'
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import Grid from "@material-ui/core/Grid";
@@ -48,6 +49,12 @@ const styles = (theme) => ({
   }
 });
 
+const componentDecorator= (decoratedHref, decoratedText, key) => (
+  <a target="_blank" style={{color: '#6200ee', cursor:'pointer'}} href={decoratedHref} key={key}>
+{decoratedText}
+</a>
+)
+
 function SingleComment({ comment, classes, submitComment, postId, user: { userInfo }, refreshFunction, likeAComment, dislikeAComment }) {
   const [OpenReply, setOpenReply] = useState(false);
   const [CommentValue, setCommentValue] = useState("");
@@ -57,7 +64,7 @@ function SingleComment({ comment, classes, submitComment, postId, user: { userIn
     setOpenReply(!OpenReply);
   };
   const onSubmit = (e) => {
-    const { commentId } = comment;  
+    const { commentId } = comment; 
     e.preventDefault();
     submitComment(postId, { 
       body: CommentValue, 
@@ -115,8 +122,8 @@ function SingleComment({ comment, classes, submitComment, postId, user: { userIn
               </div>
               <div className="comment_section__body">
               <Typography variabnt="body1" className={classes.bodyPadding}>
-                <Linkify>
-                {body}
+                <Linkify componentDecorator={componentDecorator}>
+                  {body}
                 </Linkify>
               </Typography>
               </div>
@@ -182,7 +189,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   likeAComment: (commentId, postId) => dispatch(likeComment(commentId, postId)),
   dislikeAComment: (commentId, postId) => dispatch(dislikeComment(commentId, postId)),
-  submitComment: submitComment,
+  submitComment: (postId, commentData) => dispatch(submitComment(postId, commentData)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(

@@ -24,7 +24,13 @@ import {
 } from "react-table";
 import TablePaginationActions from "./TablePaginationActions";
 
-export function DataTable({ columns, data, loading, searchPlaceholder }) {
+export function DataTable({
+  columns,
+  data,
+  loading,
+  searchPlaceholder,
+  TextFieldFlexComponent = null,
+}) {
   const {
     getTableProps,
     headerGroups,
@@ -66,23 +72,26 @@ export function DataTable({ columns, data, loading, searchPlaceholder }) {
 
   return (
     <div>
-      <TextField
-        sx={{ p: 3 }}
-        label={searchPlaceholder}
-        placeholder={searchPlaceholder}
-        id="outlined-start-adornment"
-        className="search_community_searchBar"
-        value={globalFilter}
-        onChange={(e) => setGlobalFilter(e.target.value)}
-        sx={{ width: "50%" }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <Search />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <div style={{ display: "flex", justifyContent: "space-between",alignItems: 'center' }}>
+        <TextField
+          sx={{ p: 3 }}
+          label={searchPlaceholder}
+          placeholder={searchPlaceholder}
+          id="outlined-start-adornment"
+          className="search_community_searchBar"
+          value={globalFilter}
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          sx={{ width: "50%" }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+        />
+        {TextFieldFlexComponent}
+      </div>
 
       <Table
         style={{ margin: "25px 0" }}
