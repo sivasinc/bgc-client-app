@@ -76,7 +76,8 @@ const Leftside = ({
     if (
       members &&
       Array.isArray(members) &&
-      members.filter((item) => item.email === userInfo.email).length > 0
+      members.filter((item) => item.email === userInfo.email).length > 0 &&
+      community.createdMember !==userInfo.email
     ) {
       return (
         <React.Fragment>
