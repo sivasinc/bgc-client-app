@@ -4,17 +4,34 @@ import { connect } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import { editUserDetails } from '../../redux/actions/userActions';
-
-
 import ModelWindow from "./ModelWindow";
 
 const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUserDetails }) => {
   const [profile, setProfile] = useState({});
   const [openModel, setOpenModel] = useState(false);
   const [modeType, setModeType] = useState('add');
+  const [errorMessage,setErrormessage] = useState({ });
+  const handleChange = (event) => {        
+      
+   
+    if( event.target.name==='updatedStartYear'||event.target.name==='updatedEndYear'){
+      const updatedValue=new Date(event.target.value).getFullYear();
+      setProfile({ ...profile, [event.target.name]: updatedValue });
+      if(event.target.name==='updatedEndYear'){
+      if(updatedValue<profile.updatedStartYear){
+        
+        
+        setErrormessage({updatedEndYear:'end year must be greater than start year'})
+      }
+      else{
 
-  const handleChange = (event) => {
-    setProfile({ ...profile , [event.target.name]: event.target.value, });
+        setErrormessage({});
+      }
+    }
+    }
+    else {
+      setProfile({ ...profile, [event.target.name]: event.target.value });
+    }
   };
 
   const handleAddModel = (value, mode) => {
@@ -153,7 +170,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
       {educationInfo}
       
       <ModelWindow handleChange={handleChange} profile={profile} setOpenModel= {setOpenModel} openModel={openModel} 
-      handleSubmit={handleSubmit} type ="workforce" />
+      handleSubmit={handleSubmit} errorMessage={errorMessage} type ="workforce" />
     </div>
   );
 };

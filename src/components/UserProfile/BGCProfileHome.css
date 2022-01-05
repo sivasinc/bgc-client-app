@@ -18,10 +18,10 @@
 .profile__header__main {
     display: flex !important;
     margin: 20px 0 20px 20px !important;
-    justify-content: center !important;
-  
+    justify-content: center !important;  
     
 }
+
 .profile__user {
     display: flex;
     flex-direction: column;
@@ -679,6 +679,7 @@ margin: 5px;
             letter-spacing: 0.15px;
             line-height: 24px;            
             margin: 0px;
+            word-break: break-all;
         }
         .sts{
             height: 32px;
@@ -693,6 +694,10 @@ margin: 5px;
             line-height: 20px;
             text-align: center;
             margin: 20px 0 0 0;
+        }
+        .empsts {
+
+            display: block;
         }
       
       @media (max-width: 700px) {
@@ -713,6 +718,7 @@ margin: 5px;
         .profile__header__main__container
         {
             flex-direction: column;
+            justify-content: center;
         }
         .imgpos{
             justify-content: center;
@@ -766,6 +772,11 @@ margin: 5px;
           width: 100%;         
          
           
+        }
+        .empsts {
+
+            display: flex;
+            justify-content: center;
         }
           
           

@@ -8,9 +8,12 @@ import ModelWindow from "./ModelWindow";
 import "./BGCProfileHome.css";
 
 
+
+
 const Summary = ({ user: { userInfo, selectedMember },readOnlyFlow, editUserDetails }) => {
-    const [profile, setProfile] = useState({});
+    const [profile, setProfile] = useState({updatedDescription:userInfo.summary});
   const [openModel, setOpenModel] = useState(false);
+  
   const handleChange = (event) => {
     setProfile({ ...profile , [event.target.name]: event.target.value, });
   };
@@ -22,6 +25,7 @@ const Summary = ({ user: { userInfo, selectedMember },readOnlyFlow, editUserDeta
     const request = { ...userInfo, summary: updatedDescription };
     editUserDetails(request);
     setOpenModel(false);
+   
   };
   
 
@@ -63,19 +67,33 @@ const Summary = ({ user: { userInfo, selectedMember },readOnlyFlow, editUserDeta
           <div className="summary__header">
             <h3 className="subText">About</h3>
           </div>
-          {!readOnlyFlow && <div className="summary_add">
+          {!readOnlyFlow && <div >
+          {profile.updatedDescription ? (
+
+
+         <div className="summary_add">
+        <div className="Summary_add__icon">
+       <EditIcon color="#6200EE" onClick={() => setOpenModel(true)} />
+       </div>
+       <span onClick={() => setOpenModel(true)}> EDIT </span>
+       </div>
+
           
-          <div className="Summary_add__icon">
-            
+          ):(
+            <div className="summary_add">
+            <div className="Summary_add__icon">
+              
             <AddIcon color="#6200EE" onClick={() => setOpenModel(true)} />
+              
+              </div>
+              <span onClick={() => setOpenModel(true)}> ADD </span>
+             
             </div>
-            <span onClick={() => setOpenModel(true)}> ADD </span>
-          </div>
+          )}
+         </div>
+          }          
           
-          }
-          
-        </div>
-        
+        </div>        
     
        
        {summaryInfo}
@@ -97,4 +115,3 @@ const mapStateToProps = (state) => ({
    const mapDispatchToProps = { editUserDetails };
    
    export default connect(mapStateToProps, mapDispatchToProps) (Summary);
-
