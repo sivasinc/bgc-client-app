@@ -1,3 +1,4 @@
+
 import React from 'react'
 import PropTypes from 'prop-types'
 import Dialog from "@material-ui/core/Dialog";
@@ -9,11 +10,17 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
-
+import { MenuItem } from "@mui/material";
 import { years, months, experience, educations } from "../../util/constant";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import DatePicker from '@mui/lab/DatePicker';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import Checkbox from '@mui/material/Checkbox';
 
-const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubmit, type}) => {
+
+const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubmit, type, errorMessage }) => {
     const { updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear, updatedDescription } = profile;
+    
     let items = [...experience];
     let heading = "Add your experience details..";
     if(type === 'education') {
@@ -37,7 +44,8 @@ const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubm
           {items.map((item) => 
               (<TextField
               name={item.value}
-              className ="model__text_field"
+              className ="text_field_outline"
+              id="outlined-required"
               tpye="text"
               label={item.name}
               value={profile[item.value]}
@@ -46,6 +54,8 @@ const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubm
             />
           ))}
             { ["workforce", "summary"].includes(type) && ( <TextField
+                className="text_field_outline"
+                id="outlined-required"
                 name="updatedDescription"
                 tpye="text"
                 label="Short description about your work"
@@ -55,83 +65,108 @@ const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubm
                 onChange={handleChange}
                 fullWidth
               /> )}
-            { ["workforce", "education"].includes(type) && (<React.Fragment><div className="startDateSelection">
+            { ["workforce", "education"].includes(type) && (<React.Fragment><div className="startDateSelection_Exp">
               <FormControl className="step4__section_Selection">
-                <InputLabel htmlFor="age-native-simple">
-                  Start Date ?
-                </InputLabel>
-                <Select
-                  native
-                  value={updatedStartMonth}
-                  onChange={handleChange}
-                  inputProps={{
-                    name: "updatedStartMonth",
-                    id: "age-native-simple",
-                  }}
-                >
-                  {months.map((item) => (
-                    <option value={item.value}>{item.name}</option>
-                  ))}
-                </Select>
+                
+                <TextField
+                
+                fullWidth
+                id="step4_startYear"
+                className="step4__section_Month"                
+                select
+                name="updatedStartMonth"
+                value={updatedStartMonth}
+                onChange={handleChange}
+                variant="outlined"
+                label="Start Month"
+                InputLabelProps={{ shrink: updatedStartMonth ? true : false }}                
+              >
+                {months.map((item) => (
+                  <MenuItem value={item.value}>{item.name}</MenuItem>
+                ))}
+              </TextField>
+
               </FormControl>
               <FormControl className="step4__section_Selection">
-                <InputLabel htmlFor="age-native-simple"></InputLabel>
-                <Select
-                  native
-                  value={updatedStartYear}
-                  onChange={handleChange}
-                  inputProps={{
-                    name: "updatedStartYear",
-                    id: "age-native-simple",
-                  }}
-                >
-                  {years.map((item) => (
-                    <option value={item.value}>{item.name}</option>
-                  ))}
-                </Select>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  views={["year"]}
+                  label="Year"
+                  value={updatedStartYear? new Date(`${updatedStartYear}-06-01`) : null}
+                  onChange={(value) => handleChange({
+                    target:{name:'updatedStartYear',value}
+                  })}
+                  renderInput={(params) => (
+                    <TextField                   
+                      fullWidth
+                      variant="outlined"
+                      className="step4__section_Year"
+                      {...params}
+                      InputLabelProps={{ shrink: updatedStartYear ? true : false }}                
+                    />
+                  )}
+                />
+              </LocalizationProvider>
               </FormControl>
             </div>
-            <div className="endDateSelection">
+            <div className="startDateSelection_Exp">
+            
+           
               <FormControl className="step4__section_Selection">
-                <InputLabel htmlFor="age-native-simple">End Date ?</InputLabel>
-                <Select
-                  native
-                  value={updatedEndMonth}
-                  onChange={handleChange}
-                  inputProps={{
-                    name: "updatedEndMonth",
-                    id: "age-native-simple",
-                  }}
-                >
-                  {months.map((item) => (
-                    <option value={item.value}>{item.name}</option>
-                  ))}
-                </Select>
+              <TextField
+                
+                fullWidth
+                id="step4_startYear"
+                className="step4__section_Month"
+                select
+                name="updatedEndMonth"
+                value={updatedEndMonth}
+                onChange={handleChange}
+                variant="outlined"
+                label="EndMonth"
+                InputLabelProps={{ shrink: updatedEndMonth ? true : false }}
+                
+              >
+                {months.map((item) => (
+                  <MenuItem value={item.value}>{item.name}</MenuItem>
+                ))}
+              </TextField>
+
               </FormControl>
               <FormControl className="step4__section_Selection">
-                <InputLabel htmlFor="age-native-simple"></InputLabel>
-                <Select
-                  native
-                  value={updatedEndYear}
-                  onChange={handleChange}
-                  inputProps={{
-                    name: "updatedEndYear",
-                    id: "age-native-simple",
-                  }}
-                >
-                  {years.map((item) => (
-                    <option value={item.value}>{item.name}</option>
-                  ))}
-                </Select>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  views={["year"]}
+                  label="Year"
+                  value={updatedEndYear? new Date(`${updatedEndYear}-06-01`) : null}
+                  onChange={(value) => handleChange({
+                    target:{name:'updatedEndYear',value}
+                  })}
+                  renderInput={(params) => (
+                    <TextField
+                     
+                      fullWidth
+                      variant="outlined"
+                      className="step4__section_Year"
+                      {...params}
+                      InputLabelProps={{ shrink: updatedEndYear ? true : false }}
+                      helperText={errorMessage && errorMessage.updatedEndYear}
+                   
+                    />
+                  )}
+                />
+              </LocalizationProvider>
               </FormControl>
-            </div> </React.Fragment>)  }
+            
+            </div>
+            </React.Fragment>)  }
           </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenModel(false)} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} color="primary">
+          <Button onClick={handleSubmit} color="primary" disabled={errorMessage && errorMessage.updatedEndYear}>
             Save
           </Button>
         </DialogActions>

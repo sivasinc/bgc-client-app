@@ -15,7 +15,27 @@ const Education = ({
   const [profile, setProfile] = useState({});
   const [openModel, setOpenModel] = useState(false);
   const [modeType, setModeType] = useState("add");
-  const handleChange = (event) => {
+  const [errorMessage,setErrormessage] = useState({ });
+  const handleChange = (event) => {      
+      
+       if( event.target.name==='updatedStartYear'||event.target.name==='updatedEndYear'){
+      const updatedValue=new Date(event.target.value).getFullYear();
+      setProfile({ ...profile, [event.target.name]: updatedValue });
+      if(event.target.name==='updatedEndYear'){
+      if(updatedValue<profile.updatedStartYear){       
+        
+        setErrormessage({updatedEndYear:'end year must be greater than start year'})
+      }
+      else{
+        setErrormessage({});
+      }
+    }
+    }
+    else {
+      setProfile({ ...profile, [event.target.name]: event.target.value });
+    }
+  };
+  const handleEndYearChange = (event) => {
     setProfile({ ...profile, [event.target.name]: event.target.value });
   };
   const handleAddModel = (value, mode) => {
@@ -84,7 +104,9 @@ const Education = ({
           if (modeType === "edit") {
             item.details.splice(itemIndex, 1, userDetails);
           }
+          else{
           item.details.push(userDetails);
+          }
         }
       });
     } else {
@@ -178,9 +200,7 @@ const Education = ({
           </div>
         )}
       </div>
-
       {educationInfo}
-
       <ModelWindow
         handleChange={handleChange}
         profile={profile}
@@ -188,6 +208,7 @@ const Education = ({
         openModel={openModel}
         handleSubmit={handleSubmit}
         type="education"
+        errorMessage={errorMessage}
       />
     </div>
   );
@@ -201,3 +222,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = { editUserDetails };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Education);
+

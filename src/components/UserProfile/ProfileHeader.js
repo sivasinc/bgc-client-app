@@ -258,12 +258,10 @@ const ProfileHeader = ({
                 <label className="user_role">{info.headLine}</label>
               )}
               
-              <Chip className="user_status"
-        label={updatedProfileStatus}
-        
-      />
+              <div className="empsts">
+              <Chip className="user_status"  label={updatedProfileStatus} />
               
-               
+              </div>
               {/* {info.location === undefined ? (
                 <label className="user__role">No Location added</label>
               ) : (
@@ -495,10 +493,8 @@ const ProfileHeader = ({
                   fullWidth
                 />
               </div>
-            </div>
-           
-            </DialogContent>
-            
+            </div>           
+            </DialogContent>            
             </form>
         
         <DialogActions>
