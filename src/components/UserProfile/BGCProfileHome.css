@@ -722,7 +722,7 @@ margin: 5px;
         }
         .imgpos{
             justify-content: center;
-            margin-left: 25px;
+            
             
         }
         .profile__user_bar{
@@ -730,6 +730,8 @@ margin: 5px;
         }
         .profile__user__edit{
             margin-left: 35px;
+            
+            justify-content: center;
         }
         .user_label {
             font-family: Roboto;
@@ -772,6 +774,18 @@ margin: 5px;
           width: 100%;         
          
           
+        }
+        .profile__header__image {
+            position: relative;
+            height: 110px !important;
+            width: 110px !important;
+            margin-left: 95px;
+        }
+        .profileImage__addIcon {
+            position: absolute;
+            left: 185px;
+            top: 80px;
+            cursor: pointer;
         }
         .empsts {
 

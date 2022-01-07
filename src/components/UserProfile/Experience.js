@@ -40,12 +40,13 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
     setProfile({})
   }
   const handleModelChange = (value, item, index) => {
-    const { jobTtile, company, description, department, startMonth, startYear, endMonth, endYear
+    const { jobTtile, company, description, department, startMonth, startYear, endMonth, endYear,location
     } = item;
 
     setProfile({
         updatedJobTtile: jobTtile, 
-        updatedCompany: company, 
+        updatedCompany: company,
+        updatedLocation: location, 
         updatedDepartment: department,
         updatedDescription: description, 
         updatedStartMonth: startMonth, 
@@ -61,6 +62,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
     const {
         updatedCompany,
         updatedDepartment,
+        updatedLocation,
         updatedJobTtile,
         updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear,
         updatedDescription,
@@ -69,6 +71,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
     const userDetails = {
       company: updatedCompany !== undefined ? updatedCompany : '',
       department: updatedDepartment !== undefined ? updatedDepartment : '',
+      location: updatedLocation !== undefined ? updatedLocation :"",
       jobTtile: updatedJobTtile !== undefined ? updatedJobTtile : '',
       description: updatedDescription !== undefined ? updatedDescription : '',
       startMonth: updatedStartMonth !== undefined ? updatedStartMonth : '',
@@ -112,7 +115,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
     ]
   }
 
-  const { updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear, updatedCompany, updatedDepartment, updatedJobTtile } = profile;
+  const { updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear, updatedCompany, updatedDepartment, updatedJobTtile,updatedLocation } = profile;
   let educationInfo = (
     <div className="experience__item">
       <p className="experience__subheader__p">No Data exists</p>
@@ -124,19 +127,20 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
   }
 
   if (profileDetails && info.length > 0) {
-    educationInfo = info[0].details.map((item, index) => {
+    educationInfo = info[0].details.reverse().map((item, index) => {
 
       return (
         <div className="experience__item">
           <div className="experiance__item__body">
             <h4 className="experience__subheader">{item.jobTtile}</h4>
             <p className="experience__subheader__p">{item.company}</p>
-            <p className="experience__subheader__p">{item.department}</p>
-            <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth !== '' || item.endMonth !== 'month' ? item.endMonth + ' ' +  item.endYear : 'Present' }`}</p>
-           
+            <p className="experience__subheader__p">{item.location}</p>
+            <p className="experience__subheader__p">{item.department}</p>           
             {item.description && <div className="expwrap"><p className="experience__description__p">
               {item.description}
             </p> </div>}
+            {item.startMonth && (
+            <p className="experience__subheader__p">{item.startMonth}  {item.startYear} - {item.endMonth  ? item.endMonth + ' ' +  item.endYear : 'Present' }</p>)}
           </div>
           {!readOnlyFlow && (
           <div className="summary_add">

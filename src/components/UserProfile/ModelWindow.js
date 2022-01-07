@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React,{ useState } from 'react'
 import PropTypes from 'prop-types'
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -16,11 +16,13 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubmit, type, errorMessage }) => {
-    const { updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear, updatedDescription } = profile;
-    
+    const { updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear, updatedDescription,updatedLocaion  } = profile;
+    const [isPresent, setIsPresent] = useState(false);
     let items = [...experience];
     let heading = "Add your experience details..";
     if(type === 'education') {
@@ -29,6 +31,17 @@ const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubm
     } else if (type ==='summary') {
         items = [];
         heading = "Add your summary";
+    }
+    const onPresentChange=(value)=>{
+      setIsPresent(value);
+      // handleChange({
+      //   target:{name:'updatedEndMonth',''}
+      // })
+      // handleChange({
+      //   target:{name:'updatedEndYear',value}
+      // })
+      
+
     }
     return (
         <div>
@@ -41,30 +54,39 @@ const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubm
         <DialogTitle>{heading}</DialogTitle>
         <DialogContent>
           <form>
+          
           {items.map((item) => 
-              (<TextField
+              (<div className="startDateSelection_Exp"><TextField
               name={item.value}
-              className ="text_field_outline"
               id="outlined-required"
+              variant="outlined"
               tpye="text"
               label={item.name}
               value={profile[item.value]}
               onChange={handleChange}
               fullWidth
             />
-          ))}
-            { ["workforce", "summary"].includes(type) && ( <TextField
-                className="text_field_outline"
+            
+         </div> ))  }
+        
+          
+            { ["workforce", "summary"].includes(type) && (<div className="startDateSelection_Exp"> <TextField
+               
                 id="outlined-required"
                 name="updatedDescription"
                 tpye="text"
                 label="Short description about your work"
+                variant="outlined"
                 multiline
                 rows="3"
+                color='#ffffff'
                 value={updatedDescription}
                 onChange={handleChange}
                 fullWidth
-              /> )}
+                className="frms"
+              /></div> )}
+              
+
             { ["workforce", "education"].includes(type) && (<React.Fragment><div className="startDateSelection_Exp">
               <FormControl className="step4__section_Selection">
                 
@@ -72,7 +94,7 @@ const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubm
                 
                 fullWidth
                 id="step4_startYear"
-                className="step4__section_Month"                
+                className="step4__section_Month_mdw"                
                 select
                 name="updatedStartMonth"
                 value={updatedStartMonth}
@@ -117,7 +139,7 @@ const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubm
                 
                 fullWidth
                 id="step4_startYear"
-                className="step4__section_Month"
+                className="step4__section_Month_mdw"
                 select
                 name="updatedEndMonth"
                 value={updatedEndMonth}
@@ -156,7 +178,10 @@ const ModelWindow = ({profile, handleChange, setOpenModel, openModel, handleSubm
                   )}
                 />
               </LocalizationProvider>
+              
+
               </FormControl>
+     
             
             </div>
             </React.Fragment>)  }
