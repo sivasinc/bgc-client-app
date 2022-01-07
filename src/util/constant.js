@@ -103,10 +103,13 @@ export const experience = [
   { name: "Company", value: "updatedCompany" },
   { name: "Department", value: "updatedDepartment" },
   { name: "Job Title", value: "updatedJobTtile" },
+   { name: "Location", value: "updatedLocation"},
+   
 ];
 export const educations = [
   { name: "University", value: "updatedUniversity" },
   { name: "Field Of Study", value: "updatedFieldOfStudy" },
+  { name: "Location", value: "updatedLocation"},
 ];
 export const initialChipData = [
   { key: 0, label: "Artificial Intelligence", itemSelected: false },

@@ -11,6 +11,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
   const [openModel, setOpenModel] = useState(false);
   const [modeType, setModeType] = useState('add');
   const [errorMessage,setErrormessage] = useState({ });
+  
   const handleChange = (event) => {        
       
    
@@ -40,7 +41,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
     setProfile({})
   }
   const handleModelChange = (value, item, index) => {
-    const { jobTtile, company, description, department, startMonth, startYear, endMonth, endYear
+    const { jobTtile, company, description, department, startMonth, startYear, endMonth, endYear,isPresent,location,
     } = item;
 
     setProfile({
@@ -52,6 +53,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
         updatedStartYear: startYear, 
         updatedEndMonth: endMonth, 
         updatedEndYear: endYear,
+        updatedLocation: location,
         itemIndex : index
     });
     setOpenModel(value);
@@ -61,20 +63,24 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
     const {
         updatedCompany,
         updatedDepartment,
+        updatedLocation,
         updatedJobTtile,
         updatedStartMonth, updatedStartYear, updatedEndMonth, updatedEndYear,
         updatedDescription,
+        isPresent,
         itemIndex
     } = profile;
     const userDetails = {
       company: updatedCompany !== undefined ? updatedCompany : '',
       department: updatedDepartment !== undefined ? updatedDepartment : '',
+      location: updatedLocation !== undefined ? updatedLocation: '',
       jobTtile: updatedJobTtile !== undefined ? updatedJobTtile : '',
       description: updatedDescription !== undefined ? updatedDescription : '',
       startMonth: updatedStartMonth !== undefined ? updatedStartMonth : '',
       startYear: updatedStartYear !== undefined ? updatedStartYear : '',
       endMonth: updatedEndMonth !== undefined ? updatedEndMonth : '',
-      endYear: updatedEndYear !== undefined ? updatedEndYear : ''
+      endYear: updatedEndYear !== undefined ? updatedEndYear : '',
+      isPresent 
     };
     const tempProfileInfo = [...userInfo.profileInfo];
     const tempInfo = tempProfileInfo.filter(item => item.type === "workforce");
@@ -124,7 +130,7 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
   }
 
   if (profileDetails && info.length > 0) {
-    educationInfo = info[0].details.map((item, index) => {
+    educationInfo = info[0].details.reverse().map((item, index) => {
 
       return (
         <div className="experience__item">
@@ -132,7 +138,10 @@ const Experience = ({ user: { userInfo, selectedMember } ,readOnlyFlow, editUser
             <h4 className="experience__subheader">{item.jobTtile}</h4>
             <p className="experience__subheader__p">{item.company}</p>
             <p className="experience__subheader__p">{item.department}</p>
-            <p className="experience__subheader__p">{`${item.startMonth}  ${item.startYear} - ${item.endMonth !== '' || item.endMonth !== 'month' ? item.endMonth + ' ' +  item.endYear : 'Present' }`}</p>
+            <p className="experience__subheader__p">{item.location}</p>
+            
+            {item.startMonth && (
+            <p className="experience__subheader__p">{item.startMonth}  {item.startYear} - {item.endMonth  ? item.endMonth + ' ' +  item.endYear : 'Present' }</p>)}
            
             {item.description && <div className="expwrap"><p className="experience__description__p">
               {item.description}

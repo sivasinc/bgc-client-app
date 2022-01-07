@@ -47,6 +47,7 @@ const Education = ({
     const {
       university,
       fieldOfStudy,
+      location,
       startMonth,
       startYear,
       endMonth,
@@ -55,6 +56,7 @@ const Education = ({
     setProfile({
       updatedUniversity: university,
       updatedFieldOfStudy: fieldOfStudy,
+      updatedLocation: location,
       updatedStartMonth: startMonth,
       updatedStartYear: startYear,
       updatedEndMonth: endMonth,
@@ -83,12 +85,14 @@ const Education = ({
       updatedStartYear,
       updatedEndMonth,
       updatedEndYear,
+      updatedLocation,
       itemIndex,
     } = profile;
     const userDetails = {
-      university: updatedUniversity !== undefined ? updatedUniversity : "",
       fieldOfStudy:
         updatedFieldOfStudy !== undefined ? updatedFieldOfStudy : "",
+       university: updatedUniversity !== undefined ? updatedUniversity : "",      
+       location: updatedLocation !== undefined ? updatedLocation :"",
       startMonth: updatedStartMonth !== undefined ? updatedStartMonth : "",
       startYear: updatedStartYear !== undefined ? updatedStartYear : "",
       endMonth: updatedEndMonth !== undefined ? updatedEndMonth : "",
@@ -142,6 +146,7 @@ const Education = ({
     updatedEndYear,
     updatedUniversity,
     updatedFieldOfStudy,
+    updatedLocation,
   } = profile;
   let educationInfo = (
     <div className="experience__item">
@@ -154,19 +159,15 @@ const Education = ({
   }
 
   if (profileDetails && info.length > 0) {
-    educationInfo = info[0].details.map((item, index) => {
+    educationInfo = info[0].details.reverse().map((item, index) => {
       return (
         <div className="experience__item">
           <div className="experiance__item__body">
+          <p className="education__subheader__p">{item.fieldOfStudy}</p>
             <h4 className="education__subheader">{item.university}</h4>
-            <p className="education__subheader__p">{item.fieldOfStudy}</p>
-            <p className="education__subheader__p">{`${item.startMonth}  ${
-              item.startYear
-            } - ${
-              item.endMonth !== "" || item.endMonth !== "month"
-                ? item.endMonth + " " + item.endYear
-                : "Present"
-            }`}</p>{" "}
+            <p className="education__subheader__p">{item.location}</p>
+            {item.startMonth && (
+            <p className="experience__subheader__p">{item.startMonth}  {item.startYear} - {item.endMonth  ? item.endMonth + ' ' +  item.endYear : 'Present' }</p>)}
           </div>
           {!readOnlyFlow && (
             <div className="summary_add">
