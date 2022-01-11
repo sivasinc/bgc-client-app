@@ -597,17 +597,32 @@ export const handleActivateDeactivateProfile = async (selectedUser) => {
 };
 
 export const inviteAdmin = async (email)=>{
-  const docRef = doc(db, 'users',email)
-  const docSnap = await getDoc(docRef)
-  if(!docSnap.exists()){
-    // handle new user
-    throw Error("user does not exist")
+  try{
+
+    const docRef = doc(db, 'users',email)
+    const docSnap = await getDoc(docRef)
+    if(docSnap.exists() && docSnap.data().userRole === 'admin'){
+      // handle admin user
+      throw Error('Someone is already using that email address')
+    }
+    
+    const results = await addDoc(collection(db, "mail"), {
+      to: email,
+      message:{
+        subject: "Invite new Admin",
+        html:`
+        <div>
+        Hello!, please click <a target="_blank" href="https://bgc-functions.firebaseapp.com/login"> here </a>
+        to register as an admin.
+        </div>
+        `
+      }
+    });
+
   }
-  const data = docSnap.data()
-  if(data.userRole === 'admin') throw Error('Someone is already using that email address')
-
-
-  // handle member invite
+  catch(err){
+    throw err
+  }
 
 }
 

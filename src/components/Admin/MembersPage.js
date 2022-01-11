@@ -9,7 +9,7 @@ import {
 } from "../../firebaseActions/dataServices";
 import { DataTable } from "./Table";
 import { ActionsMenu } from "./ActionsMenu";
-import ActionsDialog from "./Dialog";
+import {AlertDialogWithActions} from "./Dialog";
 import { getStatus, getStatusColor } from "../../util/constant";
 
 function MembersPage({ user }) {
@@ -117,7 +117,7 @@ function MembersPage({ user }) {
         loading={loading}
         searchPlaceholder="Search Members"
       />
-      <ActionsDialog
+      <AlertDialogWithActions
         open={showDialog}
         handleClose={handleClose}
         onAccept={handleActivateDeactivate}
