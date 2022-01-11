@@ -16,10 +16,11 @@ import TextField from "@mui/material/TextField";
 import { editUserDetails } from "../../redux/actions/userActions";
 import { uploadProfileImage } from "../../redux/actions/postActions";
 import "./BGCProfileHome.css";
-import { InputAdornment } from "@material-ui/core";
+import InputAdornment from "@mui/material/InputAdornment";
 import { statuss } from "../../util/constant";
 import { MenuItem } from "@mui/material";
-import Chip from '@mui/material/Chip';
+import Chip from "@mui/material/Chip";
+import ProfilePictureChange from "./ProfilePictureChange";
 import {
   addMemberToNetwork,
   removeMemberToNetwork,
@@ -32,6 +33,7 @@ const ProfileHeader = ({
   uploadProfileImage,
   addMemberToNetwork,
   removeMemberToNetwork,
+  loading,
 }) => {
   const [openModel, setOpenModel] = useState(false);
   const [openSocialModel, setOpenSocialModel] = useState(false);
@@ -145,9 +147,7 @@ const ProfileHeader = ({
     editUserDetails(request);
     setOpenModel(false);
   };
-  const handleProfileVisibility = (event) => {
-    
-  };
+  const handleProfileVisibility = (event) => {};
 
   const handleImageUploadClick = (e) => {
     const image = e.target.files[0];
@@ -227,27 +227,19 @@ const ProfileHeader = ({
     <div>
       <div className="profile__header">
         <div className="profile__header__main__container">
-          <div className="profile__header__main">
-          {!readOnlyFlow && ( <input
-              accept="image/gif, image/jgp, image/png, image/jpeg"
-              id="contained-button-file"
-              style={{ display: "none" }}
-              multiple
-              type="file"
-              onChange={handleImageUploadClick}
-            /> )
-          }
-
-
+          <div className="profile__header__main">          
             <div className="imgpos">
-              <label htmlFor="contained-button-file">
-                <Avatar
+              <Avatar
                   alt="Remy Sharp"
                   className="profile__header__image"
                   src={info.imageUrl}
                 />
-            {!readOnlyFlow && ( <AddAPhotoIcon className="profileImage__addIcon " /> ) }
-              </label>
+            {!readOnlyFlow && !loading && (
+                <ProfilePictureChange
+                  userInfo={userInfo}
+                  imageUrl={info.imageUrl}
+                />
+              )}
             </div>
 
             <div className="profile__user">
@@ -513,6 +505,7 @@ const ProfileHeader = ({
 ProfileHeader.propTypes = {};
 const mapStateToProps = (state) => ({
   user: state.user,
+  loading: state.user.loading,
 });
 const mapDispatchToProps = {
   editUserDetails,
