@@ -10,7 +10,7 @@ import {
 } from "../../firebaseActions/dataServices";
 import { DataTable } from "./Table";
 import { ActionsMenu } from "./ActionsMenu";
-import ActionsDialog from "./Dialog";
+import {AlertDialogWithActions, AlertInfoDialog} from "./Dialog";
 import { getStatus, getStatusColor } from "../../util/constant";
 
 function AdminsPage({ user }) {
@@ -19,6 +19,7 @@ function AdminsPage({ user }) {
   const [showDialog, setShowDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showInviteAdminModal, setShowInviteAdminModal] = useState(false);
+  const [showInviteSuccessModal, setShowInviteSuccessModal] = useState(false);
   const [adminEmail, setAdminEmail] = useState("");
   const [helperText, setHelperText] = useState("");
 
@@ -143,10 +144,18 @@ function AdminsPage({ user }) {
         return setHelperText("Email address is invalid");
       }
       await inviteAdmin(adminEmail);
+      handleAdminDialogClose()
+      setShowInviteSuccessModal(true)
     } catch (error) {
       setHelperText(error.message);
     }
   };
+
+  const inviteSuccessDialogBody = ()=>{
+    return <div>
+      Email was sent to {adminEmail} successfully!
+    </div>
+  }
 
   return (
     <div>
@@ -165,7 +174,14 @@ function AdminsPage({ user }) {
           </Button>
         }
       />
-      <ActionsDialog
+        <AlertInfoDialog
+        open={showInviteSuccessModal}
+        showActions={false}
+        handleClose={()=>setShowInviteSuccessModal(false)}
+        dialogBody={inviteSuccessDialogBody()}
+        dialogTitle="Invite sent successfully"
+      />
+      <AlertDialogWithActions
         open={showInviteAdminModal}
         handleClose={handleAdminDialogClose}
         onAccept={onInviteAdmin}
@@ -175,7 +191,7 @@ function AdminsPage({ user }) {
         dialogBody={inviteAdminDialog}
         dialogTitle="Invite New Admin User"
       />
-      <ActionsDialog
+      <AlertDialogWithActions
         open={showDialog}
         handleClose={handleClose}
         onAccept={handleActivateDeactivate}

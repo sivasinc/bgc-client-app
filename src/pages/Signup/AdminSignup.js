@@ -71,16 +71,16 @@ const AdminSignup = ({ signupAdminUser, history, UI }) => {
             progressSection
           ) : (
             <div className="signUp">
-              <div className="signUpHeader">
-                <div className="logo_div">
+              <div className="signup_header">
+                <div className="signupheader__left">
                   <img
-                    className="img"
+                    className="signup_header__logo"
                     src="https://firebasestorage.googleapis.com/v0/b/bgc-functions.appspot.com/o/bgc-logo.svg?alt=media&token=0f61a406-04b2-42a7-98ee-43f4d2183524"
                   />
                 </div>
-                <div className="heading_div">
-                  <h1>Alumnae Portal</h1>
-                  <h3>Admin Sign-up</h3>
+                <div className="signup_header__right">
+                  <p>Alumnae Portal</p>
+                  <p>Admin Sign-up</p>
                 </div>
               </div>
               <div className="signUp__section">

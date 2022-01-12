@@ -124,6 +124,10 @@ export const uploadProfileImage = (image, userDetails) => (dispatch) => {
         dispatch(editUserDetails(userDetails));
         return dispatch(clearErrors());
       })
+  }else{     
+      userDetails.imageUrl = "";
+      dispatch(editUserDetails(userDetails));
+      return dispatch(clearErrors()); 
   }
 }
 

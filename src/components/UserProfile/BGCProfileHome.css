@@ -791,7 +791,10 @@ margin: 5px;
 
             display: flex;
             justify-content: center;
-        }
-          
+        }          
           
       }
+      .profile__picture_align {
+        display: flex;
+      }
+

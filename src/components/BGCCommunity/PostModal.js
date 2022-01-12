@@ -4,7 +4,7 @@ import ReactPlayer from "react-player";
 import { connect } from "react-redux";
 import {Add, Clear} from '@mui/icons-material';
 
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 import { addAPost, addAPostwithImage, addAPostwithDocument, clearErrors } from '../../redux/actions/postActions';
 import { ButtonGroup, Modal, Button } from "@mui/material";
 import { linkRegex } from "../../util/constant";
@@ -107,6 +107,7 @@ const PostModal = ({ user: {userInfo}, showModal, addACommunityPost, addACommuni
               <h2 style={{padding : '0 10px'}}>Post Something</h2>
             <SharedContent>
                 <TextField
+                  color="primary"
                   value={editorText}
                   onChange={(e) => {
                     const link = e.target.value.match(linkRegex)
